@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { experiencesRepo } from "@/lib/repositories/experiences";
 import { Table, Thead, Th, Td, Tr } from "@/components/brut/table";
 import { Empty } from "@/components/states/empty";
@@ -11,7 +12,7 @@ export default async function ExperiencesPage() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl font-black uppercase">Experiences</h1>
-        <a href="/experiences/new">+ New</a>
+        <Link href="/experiences/new">+ New</Link>
       </div>
       {rows.length === 0 ? (
         <Empty message="No experiences yet." />

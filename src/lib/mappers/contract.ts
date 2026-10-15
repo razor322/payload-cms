@@ -39,54 +39,61 @@ export function toContractProject(row: ProjectRow): ContractProject {
   };
 }
 
-export function toContractExperience(row: any): ContractExperience {
+type Row = Record<string, unknown>;
+const str = (r: Row, k: string) => String(r[k] ?? "");
+const strArr = (r: Row, k: string) => (Array.isArray(r[k]) ? (r[k] as string[]) : []);
+
+export function toContractExperience(row: Row): ContractExperience {
   return {
-    id: row.id, company: row.company, position: row.position, period: row.period,
-    location: row.location, type: row.type, duration: row.duration, mode: row.mode,
-    role: row.role, summary: row.summary,
-    outcomes: row.outcomes ?? [], stack: row.stack ?? [],
+    id: str(row, "id"), company: str(row, "company"), position: str(row, "position"),
+    period: str(row, "period"), location: str(row, "location"), type: str(row, "type"),
+    duration: str(row, "duration"), mode: str(row, "mode"), role: str(row, "role"),
+    summary: str(row, "summary"),
+    outcomes: strArr(row, "outcomes"), stack: strArr(row, "stack"),
   };
 }
-export function toContractCapability(row: any): ContractCapability {
-  return { id: row.id, title: row.title, description: row.description, tags: row.tags ?? [] };
+export function toContractCapability(row: Row): ContractCapability {
+  return { id: str(row, "id"), title: str(row, "title"), description: str(row, "description"), tags: strArr(row, "tags") };
 }
-export function toContractSkill(row: any): ContractSkill {
-  return { id: row.id, category: row.category, name: row.name, iconKey: row.icon_key };
+export function toContractSkill(row: Row): ContractSkill {
+  return { id: str(row, "id"), category: str(row, "category"), name: str(row, "name"), iconKey: str(row, "icon_key") };
 }
-export function toContractTerminalLine(row: any): ContractTerminalLine {
+export function toContractTerminalLine(row: Row): ContractTerminalLine {
   return {
-    id: row.id, text: row.text, delay: row.delay, colorClass: row.color_class,
-    bold: row.bold, isCursor: row.is_cursor,
+    id: str(row, "id"), text: str(row, "text"), delay: Number(row.delay ?? 0),
+    colorClass: str(row, "color_class"), bold: Boolean(row.bold), isCursor: Boolean(row.is_cursor),
   };
 }
-export function toContractTestimonial(row: any): ContractTestimonial {
-  return { id: row.id, name: row.name, role: row.role, quote: row.quote, avatar: row.avatar_url };
+export function toContractTestimonial(row: Row): ContractTestimonial {
+  return { id: str(row, "id"), name: str(row, "name"), role: str(row, "role"), quote: str(row, "quote"), avatar: str(row, "avatar_url") };
 }
-export function toContractAward(row: any): ContractAward {
-  return { id: row.id, kind: row.kind, title: row.title, org: row.org, year: row.year, description: row.description };
+export function toContractAward(row: Row): ContractAward {
+  return { id: str(row, "id"), kind: str(row, "kind"), title: str(row, "title"), org: str(row, "org"), year: str(row, "year"), description: str(row, "description") };
 }
-export function toContractProfile(row: any): ContractProfile {
+export function toContractProfile(row: Row): ContractProfile {
   return {
-    name: row.name, role: row.role, location: row.location, email: row.email,
-    website: row.website, avatar: row.avatar_url, intro: row.intro, socials: row.socials ?? {},
+    name: str(row, "name"), role: str(row, "role"), location: str(row, "location"),
+    email: str(row, "email"), website: str(row, "website"), avatar: str(row, "avatar_url"),
+    intro: str(row, "intro"),
+    socials: (row.socials ?? {}) as Record<string, string>,
   };
 }
 
 type PayloadInput = {
-  profile: any;
-  projects: any[];
-  experiences: any[];
-  capabilities: any[];
-  skills: any[];
-  terminal_lines: any[];
-  testimonials: any[];
-  awards: any[];
+  profile: Row;
+  projects: Row[];
+  experiences: Row[];
+  capabilities: Row[];
+  skills: Row[];
+  terminal_lines: Row[];
+  testimonials: Row[];
+  awards: Row[];
 };
 
 export function toContractPayload(input: PayloadInput): ContractPayload {
   return {
     profile: toContractProfile(input.profile),
-    projects: input.projects.map(toContractProject),
+    projects: input.projects.map((r) => toContractProject(r as Parameters<typeof toContractProject>[0])),
     experiences: input.experiences.map(toContractExperience),
     capabilities: input.capabilities.map(toContractCapability),
     skills: input.skills.map(toContractSkill),
