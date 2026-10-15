@@ -110,9 +110,9 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 8 — Content contract
 
-- [ ] `contract/types.ts` — the JSON each portfolio consumes
-- [ ] Mapping documented per site
-- [ ] Handoff notes for the rewire pass
+- [x] `contract/types.ts` — the JSON each portfolio consumes
+- [x] Mapping documented per site
+- [x] Handoff notes for the rewire pass
 
 **Verification:** contract types compile; a sample row maps to the expected JSON.
 **Plan:** [`plans/phase-8-contract.md`](plans/phase-8-contract.md)
