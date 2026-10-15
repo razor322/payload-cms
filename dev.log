@@ -1,9 +1,0 @@
-▲ Next.js 16.4.1 (Turbopack)
-- Local:         http://localhost:3001
-- Network:       http://172.21.16.1:3001
-- Environments: .env.local
-✓ Ready in 1511ms
-✓ Running next.config.ts took 55ms
-
-○ Compiling /login ...
- GET /login 200 in 5.1s (next.js: 4.8s, proxy.ts: 54ms, application-code: 185ms)
