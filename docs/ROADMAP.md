@@ -32,10 +32,10 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 2 — Data layer (TDD)
 
-- [ ] Zod schemas per domain
-- [ ] Reorder helper + tests
-- [ ] Mappers row ↔ form and row → contract + tests
-- [ ] Auth predicate (`isAdminEmail`) + tests
+- [x] Zod schemas per domain
+- [x] Reorder helper + tests
+- [x] Mappers row ↔ form and row → contract + tests
+- [x] Auth predicate (`isAdminEmail`) + tests
 
 **Verification:** `bun test` green; each module written test-first.
 **Plan:** [`plans/phase-2-data-layer.md`](plans/phase-2-data-layer.md)
