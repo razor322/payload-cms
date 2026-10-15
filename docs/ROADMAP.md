@@ -18,12 +18,12 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 1 — Scaffold
 
-- [ ] `create-next-app` in `web-admin/` (bun, TS, App Router, `src/`, Tailwind v4)
-- [ ] shadcn/ui init
-- [ ] Neobrutalism tokens in `globals.css`
-- [ ] `.env.example` + `.env.local`
-- [ ] Vitest wired, one smoke test green
-- [ ] `bun run build` and `bun dev` clean
+- [x] `create-next-app` in `web-admin/` (bun, TS, App Router, `src/`, Tailwind v4)
+- [x] shadcn/ui init
+- [x] Neobrutalism tokens in `globals.css`
+- [x] `.env.example` + `.env.local`
+- [x] Vitest wired, one smoke test green
+- [x] `bun run build` and `bun dev` clean
 
 **Verification:** build passes, dev server starts, smoke test passes.
 **Plan:** [`plans/phase-1-scaffold.md`](plans/phase-1-scaffold.md)

@@ -54,9 +54,12 @@ dev:      typescript  @types/node  @types/react  @types/react-dom
 Install:
 
 ```bash
-bun add @supabase/supabase-js @supabase/ssr zod
+bun add @supabase/supabase-js@2.117.0 @supabase/ssr zod server-only
 bun add -d vitest @vitejs/plugin-react
 ```
+
+Note: `@supabase/supabase-js@2.118.0` pins an unpublished sub-dependency
+(`@supabase/functions-js@2.118.0`). Pin `2.117.0` until upstream publishes it.
 
 ## 4. Scripts (`package.json`)
 
@@ -80,7 +83,9 @@ bun add -d vitest @vitejs/plugin-react
 - `"strict": true`
 - path alias `"@/*": ["./src/*"]` (set by `create-next-app --import-alias "@/*"`)
 
-### 5.2 `vitest.config.ts`
+### 5.2 `vitest.config.mts`
+
+`.mts` (not `.ts`) so Vite loads it as ESM without a CommonJS warning.
 
 ```ts
 import { defineConfig } from "vitest/config";
