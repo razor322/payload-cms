@@ -201,7 +201,7 @@ git commit -m "chore: add env templates"
 ### Task 6: Vitest + smoke test
 
 **Files:**
-- Create: `web-admin/vitest.config.ts`, `web-admin/tests/smoke.test.ts`
+- Create: `web-admin/vitest.config.mts`, `web-admin/tests/smoke.test.ts`
 - Modify: `web-admin/package.json`
 
 **Interfaces:**
@@ -225,7 +225,7 @@ describe("smoke", () => {
 
 - [ ] **Step 2: Add vitest config**
 
-`vitest.config.ts`:
+`vitest.config.mts`:
 
 ```ts
 import { defineConfig } from "vitest/config";
