@@ -70,10 +70,10 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 5 — Brut component set
 
-- [ ] Button, Input, Textarea, Select, Checkbox
-- [ ] Card, Table, Tag, Badge
-- [ ] Toast / feedback, Confirm dialog
-- [ ] Empty / Loading / Error states
+- [x] Button, Input, Textarea, Select, Checkbox
+- [x] Card, Table, Tag, Badge
+- [x] Toast / feedback, Confirm dialog
+- [x] Empty / Loading / Error states
 
 **Verification:** each component renders in light theme; focus visible; keyboard operable.
 **Plan:** [`plans/phase-5-components.md`](plans/phase-5-components.md)
@@ -82,11 +82,11 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 6 — Projects CRUD
 
-- [ ] Projects list (table)
-- [ ] Project form (arrays: highlights, tech; image upload)
-- [ ] create/update/delete/reorder Server Actions
-- [ ] `revalidatePath` after each write
-- [ ] Dashboard counts
+- [x] Projects list (table)
+- [x] Project form (arrays: highlights, tech; image upload)
+- [x] create/update/delete/reorder Server Actions
+- [x] `revalidatePath` after each write
+- [x] Dashboard counts
 
 **Verification:** create a project, see it in the list and in the DB; edit; reorder; delete.
 **Plan:** [`plans/phase-6-projects-crud.md`](plans/phase-6-projects-crud.md)
@@ -95,13 +95,13 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 7 — Remaining domains
 
-- [ ] Experiences CRUD
-- [ ] Skills CRUD
-- [ ] Capabilities CRUD
-- [ ] Section headers editor
-- [ ] Profile (singleton) editor
-- [ ] Testimonials CRUD
-- [ ] Awards CRUD
+- [x] Experiences CRUD
+- [x] Skills CRUD
+- [x] Capabilities CRUD
+- [x] Section headers editor
+- [x] Profile (singleton) editor
+- [x] Testimonials CRUD
+- [x] Awards CRUD
 
 **Verification:** every domain in PRD §5.1 is editable; each has empty/loading/error states.
 **Plan:** [`plans/phase-7-domains.md`](plans/phase-7-domains.md)
