@@ -44,11 +44,11 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 3 — Supabase wiring + auth
 
-- [ ] `supabase/server.ts` (cookie client via `@supabase/ssr`)
-- [ ] `supabase/admin.ts` (service-role client)
-- [ ] `middleware.ts` session refresh + admin-email gate
-- [ ] Login page + login/logout Server Actions
-- [ ] `(admin)/layout.tsx` guarded shell
+- [x] `supabase/server.ts` (cookie client via `@supabase/ssr`)
+- [x] `supabase/admin.ts` (service-role client)
+- [x] `middleware.ts` session refresh + admin-email gate
+- [x] Login page + login/logout Server Actions
+- [x] `(admin)/layout.tsx` guarded shell
 
 **Verification:** unauthenticated visit redirects to login; wrong email rejected; correct login reaches dashboard; sign out works.
 **Plan:** [`plans/phase-3-supabase-auth.md`](plans/phase-3-supabase-auth.md)
@@ -57,11 +57,11 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 4 — Database
 
-- [ ] `0001_schema.sql` — tables + enums
-- [ ] `0002_rls.sql` — anon SELECT-only, storage policies
-- [ ] `seed.sql` — content from the three sites
-- [ ] Apply migrations to the Supabase project
-- [ ] Storage bucket `portfolio` created
+- [x] `0001_schema.sql` — tables + enums
+- [x] `0002_rls.sql` — anon SELECT-only, storage policies
+- [x] `seed.sql` — content from the three sites
+- [x] Apply migrations to the Supabase project
+- [x] Storage bucket `portfolio` created
 
 **Verification:** anon key can read and cannot write; tables populated; bucket public-read.
 **Plan:** [`plans/phase-4-database.md`](plans/phase-4-database.md)
