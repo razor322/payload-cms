@@ -137,3 +137,39 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - Draft/publish, revision history.
 - Contact submissions stored in DB.
 - Multi-site per-language variants.
+
+---
+
+## Phase 10 — Payload CMS migration
+
+- [x] Payload 3.91.0 installed (deps pinned, versions matched)
+- [x] `payload.config.ts` (postgres adapter) + Payload-owned `users` collection
+- [x] `(payload)` route group: admin UI, REST API, importMap
+- [x] `withPayload` in `next.config.ts`, `@payload-config` path alias
+- [x] `/admin` + `/api` bypass the legacy Supabase auth gate
+- [ ] Supabase database password into `DATABASE_URI` (owner)
+- [ ] Boot `/admin`, create first owner user, verify `/api/users` is 401
+- [ ] `bun run build` + `bun test` green (blocked by the CLI issue below)
+- [ ] Phase 2: content collections
+- [ ] Phase 3: migrate data from legacy Supabase tables
+- [ ] Phase 4: `/api/content` contract route
+- [ ] Phase 5: rewire the portfolios + remove legacy admin code
+
+**Known environment issue (recorded):** the `payload` CLI (`generate:types`,
+`generate:importmap`, `migrate`) crashes on this machine. Two independent
+causes found:
+
+1. `~/.npmrc` set `registry=https://registry.npmmirror.com`, whose tarballs
+   shipped a **tampered `undici`** (`if` statements stripped from
+   `lib/web/cache/cachestorage.js` and `lib/api/api-pipeline.js`). Fixed by a
+   project `.npmrc` forcing `registry.npmjs.org` plus a clean reinstall; the
+   on-disk copy is now correct.
+2. The `payload` bin loads the config through `tsx` (`tsx/esm/api`
+   `tsImport`), and tsx 4.23.15 on Node 22.22 double-instantiates undici's
+   `symbols.js`, so `kConstruct` identity breaks and `new CacheStorage()`
+   throws `Illegal constructor`. `--use-swc` escapes the undici crash but
+   fails on the config's extensionless TS import (swc ESM named-export
+   interop). Workaround for now: `importMap.js` is hand-written
+   (`export const importMap = {}`) and Payload generates it at Next dev/build
+   startup. The CLI-only commands stay blocked until tsx is upgraded or Node
+   is pinned to a version without this interop regression.
