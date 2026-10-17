@@ -1,1 +1,81 @@
-/* Payload admin style overrides go here. */
+@layer payload {
+  :root {
+    /* Typography: neobrutalism = industrial grotesk display + neutral grotesk body */
+    --font-body: var(--ff-sans), system-ui, sans-serif;
+    --font-mono: var(--ff-mono), "SF Mono", Menlo, Consolas, monospace;
+
+    /* Palette: warm paper / near-black ink / single orange accent (matches app) */
+    --color-bg: oklch(0.972 0.026 92);
+    --color-bg-secondary: oklch(0.93 0.02 92);
+    --color-bg-tertiary: oklch(0.9 0.02 92);
+    --color-bg-elevated: oklch(0.972 0.026 92);
+    --color-bg-hover: oklch(0.93 0.02 92);
+    --color-bg-pressed: oklch(0.88 0.02 92);
+    --color-bg-selected: oklch(0.93 0.05 42);
+
+    --color-text: oklch(0.145 0 0);
+    --color-text-secondary: oklch(0.36 0 0);
+    --color-text-tertiary: oklch(0.52 0 0);
+
+    --color-border: oklch(0.145 0 0);
+    --color-border-strong: oklch(0.145 0 0);
+
+    --color-bg-brand: oklch(0.65 0.21 42);
+    --color-bg-brand-hover: oklch(0.6 0.21 42);
+    --color-bg-brand-pressed: oklch(0.55 0.21 42);
+    --color-text-brand: oklch(0.5 0.19 42);
+    --color-text-onbrand: oklch(0.145 0 0);
+    --color-icon-onbrand: oklch(0.145 0 0);
+    --color-border-brand: oklch(0.145 0 0);
+    --color-border-brand-strong: oklch(0.145 0 0);
+
+    /* Neobrutalism shape: zero radius, hard offset shadows instead of soft elevation */
+    --radius-medium: 0px;
+    --radius-small: 0px;
+    --radius-large: 0px;
+
+    --field-color-bg: oklch(0.972 0.026 92);
+    --field-color-border: oklch(0.145 0 0);
+    --field-color-border-hover: oklch(0.145 0 0);
+    --field-color-label: oklch(0.145 0 0);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .payload__page-title,
+  .render-title {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* Hard-offset brutalist borders on the main controls and cards */
+  .btn,
+  input,
+  textarea,
+  select,
+  .card,
+  .template-minimal__wrap {
+    border-radius: 0;
+  }
+
+  .btn {
+    border: 2px solid oklch(0.145 0 0);
+    font-weight: 700;
+  }
+
+  .btn--style-primary {
+    border: 2px solid oklch(0.145 0 0);
+    font-weight: 700;
+    box-shadow: 3px 3px 0 oklch(0.145 0 0);
+  }
+
+  .btn--style-primary:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+}
