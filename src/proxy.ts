@@ -5,6 +5,13 @@ import { isAdminEmail } from "@/lib/auth-predicate";
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  const pathname = request.nextUrl.pathname;
+  // Payload owns /admin and its own /api. Skip the Supabase auth gate on them:
+  // Payload authenticates via its own session cookie.
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api")) {
+    return response;
+  }
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
