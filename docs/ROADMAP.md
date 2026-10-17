@@ -153,7 +153,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       applied to both the app and the Payload admin via `(payload)/layout`
       `htmlProps` and `(payload)/custom.css` token overrides
 - [x] `bun run build`, `bun test` (19 pass), `bun run lint` all clean
-- [ ] Create first owner user + verify `/api/users` is 401 (owner action)
+- [x] Create first owner user + verify `/api/users` is 403 (owner: `owner@example.com`)
 - [ ] Phase 2: content collections
 - [ ] Phase 3: migrate data from legacy Supabase tables
 - [ ] Phase 4: `/api/content` contract route
