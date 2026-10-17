@@ -154,9 +154,14 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       `htmlProps` and `(payload)/custom.css` token overrides
 - [x] `bun run build`, `bun test` (19 pass), `bun run lint` all clean
 - [x] Create first owner user + verify `/api/users` is 403 (owner: `owner@example.com`)
-- [ ] Phase 2: content collections
-- [ ] Phase 3: migrate data from legacy Supabase tables
-- [ ] Phase 4: `/api/content` contract route
+- [x] Phase 2: content collections (projects, experiences, capabilities, skills,
+      terminal-lines, testimonials, awards, section-headers, media) + global
+      `profile` + `users`
+- [x] Phase 3: migrated legacy data into the `payload` schema (7 projects,
+      28 highlights, 31 tech, 3 experiences, 9 outcomes, 3 capabilities,
+      30 skills, 10 terminal lines, 5 section headers, 1 profile)
+- [x] Phase 4: `/api/content?site=<v3|my|minimal>` contract route (Payload Local
+      API -> ContractPayload, site precedence `all` + site-specific)
 - [ ] Phase 5: rewire the portfolios + remove legacy admin code
 
 **Structure note:** the legacy app routes moved from `src/app/(admin)` and

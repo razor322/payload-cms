@@ -6,7 +6,17 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
+import { Awards } from "./collections/Awards";
+import { Capabilities } from "./collections/Capabilities";
+import { Experiences } from "./collections/Experiences";
+import { Media } from "./collections/Media";
+import { Projects } from "./collections/Projects";
+import { SectionHeaders } from "./collections/SectionHeaders";
+import { Skills } from "./collections/Skills";
+import { TerminalLines } from "./collections/TerminalLines";
+import { Testimonials } from "./collections/Testimonials";
 import { Users } from "./collections/Users";
+import { Profile } from "./globals/Profile";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -18,7 +28,19 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users],
+  collections: [
+    Users,
+    Media,
+    Projects,
+    Experiences,
+    Capabilities,
+    Skills,
+    TerminalLines,
+    Testimonials,
+    Awards,
+    SectionHeaders,
+  ],
+  globals: [Profile],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({
