@@ -147,13 +147,25 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] `(payload)` route group: admin UI, REST API, importMap
 - [x] `withPayload` in `next.config.ts`, `@payload-config` path alias
 - [x] `/admin` + `/api` bypass the legacy Supabase auth gate
-- [ ] Supabase database password into `DATABASE_URI` (owner)
-- [ ] Boot `/admin`, create first owner user, verify `/api/users` is 401
-- [ ] `bun run build` + `bun test` green (blocked by the CLI issue below)
+- [x] `DATABASE_URI` (session pooler, region `ap-northeast-2`) + `PAYLOAD_SECRET`
+- [x] Boot `/admin` (HTTP 200, schema pushed into dedicated `payload` schema)
+- [x] Theme fonts: Archivo (display) + Inter (body) + JetBrains Mono (mono),
+      applied to both the app and the Payload admin via `(payload)/layout`
+      `htmlProps` and `(payload)/custom.css` token overrides
+- [x] `bun run build`, `bun test` (19 pass), `bun run lint` all clean
+- [ ] Create first owner user + verify `/api/users` is 401 (owner action)
 - [ ] Phase 2: content collections
 - [ ] Phase 3: migrate data from legacy Supabase tables
 - [ ] Phase 4: `/api/content` contract route
 - [ ] Phase 5: rewire the portfolios + remove legacy admin code
+
+**Structure note:** the legacy app routes moved from `src/app/(admin)` and
+`src/app/(auth)` under a new `src/app/(app)` group with its own root layout
+(fonts + globals). Payload's `(payload)` group renders its own `<html>`/`<body>`,
+so the two must not share a single `app/layout.tsx` (double `<html>` breaks
+hydration). Payload tables live in a dedicated Postgres schema `payload`, created
+via migration `payload_schema_create`; this avoids Drizzle mis-reading the legacy
+`public` tables as renames and blocking with an interactive prompt.
 
 **Known environment issue (recorded):** the `payload` CLI (`generate:types`,
 `generate:importmap`, `migrate`) crashes on this machine. Two independent
