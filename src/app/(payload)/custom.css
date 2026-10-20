@@ -1,38 +1,48 @@
 @layer payload {
   /* ---------------------------------------------------------------
-     Tokens. The whole panel retunes from here.
+     Tokens, taken from the Kyos admin. The panel retunes from here.
      --------------------------------------------------------------- */
   :root {
     --font-body: var(--ff-sans), system-ui, sans-serif;
     --font-mono: var(--ff-mono), "SF Mono", Menlo, Consolas, monospace;
 
-    /* Neobrutalism: zero radius everywhere. */
-    --style-radius-s: 0px;
-    --style-radius-m: 0px;
-    --style-radius-l: 0px;
+    /* Squared is out. Controls round at 12px, cards at 16px. */
+    --style-radius-s: 6px;
+    --style-radius-m: 12px;
+    --style-radius-l: 16px;
+    --nb-radius: 12px;
+    --nb-radius-card: 16px;
 
-    /* Hard border, hard offset shadow, no blur. */
-    --nb-border-w: 3px;
-    --nb-border: var(--nb-border-w) solid #000000;
-    --nb-shadow: 5px 5px 0 #000000;
-    --nb-shadow-sm: 3px 3px 0 #000000;
+    /* Two border weights: strong for objects, soft for structure. */
+    --nb-border-w: 2px;
+    --nb-border: 2px solid #09090b;
+    --nb-border-soft: 2px solid #ececee;
+
+    /* Three shadow steps. Base sits on objects, hover lifts, press removes. */
+    --nb-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
+    --nb-shadow-sm: 2px 2px 0 rgba(0, 0, 0, 1);
+    --nb-shadow-lg: 6px 6px 0 rgba(0, 0, 0, 1);
+
+    /* Pastel accents. Each one means exactly one thing. */
+    --nb-yellow: #ffeaa7;
+    --nb-yellow-hover: #f6d878;
+    --nb-red: #ff6b6b;
+    --nb-red-hover: #ff5252;
+    --nb-blue: #74b9ff;
+    --nb-pink: #ff90e8;
+    --nb-pink-deep: #e74c89;
 
     /* Payload draws panel and card borders from these tokens. */
-    --theme-border-color: #000000;
-    --card-border-color: #000000;
-
-    /* Flat palette. No gradients anywhere. */
-    --nb-yellow: #ffeb3b;
-    --nb-red: #ff5252;
-    --nb-blue: #2196f3;
+    --theme-border-color: #09090b;
+    --card-border-color: #09090b;
   }
 
-  /* Light canvas. Payload's own template rules read --theme-bg-color, which
-     3.91 never defines, so the admin wrapper would stay transparent without it. */
+  /* Canvas and ink. Payload's template rules read --theme-bg-color, which 3.91
+     never defines, so the admin wrapper would stay transparent without it. */
   :root {
-    --theme-bg: #fdf6e3;
+    --theme-bg: #f4f4f5;
     --theme-bg-color: var(--theme-bg);
-    --theme-text: #000000;
+    --theme-text: #09090b;
     --theme-input-bg: #ffffff;
     --theme-overlay: rgba(0, 0, 0, 0.5);
   }
