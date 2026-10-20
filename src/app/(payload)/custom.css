@@ -152,8 +152,8 @@
   }
 
   /* ---------------------------------------------------------------
-     Fields. The form is the busiest screen, so the border has to carry
-     the structure, and the focus ring has to be unmissable.
+     Fields. Snow surfaces on the canvas, soft structural border, 12px
+     radius. Focus lifts the border to ink and adds the yellow ring.
      --------------------------------------------------------------- */
   .field-type,
   .array-field,
@@ -161,7 +161,7 @@
   .input,
   .input-wrapper,
   .textarea {
-    border-radius: 0;
+    border-radius: var(--nb-radius);
   }
 
   .field-type input,
@@ -169,51 +169,56 @@
   .field-type select,
   .input,
   .textarea {
-    border: var(--nb-border);
-    background-color: var(--theme-input-bg);
-    padding-block: 10px;
-    padding-inline: 14px;
-    /* Payload ships a soft blurred shadow on inputs. A blur is exactly what
-       this style refuses, so the field sits flat on the page. */
+    border: var(--nb-border-soft);
+    background-color: #ffffff;
+    border-radius: var(--nb-radius);
+    padding-block: 9px;
+    padding-inline: 13px;
+    /* Payload ships a blurred shadow on inputs. The Kyos look is flat until
+       focus, so it goes. */
     box-shadow: none;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
   }
 
-  /* The focus ring is a hard blue border, not a glow. */
+  .field-type input:hover,
+  .field-type textarea:hover,
+  .field-type select:hover {
+    border-color: #d4d4d8;
+  }
+
   .field-type input:focus-visible,
   .field-type textarea:focus-visible,
   .field-type select:focus-visible,
   .input:focus-visible,
   .textarea:focus-visible {
-    outline: var(--nb-border-w) solid var(--nb-blue);
-    outline-offset: 1px;
+    border-color: #09090b;
+    outline: 3px solid rgba(255, 234, 167, 0.6);
+    outline-offset: 0;
     box-shadow: none;
   }
 
   .field-type label,
-  .array-field__title,
-  .blocks-field__header .field-type__label {
-    font-family: var(--ff-display), system-ui, sans-serif;
+  .field-label {
+    font-family: var(--ff-sans), system-ui, sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: #71717a;
   }
 
   .field-type .field-description {
     font-style: normal;
-    opacity: 0.7;
+    font-size: 12px;
+    color: #71717a;
   }
 
   .array-field__row,
   .blocks-field__row {
     border: var(--nb-border);
+    border-radius: var(--nb-radius);
     padding: 12px;
     margin-bottom: 8px;
-  }
-
-  .array-field__add-row,
-  .blocks-field__add-row {
-    border: var(--nb-border);
-    border-style: dashed;
   }
 
   /* ---------------------------------------------------------------
