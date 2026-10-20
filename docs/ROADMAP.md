@@ -177,6 +177,9 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       names (`--theme-bg`, `--style-radius-*`, `--bg-color`, `--btn-border`).
 - [x] Single route group: `(payload)` is the only root layout, `/` redirects
       to `/admin`.
+- [x] Stage A: admin theme fixed. Light and dark each define their own
+      `--theme-bg`/`--theme-text`; the button override only targets
+      `.btn--style-primary`. Verified in both modes with 0 console errors.
 - [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
 - [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
 - [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
