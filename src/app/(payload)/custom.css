@@ -45,15 +45,14 @@
     letter-spacing: -0.02em;
   }
 
-  /* Hard border instead of a soft radius. */
-  .btn {
-    --btn-border: 2px solid oklch(0.145 0 0);
-  }
-
+  /* Only the primary button gets the brutalist treatment. A bare .btn rule
+     would override --btn-border on all 23 Payload button variants
+     (secondary, dashed, disabled, icon, the nav hamburger). */
   .btn--style-primary {
     --bg-color: oklch(0.65 0.21 42);
     --color: oklch(0.145 0 0);
     --hover-bg: oklch(0.6 0.21 42);
+    --btn-border: 2px solid oklch(0.145 0 0);
     box-shadow: 3px 3px 0 oklch(0.145 0 0);
   }
 
