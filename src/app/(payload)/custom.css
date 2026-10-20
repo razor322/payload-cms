@@ -13,23 +13,12 @@
   /* Light: warm paper canvas, near-black ink.
      Payload's own template rules read --theme-bg-color, which 3.91 never
      defines, so the admin wrapper would stay transparent without it. */
-  :root,
-  [data-theme="light"] {
+  :root {
     --theme-bg: oklch(0.972 0.026 92);
     --theme-bg-color: var(--theme-bg);
     --theme-text: oklch(0.145 0 0);
     --theme-input-bg: oklch(0.972 0.026 92);
     --theme-overlay: rgba(5, 5, 5, 0.5);
-  }
-
-  /* Dark: ink canvas, paper text. Without its own block, the light values
-     above win on layer order and dark mode keeps the paper background. */
-  [data-theme="dark"] {
-    --theme-bg: oklch(0.145 0 0);
-    --theme-bg-color: var(--theme-bg);
-    --theme-text: oklch(0.972 0.026 92);
-    --theme-input-bg: oklch(0.205 0 0);
-    --theme-overlay: rgba(5, 5, 5, 0.75);
   }
 
   h1,

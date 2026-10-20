@@ -31,6 +31,9 @@ const dirname = path.dirname(filename);
 export default buildConfig({
   admin: {
     user: Users.slug,
+    // Light by default. Payload reads this before any cookie or the OS
+    // preference, so the panel does not follow a dark desktop.
+    theme: "light",
     importMap: {
       baseDir: path.resolve(dirname),
     },
