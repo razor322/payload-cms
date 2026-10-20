@@ -12,6 +12,7 @@ export type ContractProject = {
   image: string;
   featured: boolean;
   year: string;
+  period?: { start: string; end?: string };
   category?: string;
   status?: string;
 };

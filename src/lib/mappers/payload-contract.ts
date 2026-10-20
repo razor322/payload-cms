@@ -27,6 +27,7 @@ const arr = (v: unknown): string[] => {
 };
 
 export function toContractProject(doc: Doc): ContractProject {
+  const periodStart = str(doc.period_start);
   return {
     slug: str(doc.slug),
     title: str(doc.title),
@@ -41,6 +42,9 @@ export function toContractProject(doc: Doc): ContractProject {
     image: str(doc.image_url),
     featured: bool(doc.featured),
     year: str(doc.year),
+    period: periodStart
+      ? { start: periodStart, end: doc.period_end ? str(doc.period_end) : undefined }
+      : undefined,
     category: doc.category ? str(doc.category) : undefined,
     status: doc.status ? str(doc.status) : undefined,
   };

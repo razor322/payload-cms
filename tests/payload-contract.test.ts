@@ -78,3 +78,26 @@ describe("payload-contract mapper", () => {
     expect(out.skills).toHaveLength(0);
   });
 });
+
+describe("project period", () => {
+  it("maps period_start and period_end into a period object", () => {
+    const p = toContractProject({
+      slug: "dzikra",
+      title: "Dzikra",
+      period_start: "09.2024",
+      period_end: "12.2024",
+    });
+    expect(p.period).toEqual({ start: "09.2024", end: "12.2024" });
+  });
+
+  it("leaves an open-ended period when only the start is set", () => {
+    const p = toContractProject({ slug: "x", title: "X", period_start: "2026" });
+    expect(p.period).toEqual({ start: "2026", end: undefined });
+  });
+
+  it("leaves period undefined when only year is present", () => {
+    const p = toContractProject({ slug: "x", title: "X", year: "2024" });
+    expect(p.period).toBeUndefined();
+    expect(p.year).toBe("2024");
+  });
+});

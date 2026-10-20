@@ -37,6 +37,13 @@ export const Projects: CollectionConfig = {
     { name: "image_url", type: "text", defaultValue: "" },
     { name: "featured", type: "checkbox", defaultValue: false },
     { name: "year", type: "text", defaultValue: "" },
+    {
+      name: "period_start",
+      type: "text",
+      defaultValue: "",
+      admin: { description: "Free text, e.g. 09.2024. Leave empty to omit the period." },
+    },
+    { name: "period_end", type: "text", defaultValue: "" },
     { name: "category", type: "text" },
     { name: "status", type: "text" },
     {
