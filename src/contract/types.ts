@@ -49,6 +49,8 @@ export type ContractSkill = { id: string; category: string; name: string; iconKe
 export type ContractTerminalLine = {
   id: string; text: string; delay: number; colorClass: string;
   bold: boolean; isCursor: boolean;
+  kind: "line" | "command" | "output";
+  outputFor: string;
 };
 export type ContractTestimonial = {
   id: string; name: string; role: string; quote: string; avatar: string;
@@ -56,6 +58,37 @@ export type ContractTestimonial = {
 export type ContractAward = {
   id: string; kind: string; title: string; org: string; year: string; description: string;
 };
+
+export type ContractEducation = {
+  id: string;
+  institution: string;
+  degree: string;
+  gpa: string;
+  period?: { start: string; end?: string };
+  description?: string;
+  skills: string[];
+};
+
+export type ContractCertification = {
+  id: string;
+  title: string;
+  issuer: string;
+  issuerIcon: string;
+  issueDate: string;
+  credentialId: string;
+  credentialUrl: string;
+};
+
+export type ContractOrganization = {
+  id: string;
+  company: string;
+  position: string;
+  period?: { start: string; end?: string };
+  description: string;
+  skills: string[];
+};
+
+export type ContractLanguage = { id: string; name: string; level: string };
 export type ContractProfile = {
   name: string; role: string; location: string; email: string; website: string;
   avatar: string; intro: string; socials: Record<string, string>;
@@ -105,4 +138,8 @@ export type ContractPayload = {
   terminal_lines: ContractTerminalLine[];
   testimonials: ContractTestimonial[];
   awards: ContractAward[];
+  education: ContractEducation[];
+  certifications: ContractCertification[];
+  organizations: ContractOrganization[];
+  languages: ContractLanguage[];
 };

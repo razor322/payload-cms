@@ -1,8 +1,12 @@
 import type {
   ContractAward,
   ContractCapability,
+  ContractCertification,
   ContractCompany,
+  ContractEducation,
   ContractExperience,
+  ContractLanguage,
+  ContractOrganization,
   ContractPayload,
   ContractProfile,
   ContractProject,
@@ -135,7 +139,50 @@ export function toContractTerminalLine(doc: Doc): ContractTerminalLine {
     colorClass: str(doc.color_class),
     bold: bool(doc.bold),
     isCursor: bool(doc.is_cursor),
+    kind: doc.kind === "command" || doc.kind === "output" ? doc.kind : "line",
+    outputFor: str(doc.output_for),
   };
+}
+
+export function toContractEducation(doc: Doc): ContractEducation {
+  const start = str(doc.period_start);
+  return {
+    id: str(doc.id),
+    institution: str(doc.institution),
+    degree: str(doc.degree),
+    gpa: str(doc.gpa),
+    period: start ? { start, end: doc.period_end ? str(doc.period_end) : undefined } : undefined,
+    description: doc.description ? str(doc.description) : undefined,
+    skills: arr(doc.skills),
+  };
+}
+
+export function toContractCertification(doc: Doc): ContractCertification {
+  return {
+    id: str(doc.id),
+    title: str(doc.title),
+    issuer: str(doc.issuer),
+    issuerIcon: str(doc.issuer_icon),
+    issueDate: str(doc.issue_date),
+    credentialId: str(doc.credential_id),
+    credentialUrl: str(doc.credential_url),
+  };
+}
+
+export function toContractOrganization(doc: Doc): ContractOrganization {
+  const start = str(doc.period_start);
+  return {
+    id: str(doc.id),
+    company: str(doc.company),
+    position: str(doc.position),
+    period: start ? { start, end: doc.period_end ? str(doc.period_end) : undefined } : undefined,
+    description: str(doc.description),
+    skills: arr(doc.skills),
+  };
+}
+
+export function toContractLanguage(doc: Doc): ContractLanguage {
+  return { id: str(doc.id), name: str(doc.name), level: str(doc.level) };
 }
 
 export function toContractTestimonial(doc: Doc): ContractTestimonial {
@@ -290,6 +337,10 @@ export type PayloadContent = {
   terminal_lines: Doc[];
   testimonials: Doc[];
   awards: Doc[];
+  education?: Doc[];
+  certifications?: Doc[];
+  organizations?: Doc[];
+  languages?: Doc[];
 };
 
 export function toContractPayload(input: PayloadContent, site: Site): ContractPayload {
@@ -304,5 +355,9 @@ export function toContractPayload(input: PayloadContent, site: Site): ContractPa
     terminal_lines: pickForSite(input.terminal_lines, site).map(toContractTerminalLine),
     testimonials: pickForSite(input.testimonials, site).map(toContractTestimonial),
     awards: pickForSite(input.awards, site).map(toContractAward),
+    education: pickForSite(input.education ?? [], site).map(toContractEducation),
+    certifications: pickForSite(input.certifications ?? [], site).map(toContractCertification),
+    organizations: pickForSite(input.organizations ?? [], site).map(toContractOrganization),
+    languages: pickForSite(input.languages ?? [], site).map(toContractLanguage),
   };
 }

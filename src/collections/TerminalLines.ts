@@ -14,6 +14,22 @@ export const TerminalLines: CollectionConfig = {
   fields: [
     siteField,
     { name: "text", type: "text", required: true },
+    {
+      name: "kind",
+      type: "select",
+      defaultValue: "line",
+      options: [
+        { label: "Line", value: "line" },
+        { label: "Command", value: "command" },
+        { label: "Command output", value: "output" },
+      ],
+    },
+    {
+      name: "output_for",
+      type: "text",
+      defaultValue: "",
+      admin: { description: "For kind=output: the command this output belongs to." },
+    },
     { name: "delay", type: "number", defaultValue: 0 },
     { name: "color_class", type: "text", defaultValue: "" },
     { name: "bold", type: "checkbox", defaultValue: false },

@@ -2,12 +2,17 @@ import { describe, it, expect } from "vitest";
 
 import {
   pickForSite,
+  toContractCertification,
   toContractCompany,
+  toContractEducation,
   toContractExperience,
+  toContractLanguage,
+  toContractOrganization,
   toContractPayload,
   toContractProfile,
   toContractProject,
   toContractSiteContent,
+  toContractTerminalLine,
 } from "@/lib/mappers/payload-contract";
 
 const projectDoc = {
@@ -183,5 +188,65 @@ describe("site content", () => {
     expect(out.hero.titleLines).toEqual([]);
     expect(out.seo.title).toBe("");
     expect(out.contact.body).toBe("");
+  });
+});
+
+describe("terminal kinds", () => {
+  it("carries kind and outputFor", () => {
+    const line = toContractTerminalLine({
+      text: "bun deploy",
+      kind: "command",
+      output_for: "bun deploy",
+    });
+    expect(line.kind).toBe("command");
+    expect(line.outputFor).toBe("bun deploy");
+  });
+
+  it("defaults to a plain line for an unknown kind", () => {
+    expect(toContractTerminalLine({ text: "hi", kind: "wat" }).kind).toBe("line");
+    expect(toContractTerminalLine({ text: "hi" }).kind).toBe("line");
+  });
+});
+
+describe("minimal-only domains", () => {
+  it("maps education with a period", () => {
+    const out = toContractEducation({
+      institution: "Politeknik Negeri Padang",
+      degree: "BTech",
+      gpa: "3.83",
+      period_start: "08.2021",
+      period_end: "09.2025",
+      skills: [{ value: "Flutter" }],
+    });
+    expect(out.institution).toBe("Politeknik Negeri Padang");
+    expect(out.period).toEqual({ start: "08.2021", end: "09.2025" });
+    expect(out.skills).toEqual(["Flutter"]);
+  });
+
+  it("maps a certification", () => {
+    const out = toContractCertification({
+      title: "SOLID",
+      issuer: "Dicoding",
+      issue_date: "2024-10-01",
+      credential_url: "https://x",
+    });
+    expect(out.issuer).toBe("Dicoding");
+    expect(out.credentialUrl).toBe("https://x");
+  });
+
+  it("maps an organization", () => {
+    const out = toContractOrganization({
+      company: "Cybertech",
+      position: "President",
+      period_start: "02.2023",
+    });
+    expect(out.company).toBe("Cybertech");
+    expect(out.period).toEqual({ start: "02.2023", end: undefined });
+  });
+
+  it("maps a language", () => {
+    expect(toContractLanguage({ name: "English", level: "Elementary" }).level).toBe(
+      "Elementary",
+    );
   });
 });

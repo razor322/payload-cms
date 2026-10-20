@@ -30,6 +30,10 @@ export async function GET(request: Request) {
     terminalLines,
     testimonials,
     awards,
+    education,
+    certifications,
+    organizations,
+    languages,
   ] = await Promise.all([
     payload.findGlobal({ slug: "profile", depth: 0 }),
     payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0 }),
@@ -42,6 +46,10 @@ export async function GET(request: Request) {
     payload.find({ collection: "terminal-lines", limit: 500, sort: "sort", depth: 0 }),
     payload.find({ collection: "testimonials", limit: 200, sort: "sort", depth: 0 }),
     payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "education", limit: 100, sort: "sort", depth: 0 }),
+    payload.find({ collection: "certifications", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "organizations", limit: 100, sort: "sort", depth: 0 }),
+    payload.find({ collection: "languages", limit: 100, sort: "sort", depth: 0 }),
   ]);
 
   const siteContentDoc =
@@ -69,6 +77,10 @@ export async function GET(request: Request) {
       terminal_lines: terminalLines.docs as unknown as Record<string, unknown>[],
       testimonials: testimonials.docs as unknown as Record<string, unknown>[],
       awards: awards.docs as unknown as Record<string, unknown>[],
+      education: education.docs as unknown as Record<string, unknown>[],
+      certifications: certifications.docs as unknown as Record<string, unknown>[],
+      organizations: organizations.docs as unknown as Record<string, unknown>[],
+      languages: languages.docs as unknown as Record<string, unknown>[],
     },
     site,
   );

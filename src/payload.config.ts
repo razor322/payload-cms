@@ -8,9 +8,13 @@ import sharp from "sharp";
 
 import { Awards } from "./collections/Awards";
 import { Capabilities } from "./collections/Capabilities";
+import { Certifications } from "./collections/Certifications";
 import { Companies } from "./collections/Companies";
+import { Education } from "./collections/Education";
 import { Experiences } from "./collections/Experiences";
+import { Languages } from "./collections/Languages";
 import { Media } from "./collections/Media";
+import { Organizations } from "./collections/Organizations";
 import { Projects } from "./collections/Projects";
 import { SectionHeaders } from "./collections/SectionHeaders";
 import { SiteContent } from "./collections/SiteContent";
@@ -45,6 +49,10 @@ export default buildConfig({
     Awards,
     SectionHeaders,
     SiteContent,
+    Education,
+    Certifications,
+    Organizations,
+    Languages,
   ],
   globals: [Profile],
   editor: lexicalEditor(),
