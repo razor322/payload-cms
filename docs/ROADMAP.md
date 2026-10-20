@@ -162,7 +162,16 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       30 skills, 10 terminal lines, 5 section headers, 1 profile)
 - [x] Phase 4: `/api/content?site=<v3|my|minimal>` contract route (Payload Local
       API -> ContractPayload, site precedence `all` + site-specific)
-- [ ] Phase 5: rewire the portfolios + remove legacy admin code
+- [x] Phase 5a: `portfolio-v3` pilot rewired to the CMS (branch
+      `feature/cms-rewire`): `scripts/sync-content.mjs` fetches
+      `/api/content?site=v3` at build time and writes
+      `app/data/content.generated.ts`; no component changes
+- [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
+- [ ] Phase 5c: remove legacy admin code (`actions/*`, `lib/repositories/*`,
+      `lib/supabase/*`, `proxy.ts`, `components/brut`, `(app)/(admin)`,
+      `(app)/(auth)`) once every portfolio reads the CMS
+- [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
+      a static export, so the CMS must be publicly reachable at build time)
 
 **Structure note:** the legacy app routes moved from `src/app/(admin)` and
 `src/app/(auth)` under a new `src/app/(app)` group with its own root layout
