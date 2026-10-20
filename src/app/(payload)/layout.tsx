@@ -10,7 +10,6 @@ import {
 import React from "react";
 
 import { fontClassNames } from "@/lib/fonts";
-import "../(app)/globals.css";
 import { importMap } from "./admin/importMap.js";
 import "./custom.css";
 
