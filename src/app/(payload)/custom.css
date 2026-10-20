@@ -330,8 +330,11 @@
 
   .nav__link.active,
   .nav__link:has(.nav__link-indicator) {
-    background-color: var(--nb-blue);
-    color: #000000;
+    background-color: var(--nb-yellow);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    color: #09090b;
+    box-shadow: var(--nb-shadow-sm);
   }
 
   .app-header {
@@ -347,14 +350,15 @@
   .card,
   .widget {
     border: var(--nb-border);
-    border-radius: 0;
-    background-color: var(--theme-bg);
+    border-radius: var(--nb-radius-card);
+    background-color: #fffdf7;
   }
 
   /* A card lifts on hover, so the shadow marks the thing under the pointer. */
   .card--has-onclick:hover,
   .widget:hover {
-    box-shadow: var(--nb-shadow-sm);
+    transform: translateY(-2px);
+    box-shadow: var(--nb-shadow);
   }
 
   .card__title,
@@ -367,27 +371,30 @@
   }
 
   /* ---------------------------------------------------------------
-     Overlays. These genuinely float above the page, so they take the
-     full shadow.
+     Overlays. These sit above the page, so they take the base shadow and
+     the strong border.
      --------------------------------------------------------------- */
   .popup__content,
   .drawer__content,
   .confirmation-modal__wrapper,
   .payload-toast-item {
     border: var(--nb-border);
-    border-radius: 0;
+    border-radius: var(--nb-radius-card);
     box-shadow: var(--nb-shadow);
-    background-color: var(--theme-bg);
+    background-color: #fffdf7;
   }
 
   .popup__content .popup__scroll-container,
   .drawer__content-children {
-    background-color: var(--theme-bg);
+    background-color: #fffdf7;
   }
 
   .banner {
     border: var(--nb-border);
-    border-radius: 0;
+    border-radius: var(--nb-radius);
+    background-color: var(--nb-yellow);
+    color: #09090b;
+    font-weight: 700;
   }
 
   .payload-toast-item {
@@ -395,7 +402,81 @@
   }
 
   /* ---------------------------------------------------------------
-     Screens that are not the list or the form.
+     Upload surfaces.
+     --------------------------------------------------------------- */
+  .upload,
+  .upload__drag,
+  .dropzone,
+  .file-field__dropzone {
+    border: 2px dashed #d4d4d8;
+    border-radius: var(--nb-radius-card);
+    background-color: #f4f4f5;
+  }
+
+  .upload__drag:hover,
+  .dropzone:hover,
+  .file-field__dropzone:hover {
+    border-color: #09090b;
+    border-style: solid;
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .file-details,
+  .file {
+    border-radius: var(--nb-radius);
+  }
+
+  .file-details {
+    border: var(--nb-border);
+    padding: 10px;
+  }
+
+  /* ---------------------------------------------------------------
+     Small controls. Payload rounds these and shadows the checkboxes.
+     --------------------------------------------------------------- */
+  .checkbox-input__input {
+    border: var(--nb-border);
+    border-radius: 6px;
+    box-shadow: none;
+  }
+
+  .radio-input__styled-radio {
+    border: 2px solid #09090b;
+    border-radius: 50%;
+    box-shadow: none;
+  }
+
+  .pill,
+  .bool-cell,
+  .hamburger,
+  .rs__control,
+  .rs__menu,
+  .rs__option,
+  .tag,
+  .error-pill {
+    border-radius: var(--nb-radius);
+  }
+
+  .rs__control,
+  .rs__menu,
+  .rs__option {
+    border: var(--nb-border-soft);
+    box-shadow: none;
+  }
+
+  .rs__control:focus-within {
+    border-color: #09090b;
+    outline: 3px solid rgba(255, 234, 167, 0.6);
+  }
+
+  /* Payload sets this radius inline, so it takes an important flag. */
+  .droppable-widget {
+    border-radius: 0 !important;
+  }
+
+  /* ---------------------------------------------------------------
+     Screens that are not the list or the form. The login panel and the
+     error screen take the strong border and the base shadow.
      --------------------------------------------------------------- */
   .template-minimal,
   .login,
@@ -410,51 +491,27 @@
   .logout__wrap,
   .not-found__wrap {
     border: var(--nb-border);
+    border-radius: var(--nb-radius-card);
     box-shadow: var(--nb-shadow);
     padding: 28px;
-    background-color: var(--theme-bg);
-  }
-
-  .upload,
-  .upload__drag,
-  .dropzone,
-  .file-field__dropzone {
-    border: var(--nb-border);
-    border-radius: 0;
-    background-color: var(--theme-elevation-50);
-  }
-
-  .upload__drag:hover,
-  .dropzone:hover,
-  .file-field__dropzone:hover {
-    box-shadow: var(--nb-shadow-sm);
-  }
-
-  .file-details,
-  .file-details__main-detail,
-  .file {
-    border-radius: 0;
-  }
-
-  .file-details {
-    border: var(--nb-border);
-    padding: 10px;
+    background-color: #fffdf7;
   }
 
   .not-found__button {
     border: var(--nb-border);
+    border-radius: var(--nb-radius);
     box-shadow: var(--nb-shadow-sm);
     font-weight: 700;
   }
 
   .doc-controls,
   .doc-tabs {
-    border-radius: 0;
+    border-radius: var(--nb-radius);
   }
 
   .doc-tab--active {
     background-color: var(--nb-yellow);
-    border-bottom: 2px solid #000000;
+    border-bottom: 2px solid #09090b;
     font-weight: 700;
   }
 
@@ -464,70 +521,8 @@
     letter-spacing: 0.04em;
   }
 
-  /* ---------------------------------------------------------------
-     Remaining soft edges. Payload rounds a few small elements, which
-     reads as a different design language next to the square panels.
-     The account avatar keeps its circle: that is a photograph, not a
-     shape choice.
-     --------------------------------------------------------------- */
-  .pill,
-  .bool-cell,
-  .hamburger,
-  .rs__control,
-  .rs__menu,
-  .rs__option,
-  .tag,
-  .error-pill,
-  .droppable-widget,
-  .doc-controls__dots,
-  .pill--size-small,
-  .pill--size-medium,
-  .pill--size-large {
-    border-radius: 0;
-  }
-
-  /* Checkbox and radio keep Payload's soft shadow otherwise, and a blur is
-     what this style refuses. */
-  .checkbox-input__input,
-  .radio-input__styled-radio {
-    border: var(--nb-border);
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .radio-input__styled-radio {
-    border-width: 3px;
-  }
-
-  .bool-cell {
-    border: 2px solid #000000;
-    font-weight: 700;
-  }
-
-  .rs__control,
-  .rs__menu,
-  .rs__option {
-    border: var(--nb-border);
-    /* The select ships a soft blurred shadow. Nothing in this style blurs. */
-    box-shadow: none;
-  }
-
-  .rs__control:hover,
-  .rs__control:focus-within {
-    border-color: var(--nb-blue);
-  }
-
-  /* The drag handle sits at 1000px radius, which reads as a soft pill next to
-     the square panels. Payload sets that radius inline, so it takes an
-     important flag to win. */
-  .droppable-widget {
-    border-radius: 0 !important;
-  }
-
-  /* The menu button carries a grey 1px ring on hover. The border language
-     here is black, so the ring follows. */
   .hamburger:hover {
-    background-color: var(--theme-elevation-100);
-    box-shadow: 0 0 0 2px #000000;
+    background-color: #ececee;
+    box-shadow: 0 0 0 2px #09090b;
   }
 }
