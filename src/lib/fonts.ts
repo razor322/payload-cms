@@ -1,15 +1,16 @@
-import { Archivo, Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, JetBrains_Mono, Montserrat } from "next/font/google";
 
-export const archivo = Archivo({
+export const montserrat = Montserrat({
   variable: "--ff-display",
   subsets: ["latin"],
-  axes: ["wdth"],
+  weight: ["600", "700", "800", "900"],
   display: "swap",
 });
 
-export const inter = Inter({
+export const dmSans = DM_Sans({
   variable: "--ff-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -20,7 +21,7 @@ export const jetbrainsMono = JetBrains_Mono({
 });
 
 export const fontClassNames = [
-  archivo.variable,
-  inter.variable,
+  montserrat.variable,
+  dmSans.variable,
   jetbrainsMono.variable,
 ].join(" ");
