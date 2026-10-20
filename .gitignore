@@ -43,3 +43,9 @@ next-env.d.ts
 
 dev.log
 dev.err
+
+# local dev server state (scripts/dev.mjs)
+.dev-server.json
+
+# local access notes, contains credentials
+docs/LOCAL-ACCESS.md
