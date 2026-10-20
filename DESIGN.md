@@ -1,89 +1,73 @@
 # Design direction: Portfolio Admin
 
-Direction agreed with the owner. The agent recorded it. The owner owns it.
-
-Style: Neubrutalism. Bold, colourful, raw, playful.
+Direction agreed with the owner, taken from the Kyos admin
+(kyos-photoboth/kyos-app). The agent recorded it. The owner owns it.
 
 ## Identity
 
-A control board. The admin is a tool for one owner, so the structure reads as an
-instrument panel: dense, legible, built to be scanned. The skin on top is loud,
-which is the point of the style.
+A control board with a soft edge. Dense like an instrument panel, but the
+corners curve and the accents are pastel, so it reads as approachable rather
+than severe.
 
 ## Personality
 
-Blunt, dense, high contrast. Raw but functional. Every edge is deliberate, so
-nothing looks like an accident of default styling.
+Direct, compact, quietly playful. Three pastel accents carry the states, so the
+panel never has to shout.
 
 ## Palette
 
 | Token | Value | Use |
 |---|---|---|
-| Canvas | `#FDF6E3` warm paper | Page and panel background |
-| Ink | `#000000` black | Text, borders, shadows |
-| Primary | `#FFEB3B` yellow | The single action that moves the task forward |
-| Secondary | `#FF5252` red | Destructive action only |
-| Tertiary | `#2196F3` blue | Informational marks, links, active nav |
+| Canvas | #f4f4f5 | Page background |
+| Card | #FFFDF7 | Card and panel surfaces |
+| Ink | #09090b | Text, borders, shadows |
+| Muted | #71717a | Subtitles, inactive nav, helper text |
+| Structural border | #ececee | Dividers and panel edges |
+| Yellow | #FFEAA7 | Secondary action, active nav, secondary badge |
+| Red | #FF6B6B | Destructive action and badge |
+| Blue | #74b9ff | Informational badge |
+| Pink | #FF90E8 | Logout, avatar fill |
 
-Five colours. This is a deliberate override of antislop R-29 (2 to 3 core plus
-one accent), approved by the owner for this style. The saturation is kept from
-becoming noise by three rules:
-
-- Black border and black text carry all structure. Colour never carries meaning
-  on its own, so the panel survives a greyscale screenshot.
-- Yellow appears once per screen, on the primary action. If everything is yellow,
-  nothing is.
-- Red is reserved for destructive actions only. It never decorates.
-- Blue marks navigation state and links.
-- No gradients anywhere (antislop R-01). Flat fills only.
+Ink is #09090b, never pure black, so the panel keeps a trace of warmth.
 
 ## Typography
 
 | Role | Font | Reason |
 |---|---|---|
-| Display | Archivo, weight 800 | Industrial grotesk. Heavy weight suits the panel voice. |
-| Body | Inter, weight 400 to 700 | Neutral and readable at the small sizes an admin uses. |
-| Mono | JetBrains Mono | Ids, slugs and counts stay aligned. |
+| Heading | Montserrat | Geometric and heavy, carries the uppercase page titles |
+| Body | DM Sans | Neutral and compact, reads well at 13 to 15px |
+| Mono | JetBrains Mono | Ids, slugs and counts stay aligned. This role is ours; Kyos has none. |
 
-Labels and headings are uppercase with modest tracking. Body text stays sentence
-case, because all caps at length is unreadable.
+Card titles and nav items are uppercase at 10 to 12px with wide tracking. Body
+text stays sentence case.
 
 ## Shape
 
-Radius is `0px` everywhere. The squared corner is the identity and it removes the
-softness that would fight the hard border.
-
 | Token | Value |
 |---|---|
-| Border | `3px solid #000000` |
-| Shadow | `5px 5px 0 #000000` |
-| Shadow (small) | `3px 3px 0 #000000` |
-| Radius | `0px` |
+| Border, strong | 2px solid #09090b |
+| Border, structural | 2px solid #ececee |
+| Radius, controls | 12px |
+| Radius, cards | 16px |
+| Shadow, base | 4px 4px 0 #000000 |
+| Shadow, small | 2px 2px 0 #000000 |
+| Shadow, hover | 6px 6px 0 #000000 |
 
-Borders are always pure black, never a tinted grey. Shadows are hard offsets with
-no blur, so an element reads as a physical plate laid on the page.
+Two laws, held everywhere:
 
-Shadow is not on every element. It marks what genuinely sits above the page: a
-card on hover, a popup, a modal, a toast, and the primary button (antislop R-12).
-A page where everything floats has no hierarchy left.
+- Press: translate by the shadow offset and drop the shadow. The element sinks.
+- Hover: lift 2px and grow the shadow one step. The element is picked up.
 
 ## Motion
 
-Motion is fast and mechanical. A press translates the element by the shadow
-offset and removes the shadow, so it reads as being pushed into the page. Nothing
-eases softly, nothing floats. Hover and focus get a 120ms transition.
+120ms, mechanical. No easing that floats or bounces.
 
 ## Dials
 
-ENERGY 3 / RHYTHM 2 / MOTION 1. The skin is loud, the structure stays even, and
-motion is limited to press and hover feedback. A tool has no time to perform.
+ENERGY 2 / RHYTHM 2 / MOTION 1. The accents are pastel and the corners curve, so
+the energy sits below the earlier sharp-cornered pass. Structure varies between
+the nav, the list and the form, so rhythm is 2. Motion stays feedback only.
 
 ## Not doing
 
-Dark mode. The panel is light by default, set in `payload.config.ts`.
-
-## Access
-
-Contrast is checked against the canvas, not assumed. Black on paper and black on
-yellow both clear WCAG AA. When a colour is used as a background, the text on it
-is black, never white on yellow or white on red.
+Dark mode. The panel is light by default, set in payload.config.ts.
