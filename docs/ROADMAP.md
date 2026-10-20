@@ -166,20 +166,28 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       `feature/cms-rewire`): `scripts/sync-content.mjs` fetches
       `/api/content?site=v3` at build time and writes
       `app/data/content.generated.ts`; no component changes
+- [x] Phase 5c: legacy admin removed. The custom Supabase-backed CRUD app,
+      its `/login` route, the `proxy.ts` auth gate, the `actions/`,
+      `components/`, `lib/repositories/`, `lib/supabase/` trees and the
+      Supabase-only dependencies are gone. The Payload admin is the only
+      admin and `/admin/login` is the only login.
+- [x] Admin CSS fixed: Tailwind's preflight no longer overrides Payload
+      (the turbopack loader skips `node_modules`, the admin tree does not
+      import Tailwind), and the theme overrides use Payload 3.91's token
+      names (`--theme-bg`, `--style-radius-*`, `--bg-color`, `--btn-border`).
+- [x] Single route group: `(payload)` is the only root layout, `/` redirects
+      to `/admin`.
 - [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
-- [ ] Phase 5c: remove legacy admin code (`actions/*`, `lib/repositories/*`,
-      `lib/supabase/*`, `proxy.ts`, `components/brut`, `(app)/(admin)`,
-      `(app)/(auth)`) once every portfolio reads the CMS
+- [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
 - [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
       a static export, so the CMS must be publicly reachable at build time)
 
-**Structure note:** the legacy app routes moved from `src/app/(admin)` and
-`src/app/(auth)` under a new `src/app/(app)` group with its own root layout
-(fonts + globals). Payload's `(payload)` group renders its own `<html>`/`<body>`,
-so the two must not share a single `app/layout.tsx` (double `<html>` breaks
-hydration). Payload tables live in a dedicated Postgres schema `payload`, created
-via migration `payload_schema_create`; this avoids Drizzle mis-reading the legacy
-`public` tables as renames and blocking with an interactive prompt.
+**Structure note:** the Payload `(payload)` group renders its own
+`<html>`/`<body>`, so it is the only root layout in the app. Payload tables
+live in a dedicated Postgres schema `payload`, created via migration
+`payload_schema_create`; this avoids Drizzle mis-reading the legacy `public`
+tables as renames and blocking with an interactive prompt. The legacy tables
+still exist in `public` and can be dropped later.
 
 **Known environment issue (recorded):** the `payload` CLI (`generate:types`,
 `generate:importmap`, `migrate`) crashes on this machine. Two independent

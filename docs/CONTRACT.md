@@ -94,54 +94,36 @@ Rows with `site = 'all'` are shared across every site. A site-specific row
 (`site = 'v3' | 'my' | 'minimal'`) takes precedence for that site. Projects and
 experiences are stored once (no `site` column) and shared by all sites.
 
-## 4. Rewire recipe (deferred pass)
+## 4. The content endpoint
 
-Each portfolio adds a GET-only route that:
+The admin serves the contract directly. No proxy route, no key, no re-mapping
+on the portfolio side beyond its own view-model.
 
-1. Creates a Supabase client with the anon key (SELECT-only via RLS).
-2. Selects each table, filtering `site in ('all', '<this site>')`.
-3. Maps rows with the equivalent of `toContractPayload` (copy `src/lib/mappers/contract.ts` verbatim; it is dependency-free).
-4. Returns JSON.
-
-The portfolio's existing data modules then read that route at build/revalidate
-time and re-map the contract into their current view-model.
-
-`app/api/content/route.ts` shape:
-
-```ts
-import { createClient } from "@supabase/supabase-js";
-import { toContractPayload } from "@/lib/contract-mapper";
-
-export async function GET() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  );
-  const [profile, projects, experiences, capabilities, skills, terminal_lines, testimonials, awards] =
-    await Promise.all([
-      supabase.from("profile").select("*").limit(1).maybeSingle(),
-      supabase.from("projects").select("*").order("sort"),
-      supabase.from("experiences").select("*").order("sort"),
-      supabase.from("capabilities").select("*").order("sort"),
-      supabase.from("skills").select("*").order("sort"),
-      supabase.from("terminal_lines").select("*").order("sort"),
-      supabase.from("testimonials").select("*").order("sort"),
-      supabase.from("awards").select("*").order("sort"),
-    ]);
-  return Response.json(
-    toContractPayload({
-      profile: profile.data,
-      projects: projects.data ?? [],
-      experiences: experiences.data ?? [],
-      capabilities: capabilities.data ?? [],
-      skills: skills.data ?? [],
-      terminal_lines: terminal_lines.data ?? [],
-      testimonials: testimonials.data ?? [],
-      awards: awards.data ?? [],
-    }),
-  );
-}
+```
+GET https://<admin>/api/content?site=<v3|my|minimal>
 ```
 
-The anon key is public and read-only (RLS grants SELECT only), so this exposes
-no write surface. Writes stay private to the admin.
+| Behaviour | Result |
+|---|---|
+| `site` missing or not one of the three | `400` |
+| `site=v3` | shared rows plus the `v3` specific rows |
+| no session needed | the route is public, the portfolios fetch it at build time |
+
+`portfolio-v3` already does this. It fetches the endpoint during the build and
+writes the result to `app/data/content.generated.ts`, so the site stays a
+static export:
+
+```ts
+// scripts/sync-content.mjs
+const url = `${CMS_URL}/api/content?site=${CMS_SITE}`;
+const payload = await (await fetch(url)).json();
+```
+
+If the CMS is unreachable and a generated file already exists, the build keeps
+the previous content and warns. If there is no generated file yet, the build
+fails loudly.
+
+The admin side of the mapping is `src/lib/mappers/payload-contract.ts` (pure,
+tested). It flattens Payload's array fields (`{ value }` rows) into the string
+arrays the contract uses and applies the `all` + site precedence.
+

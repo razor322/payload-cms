@@ -5,139 +5,136 @@
 ## 1. System context
 
 ```text
-                 ┌──────────────────────────────────────────┐
-                 │                Supabase                   │
-                 │  Postgres  ·  Auth  ·  Storage (bucket)   │
-                 └───────┬───────────────────────┬──────────┘
-                         │ service-role (write)  │ anon (read-only)
-                         │                       │
-        ┌────────────────▼──────────┐   ┌────────▼─────────────────────┐
-        │        web-admin          │   │  3 portfolio sites (4 apps)  │
-        │  Server Components        │   │  GET-only /api/<domain>      │
-        │  Server Actions (writes)  │   │  reads on build / revalidate │
-        │  No public API            │   │                              │
-        └───────────────────────────┘   └──────────────────────────────┘
+                  ┌──────────────────────────────────────────┐
+                  │                Supabase                   │
+                  │  Postgres  ·  Storage (S3 API)           │
+                  └───────┬───────────────────────┬──────────┘
+                          │ session pooler        │ S3 protocol
+                          │ (schema `payload`)     │
+         ┌────────────────▼──────────────────────────────┐
+         │                 web-admin                       │
+         │  Next.js App Router  ·  Payload 3 admin panel  │
+         │  /admin  ·  /api/*  ·  /api/content?site=      │
+         └────────────────┬───────────────────────────────┘
+                          │ GET /api/content?site=<v3|my|minimal>
+         ┌────────────────▼───────────────────────────────┐
+         │  3 portfolio sites (static export, build time)  │
+         └────────────────────────────────────────────────┘
 ```
 
-One Supabase project is the single source of truth. The admin writes through
-Server Actions using the service-role key. The portfolios read with the anon
-key (or proxy through their own GET route) and can never write.
+One Supabase project is the single source of truth. The admin is a Payload 3
+app that runs inside Next.js: the same process serves the admin panel
+(`/admin`), the REST and GraphQL API (`/api/*`), and the read-only content
+contract (`/api/content?site=`) that the three portfolios fetch at build time.
 
 ## 2. Key architectural decisions
 
 | Decision | Choice | Reason |
 |---|---|---|
-| Write surface | Server Actions only | Owner said "no /api for CRUD". Server Actions keep the service-role key on the server and remove an attack surface. |
-| Read surface for portfolios | Each portfolio hosts its own GET route | Owner said "/api only in the portfolio, GET only". The admin stays API-free. |
-| Client/server split | Server Components by default; client components only for interaction | Fewer bytes, secrets stay server-side. |
-| Auth | Supabase Auth, one allowed email | Gets sessions/cookies for free; the email gate is one predicate. |
-| Authorization | Middleware + `requireAdmin()` in every protected server action | Defense in depth; a missed layout guard does not expose writes. |
-| Data access | Service-role client for writes, cookie (anon) client for session reads | Writes bypass RLS intentionally; sessions still use the user's token. |
-| Validation | Zod at the trust boundary | Every Server Action re-validates its input; the client form is convenience, not trust. |
-| Content model | Canonical superset tables + `site` column for per-site rows | Content is 90% shared across three sites; one row per fact avoids 3× editing. |
-| Theming | Tailwind v4 + shadcn/ui, hand-styled neobrutalism | Owner chose hand-styled. No external theme dependency. |
-| Testing | Vitest on the data layer only | Owner chose data-layer TDD. UI forms are verified by click-through (antislop R-35). |
+| CMS | Payload 3 (in-process, not a separate service) | One deploy, one repo, admin + API in the same app. |
+| Write surface | Payload admin panel only | The custom CRUD UI was replaced by Payload, which owns both UI and API. |
+| Read surface for portfolios | `GET /api/content?site=<site>` | One stable JSON shape, so a portfolio rewire touches one file. |
+| Auth | Payload auth (own `users` table) | Supabase Auth had zero users and a second, dead login screen. One gate now: `/admin/login`. |
+| Authorization | Payload collection access rules | `read: () => true` for content, write requires a signed-in user. |
+| Data access | Payload Local API server-side, REST for the outside | One ORM path, no second client library. |
+| Content model | Canonical superset rows + a `site` column | Content is 90% shared; one row per fact avoids 3x editing. |
+| Database schema | Dedicated Postgres schema `payload` | Keeps Payload's Drizzle push away from the legacy `public` tables, so it never mistakes them for renames. |
+| Theming | Payload theme tokens overridden in `(payload)/custom.css` | Payload 3.91 reads `--theme-bg`, `--style-radius-*`, `--bg-color`; the app theme is paper/ink/orange. |
+| CSS isolation | Tailwind loader skips `node_modules` | Tailwind's preflight lands after Payload's layer and would strip the admin's styles. |
+| Testing | Vitest on the pure mapper | The only pure module left is the contract mapper. UI is verified by click-through. |
 
 ## 3. Layers
 
 ```text
-app/(admin)/…            ← Route segments, Server Components (read) + forms (write)
-components/brut, forms   ← Presentation + client interaction
-actions/*                ← "use server" functions: validate → write → revalidate
-lib/supabase/*           ← Clients (cookie session, service-role)
-lib/schema, mappers      ← Pure logic, TDD-covered
-contract/types           ← JSON shape consumed by portfolios
-supabase/migrations      ← DDL, RLS, seed
+app/(payload)            ← the only root: admin panel, REST api, content route
+collections/, globals/   ← Payload collection and global configs
+lib/                     ← payload client, contract mapper, fonts
+contract/types           ← JSON shape the portfolios consume
+scripts/                 ← dev launcher
 ```
 
-Dependency direction is one-way: `app → actions → lib → supabase`. `lib` never
-imports from `app` or `components`. Pure modules (`schema`, `mappers`, `auth`)
-have no Supabase import, so they test without a database.
+Dependency direction is one-way: `app → lib → payload`. The `(payload)` group
+owns the document (`<html>`, `<body>`), so no other root layout may exist.
 
 ## 4. Request flows
 
-### 4.1 Read (admin page)
+### 4.1 Read (admin panel)
 
 ```text
-Browser → Server Component → createServerClient(cookies).auth.getUser()
-                          → if email ≠ ADMIN_EMAIL → redirect /login
-                          → supabase select → map row → render
+Browser → /admin/[[...segments]]
+        → Payload RootLayout (session cookie)
+        → collection read → render
 ```
 
-### 4.2 Write (CRUD)
+### 4.2 Write (admin panel)
 
 ```text
-Form submit → Server Action
-            → requireAdmin()          (session + email)
-            → zod.parse(input)         (trust boundary)
-            → service-role client insert/update/delete
-            → revalidatePath(list)
-            → return result; UI shows toast
+Admin form → server function → Payload access rule
+           → Postgres (schema `payload`) → revalidate
 ```
 
-### 4.3 Portfolio read (rewire pass, deferred)
+### 4.3 Read (portfolio)
 
 ```text
-Portfolio GET /api/projects
-   → createServerClient(anon)
-   → select → map row → portfolio view-model
-   → JSON
-   next build / revalidate consumes it
+Portfolio build → GET https://<admin>/api/content?site=<v3|my|minimal>
+                → Payload Local API → toContractPayload → JSON
+                → baked into the static export
 ```
 
 ## 5. Authentication & authorization
 
-- **Session:** `@supabase/ssr` cookie client. `middleware.ts` refreshes tokens on
-  every request (`getUser` always hits the auth server).
-- **Single admin:** after `getUser()`, compare `user.email` to
-  `process.env.ADMIN_EMAIL`. Mismatch → sign out + redirect to `/login`.
-- **Signup:** disabled in the Supabase dashboard. The one user is created manually.
-- **Server actions:** each starts with `await requireAdmin()`; it throws/redirects
-  when the caller is not the admin. The middleware is the fast path; this is the lock.
+- **Session:** Payload's own cookie, issued by `POST /api/users/login`.
+- **Single gate:** `/admin/login`. The root `/` redirects to `/admin`.
+- **User:** one row in `payload.users` (the owner). Password hashing is
+  Payload's, not ours.
+- **API access:** content collections are `read: () => true` so portfolios can
+  fetch them unauthenticated; every write requires a signed-in user
+  (anonymous `POST` returns 403).
 
 ## 6. Data model
 
-See `PROJECT_STRUCTURE.md` §4 for table DDL. Relationships:
+See `PROJECT_STRUCTURE.md` for the collection list. Relationship:
 
 ```text
-profile           1 row (singleton)
-section_headers   (site, section) unique
-projects          slug unique      ┐ content shared across all sites
-experiences       ext_id           ┘ unless a site-specific override row exists
-capabilities      site-scoped
-skills            site-scoped
-terminal_lines    site-scoped
-testimonials      site-scoped
-awards            site-scoped
+profile (global)          one row
+section_headers           unique per (site, section)
+projects                  shared across sites
+experiences               shared across sites
+capabilities              site-scoped
+skills                    site-scoped
+terminal_lines            site-scoped
+testimonials              site-scoped
+awards                    site-scoped
 ```
 
-`site ∈ {v3, my, minimal, all}`. A `site='all'` row is shared; a site-specific row
-takes precedence in the portfolio mapper.
+`site ∈ {v3, my, minimal, all}`. A `site='all'` row is shared; a
+site-specific row takes precedence in the portfolio mapper.
 
 ## 7. Security
 
 | Concern | Mitigation |
 |---|---|
-| Write access | Service-role key is server-only (`SUPABASE_SERVICE_ROLE_KEY`, never `NEXT_PUBLIC_`). |
-| Read access | RLS: anon has `SELECT` only. Storage: public read, authenticated write. |
-| Authorization | Email gate in middleware + `requireAdmin()` in every write action. |
-| Input | Zod validates all action inputs; DB constraints are the last line. |
-| Secrets | `.env.local` git-ignored; `.env.example` holds placeholders only. |
-| CSRF | Server Actions are POST-only and Next.js-guarded; no custom API to protect. |
+| Write access | Payload access rules; anonymous writes return 403. |
+| Read access | Content is intentionally public (the portfolios read it). |
+| Secrets | `DATABASE_URI` and `PAYLOAD_SECRET` are server-only, `.env.local` is git-ignored. |
+| Passwords | Hashed by Payload, never stored in code. |
+| Uploads | Supabase Storage S3 keys bypass RLS, server side only. |
+| CSRF | Payload server functions and the REST API are POST guarded. |
 
 ## 8. Deployment
 
-- Admin: Vercel (or any Node host). Needs all four env vars.
-- Database/Auth/Storage: Supabase.
-- Portfolios: unchanged hosting for now; the rewire pass points them at Supabase or
-  at the admin's future read contract.
+- Admin: Vercel (or any Node host). Needs `DATABASE_URI`, `PAYLOAD_SECRET`, and
+  the `S3_*` block when uploads are enabled.
+- Database/Storage: Supabase.
+- Portfolios: static export; the build must reach the admin's
+  `/api/content`, so the admin has to be publicly reachable at build time.
 
 ## 9. Trade-offs (recorded)
 
-- **Superset tables** keep one project row instead of three, at the cost of some
+- **Superset rows** keep one project row instead of three, at the cost of some
   columns being null for some sites. Accepted: mapping lives in pure functions.
 - **No draft/publish** means a save is live. Accepted for a solo owner.
-- **Data-layer-only TDD** leaves forms to click-through. Accepted per owner choice;
-  the Delivery Gate makes that check explicit.
-- **No shared package** for the contract (file duplicated per portfolio). Accepted
-  while the contract is one small file; revisit if it churns.
+- **Static export** means content changes need a rebuild. Accepted: the
+  portfolios are static sites.
+- **Payload in-process** means the admin and the content API share a deploy.
+  Accepted: one owner, one app.
