@@ -21,5 +21,21 @@ export const Profile: GlobalConfig = {
         { name: "url", type: "text", required: true },
       ],
     },
+    {
+      name: "languages",
+      type: "array",
+      fields: [
+        { name: "name", type: "text", required: true },
+        { name: "level", type: "text", required: true },
+      ],
+    },
+    {
+      name: "documents",
+      type: "array",
+      fields: [
+        { name: "label", type: "text", required: true },
+        { name: "href", type: "text", required: true },
+      ],
+    },
   ],
 };

@@ -13,6 +13,7 @@ import { Experiences } from "./collections/Experiences";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
 import { SectionHeaders } from "./collections/SectionHeaders";
+import { SiteContent } from "./collections/SiteContent";
 import { SiteProjects } from "./collections/SiteProjects";
 import { Skills } from "./collections/Skills";
 import { TerminalLines } from "./collections/TerminalLines";
@@ -43,6 +44,7 @@ export default buildConfig({
     Testimonials,
     Awards,
     SectionHeaders,
+    SiteContent,
   ],
   globals: [Profile],
   editor: lexicalEditor(),

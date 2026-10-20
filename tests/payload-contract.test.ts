@@ -7,6 +7,7 @@ import {
   toContractPayload,
   toContractProfile,
   toContractProject,
+  toContractSiteContent,
 } from "@/lib/mappers/payload-contract";
 
 const projectDoc = {
@@ -146,5 +147,41 @@ describe("company grouping", () => {
 
   it("returns an empty positions array when the field is missing", () => {
     expect(toContractCompany({ company: "X" }).positions).toEqual([]);
+  });
+});
+
+describe("site content", () => {
+  it("maps the per-site copy", () => {
+    const out = toContractSiteContent({
+      site: "v3",
+      hero_kicker: "Design Driven Engineer",
+      hero_title_lines: [{ value: "Pixels with purpose." }],
+      hero_intro: "I bridge design with code.",
+      hero_cta_primary: "START NOW",
+      hero_cta_secondary: "VIEW STACK",
+      seo_title: "Gybran Nauval",
+      seo_keywords: [{ value: "portfolio" }],
+      seo_og_image: "/og.png",
+      about_subtitle: "About me.",
+      contact_kicker: "Let's talk",
+      contact_heading: "Contact",
+      contact_body: "Send a message.",
+      contact_email: "a@b.c",
+    });
+    expect(out.site).toBe("v3");
+    expect(out.hero.kicker).toBe("Design Driven Engineer");
+    expect(out.hero.titleLines).toEqual(["Pixels with purpose."]);
+    expect(out.hero.ctaPrimary).toBe("START NOW");
+    expect(out.seo.keywords).toEqual(["portfolio"]);
+    expect(out.contact.heading).toBe("Contact");
+    expect(out.contact.email).toBe("a@b.c");
+  });
+
+  it("returns empty strings and arrays when the doc is missing", () => {
+    const out = toContractSiteContent(null);
+    expect(out.hero.kicker).toBe("");
+    expect(out.hero.titleLines).toEqual([]);
+    expect(out.seo.title).toBe("");
+    expect(out.contact.body).toBe("");
   });
 });

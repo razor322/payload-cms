@@ -22,6 +22,7 @@ export async function GET(request: Request) {
     profile,
     projects,
     siteProjects,
+    siteContent,
     experiences,
     companies,
     capabilities,
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
     payload.findGlobal({ slug: "profile", depth: 0 }),
     payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0 }),
     payload.find({ collection: "site-projects", limit: 500, sort: "sort", depth: 0 }),
+    payload.find({ collection: "site-content", limit: 5, depth: 0 }),
     payload.find({ collection: "experiences", limit: 200, sort: "sort", depth: 0 }),
     payload.find({ collection: "companies", limit: 200, sort: "sort", depth: 0 }),
     payload.find({ collection: "capabilities", limit: 200, sort: "sort", depth: 0 }),
@@ -42,9 +44,15 @@ export async function GET(request: Request) {
     payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0 }),
   ]);
 
+  const siteContentDoc =
+    (siteContent.docs.find(
+      (doc) => (doc as unknown as { site?: string }).site === site,
+    ) as unknown as Record<string, unknown> | undefined) ?? null;
+
   const payloadData = toContractPayload(
     {
       profile: profile as unknown as Record<string, unknown>,
+      siteContent: siteContentDoc,
       projects: projects.docs as unknown as Record<string, unknown>[],
       siteProjects: siteProjects.docs as unknown as {
         site?: string;

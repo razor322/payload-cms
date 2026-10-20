@@ -6,6 +6,7 @@ import type {
   ContractPayload,
   ContractProfile,
   ContractProject,
+  ContractSiteContent,
   ContractSkill,
   ContractTerminalLine,
   ContractTestimonial,
@@ -25,6 +26,19 @@ const arr = (v: unknown): string[] => {
   return v
     .map((item) => (item && typeof item === "object" ? (item as ArrField)?.value : item))
     .filter((x): x is string => typeof x === "string" && x.length > 0);
+};
+
+// Payload array rows with two named keys become an array of small objects.
+const arrPairs = <A extends string, B extends string>(
+  v: unknown,
+  a: A,
+  b: B,
+): Record<A | B, string>[] => {
+  if (!Array.isArray(v)) return [];
+  return v.map((row) => {
+    const doc = (row ?? {}) as Doc;
+    return { [a]: str(doc[a]), [b]: str(doc[b]) } as Record<A | B, string>;
+  });
 };
 
 export function toContractProject(doc: Doc): ContractProject {
@@ -162,6 +176,42 @@ export function toContractProfile(doc: Doc | null | undefined): ContractProfile 
     avatar: str(d.avatar_url),
     intro: str(d.intro),
     socials,
+    languages: arrPairs(d.languages, "name", "level"),
+    documents: arrPairs(d.documents, "label", "href"),
+  };
+}
+
+export function toContractSiteContent(doc: Doc | null | undefined): ContractSiteContent {
+  const d = doc ?? {};
+  return {
+    site: str(d.site),
+    hero: {
+      kicker: str(d.hero_kicker),
+      titleLines: arr(d.hero_title_lines),
+      intro: str(d.hero_intro),
+      ctaPrimary: str(d.hero_cta_primary),
+      ctaSecondary: str(d.hero_cta_secondary),
+      techStack: str(d.hero_tech_stack),
+    },
+    seo: {
+      title: str(d.seo_title),
+      description: str(d.seo_description),
+      keywords: arr(d.seo_keywords),
+      ogImage: str(d.seo_og_image),
+    },
+    about: {
+      subtitle: str(d.about_subtitle),
+      portrait: str(d.about_portrait),
+      portraitAlt: str(d.about_portrait_alt),
+      location: str(d.about_location),
+    },
+    contact: {
+      kicker: str(d.contact_kicker),
+      heading: str(d.contact_heading),
+      body: str(d.contact_body),
+      email: str(d.contact_email),
+      whatsapp: str(d.contact_whatsapp),
+    },
   };
 }
 
@@ -230,6 +280,7 @@ export function composeProjects(
 
 export type PayloadContent = {
   profile: Doc | null;
+  siteContent?: Doc | null;
   projects: Doc[];
   siteProjects?: SiteProjectRow[];
   experiences: Doc[];
@@ -244,6 +295,7 @@ export type PayloadContent = {
 export function toContractPayload(input: PayloadContent, site: Site): ContractPayload {
   return {
     profile: toContractProfile(input.profile),
+    siteContent: toContractSiteContent(input.siteContent),
     projects: composeProjects(input.projects, input.siteProjects ?? [], site, true),
     experiences: input.experiences.map(toContractExperience),
     companies: pickForSite(input.companies ?? [], site).map(toContractCompany),

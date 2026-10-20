@@ -59,10 +59,44 @@ export type ContractAward = {
 export type ContractProfile = {
   name: string; role: string; location: string; email: string; website: string;
   avatar: string; intro: string; socials: Record<string, string>;
+  languages: { name: string; level: string }[];
+  documents: { label: string; href: string }[];
+};
+
+export type ContractSiteContent = {
+  site: string;
+  hero: {
+    kicker: string;
+    titleLines: string[];
+    intro: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    techStack: string;
+  };
+  seo: {
+    title: string;
+    description: string;
+    keywords: string[];
+    ogImage: string;
+  };
+  about: {
+    subtitle: string;
+    portrait: string;
+    portraitAlt: string;
+    location: string;
+  };
+  contact: {
+    kicker: string;
+    heading: string;
+    body: string;
+    email: string;
+    whatsapp: string;
+  };
 };
 
 export type ContractPayload = {
   profile: ContractProfile;
+  siteContent: ContractSiteContent;
   projects: ContractProject[];
   experiences: ContractExperience[];
   companies: ContractCompany[];
