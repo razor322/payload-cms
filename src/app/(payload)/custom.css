@@ -8,6 +8,16 @@
     --style-radius-s: 0px;
     --style-radius-m: 0px;
     --style-radius-l: 0px;
+
+    /* Neobrutalist primitives. The whole panel retunes from here. */
+    --nb-border-w: 2px;
+    --nb-border: var(--nb-border-w) solid var(--theme-text);
+    --nb-shadow: 4px 4px 0 var(--theme-text);
+    --nb-shadow-sm: 2px 2px 0 var(--theme-text);
+
+    /* Payload draws panel and card borders from these tokens. */
+    --theme-border-color: var(--theme-text);
+    --card-border-color: var(--theme-text);
   }
 
   /* Light: warm paper canvas, near-black ink.
