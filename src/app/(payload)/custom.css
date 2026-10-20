@@ -222,7 +222,8 @@
   }
 
   /* ---------------------------------------------------------------
-     Tables and the list view. Dense, but the header has to be findable.
+     Tables. The card carries the strong border and the shadow, rows are
+     separated by hairlines, and the header is a small uppercase label.
      --------------------------------------------------------------- */
   .table,
   .table-wrap,
@@ -234,25 +235,30 @@
 
   .table table {
     border: var(--nb-border);
-    border-collapse: collapse;
+    border-radius: var(--nb-radius-card);
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    background-color: #fffdf7;
   }
 
   .table thead th,
   .collection-list__header,
-  .row-label {
+  .sort-column {
     border-bottom: var(--nb-border);
-    font-family: var(--ff-display), system-ui, sans-serif;
+    background-color: #f4f4f5;
+    font-family: var(--ff-sans), system-ui, sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #71717a;
   }
 
-  /* A light divider between rows keeps the table readable without turning
-     every row into a box. */
   .table tbody td,
   .table tbody th,
   .row {
-    border-bottom: 1px solid var(--theme-elevation-150);
+    border-bottom: 1px solid #ececee;
   }
 
   .table tbody tr:last-child td,
@@ -260,21 +266,44 @@
     border-bottom: 0;
   }
 
+  .table tbody tr:hover td {
+    background-color: #fafafa;
+  }
+
   .paginator {
     border: var(--nb-border);
     border-top: 0;
+    border-radius: 0 0 var(--nb-radius-card) var(--nb-radius-card);
+    background-color: #fffdf7;
   }
 
   .paginator__page--is-current {
     background-color: var(--nb-yellow);
     border: var(--nb-border);
+    border-radius: 8px;
     font-weight: 700;
   }
 
-  .collection-list__search-input {
-    border: var(--nb-border);
-    border-radius: 0;
+  .collection-list__search-input,
+  .search-filter__input {
+    border: var(--nb-border-soft);
+    border-radius: var(--nb-radius);
+    background-color: #ffffff;
     padding: 8px 12px;
+  }
+
+  .collection-list__search-input:focus-visible {
+    border-color: #09090b;
+    outline: 3px solid rgba(255, 234, 167, 0.6);
+  }
+
+  /* The boolean cell becomes a small ink badge. */
+  .bool-cell {
+    border: 2px solid #09090b;
+    border-radius: 8px;
+    padding: 1px 6px;
+    font-weight: 700;
+    background-color: #ffffff;
   }
 
   /* ---------------------------------------------------------------
