@@ -55,6 +55,14 @@ export default buildConfig({
     Languages,
   ],
   globals: [Profile],
+  localization: {
+    locales: [
+      { code: "en", label: "English" },
+      { code: "id", label: "Bahasa Indonesia" },
+    ],
+    defaultLocale: "en",
+    fallback: true,
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({

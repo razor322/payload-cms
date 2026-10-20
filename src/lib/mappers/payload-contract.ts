@@ -17,6 +17,7 @@ import type {
 } from "@/contract/types";
 
 export type Site = "v3" | "my" | "minimal";
+export type Locale = "en" | "id";
 
 type ArrField = { value?: string | null } | null;
 type Doc = Record<string, unknown>;
@@ -343,8 +344,13 @@ export type PayloadContent = {
   languages?: Doc[];
 };
 
-export function toContractPayload(input: PayloadContent, site: Site): ContractPayload {
+export function toContractPayload(
+  input: PayloadContent,
+  site: Site,
+  locale: Locale = "en",
+): ContractPayload {
   return {
+    locale,
     profile: toContractProfile(input.profile),
     siteContent: toContractSiteContent(input.siteContent),
     projects: composeProjects(input.projects, input.siteProjects ?? [], site, true),

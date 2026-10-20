@@ -250,3 +250,33 @@ describe("minimal-only domains", () => {
     );
   });
 });
+
+const minimalInput = {
+  profile: { name: "G" },
+  siteContent: null,
+  projects: [],
+  siteProjects: [],
+  experiences: [],
+  companies: [],
+  capabilities: [],
+  skills: [],
+  terminal_lines: [],
+  testimonials: [],
+  awards: [],
+  education: [],
+  certifications: [],
+  organizations: [],
+  languages: [],
+};
+
+describe("locale passthrough", () => {
+  it("returns the locale on the payload", () => {
+    const out = toContractPayload(minimalInput, "v3", "id");
+    expect(out.locale).toBe("id");
+  });
+
+  it("defaults to en", () => {
+    const out = toContractPayload(minimalInput, "v3");
+    expect(out.locale).toBe("en");
+  });
+});

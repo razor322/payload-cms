@@ -1,9 +1,10 @@
 import { getPayloadClient } from "@/lib/payload";
-import { toContractPayload, type Site } from "@/lib/mappers/payload-contract";
+import { toContractPayload, type Locale, type Site } from "@/lib/mappers/payload-contract";
 
 export const dynamic = "force-dynamic";
 
 const SITES: Site[] = ["v3", "my", "minimal"];
+const LOCALES: Locale[] = ["en", "id"];
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -15,6 +16,12 @@ export async function GET(request: Request) {
       { status: 400 },
     );
   }
+
+  const requestedLocale = url.searchParams.get("locale");
+  const locale: Locale =
+    requestedLocale && LOCALES.includes(requestedLocale as Locale)
+      ? (requestedLocale as Locale)
+      : "en";
 
   const payload = await getPayloadClient();
 
@@ -35,21 +42,21 @@ export async function GET(request: Request) {
     organizations,
     languages,
   ] = await Promise.all([
-    payload.findGlobal({ slug: "profile", depth: 0 }),
-    payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "site-projects", limit: 500, sort: "sort", depth: 0 }),
-    payload.find({ collection: "site-content", limit: 5, depth: 0 }),
-    payload.find({ collection: "experiences", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "companies", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "capabilities", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "skills", limit: 500, sort: "sort", depth: 0 }),
-    payload.find({ collection: "terminal-lines", limit: 500, sort: "sort", depth: 0 }),
-    payload.find({ collection: "testimonials", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "education", limit: 100, sort: "sort", depth: 0 }),
-    payload.find({ collection: "certifications", limit: 200, sort: "sort", depth: 0 }),
-    payload.find({ collection: "organizations", limit: 100, sort: "sort", depth: 0 }),
-    payload.find({ collection: "languages", limit: 100, sort: "sort", depth: 0 }),
+    payload.findGlobal({ slug: "profile", depth: 0, locale }),
+    payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "site-projects", limit: 500, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "site-content", limit: 5, depth: 0, locale }),
+    payload.find({ collection: "experiences", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "companies", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "capabilities", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "skills", limit: 500, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "terminal-lines", limit: 500, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "testimonials", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "education", limit: 100, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "certifications", limit: 200, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "organizations", limit: 100, sort: "sort", depth: 0, locale }),
+    payload.find({ collection: "languages", limit: 100, sort: "sort", depth: 0, locale }),
   ]);
 
   const siteContentDoc =
@@ -83,6 +90,7 @@ export async function GET(request: Request) {
       languages: languages.docs as unknown as Record<string, unknown>[],
     },
     site,
+    locale,
   );
 
   return Response.json(payloadData);

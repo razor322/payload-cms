@@ -128,6 +128,7 @@ export type ContractSiteContent = {
 };
 
 export type ContractPayload = {
+  locale: string;
   profile: ContractProfile;
   siteContent: ContractSiteContent;
   projects: ContractProject[];
