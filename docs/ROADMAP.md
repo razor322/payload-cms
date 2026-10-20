@@ -180,10 +180,27 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] Stage A: admin theme fixed. Light and dark each define their own
       `--theme-bg`/`--theme-text`; the button override only targets
       `.btn--style-primary`. Verified in both modes with 0 console errors.
+- [x] Stage B: `projects` gained period fields; `experiences` gained a period
+      range and a separate `companies` collection holds one employer with a
+      nested `positions` array; `site-projects` composes the project list per
+      site with optional overrides and a fallback to every project
+- [x] Stage C: `profile` stays the shared global and a new site-scoped
+      `site-content` collection holds hero, SEO, about and contact copy;
+      terminal lines gained a kind and an output link; `education`,
+      `certifications`, `organizations` and `languages` added
+- [x] Stage D: en/id localization, served through `/api/content?locale=`
+- [ ] Backfill per-site content in the admin (only `my` has rows today)
 - [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
 - [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
+- [ ] Drop the 49 template testimonials from `minimal-dev-portfolio`
 - [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
       a static export, so the CMS must be publicly reachable at build time)
+
+**Known state after the model work (recorded):** only `my` has per-site rows
+(`skills`, `capabilities`, `terminal_lines`, `section_headers`). `v3` and
+`minimal` return the shared rows plus nothing, and the project list falls back
+to all seven projects, so the endpoint is never empty. Filling `v3` and
+`minimal` is a manual step in the admin.
 
 **Structure note:** the Payload `(payload)` group renders its own
 `<html>`/`<body>`, so it is the only root layout in the app. Payload tables

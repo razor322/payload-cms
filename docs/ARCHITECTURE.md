@@ -93,22 +93,34 @@ Portfolio build → GET https://<admin>/api/content?site=<v3|my|minimal>
 
 ## 6. Data model
 
-See `PROJECT_STRUCTURE.md` for the collection list. Relationship:
+See `PROJECT_STRUCTURE.md` for the collection list. Two domains are shared
+facts, everything else is site-scoped:
 
 ```text
-profile (global)          one row
-section_headers           unique per (site, section)
-projects                  shared across sites
-experiences               shared across sites
-capabilities              site-scoped
-skills                    site-scoped
-terminal_lines            site-scoped
-testimonials              site-scoped
-awards                    site-scoped
+shared facts
+  projects          one list, composed per site through site-projects
+  experiences       one row per position, for v3 and MY
+  companies         one employer with a nested positions array, for minimal
+
+site-scoped (all | v3 | my | minimal)
+  capabilities  skills  terminal_lines  section_headers
+  testimonials  awards  education  certifications  organizations  languages
+
+per-site, no shared row
+  site-projects     which projects a site shows, and their order
+  site-content      hero, SEO, about and contact copy
+
+global
+  profile           name, role, email, website, avatar, intro, socials,
+                    languages, documents
 ```
 
-`site ∈ {v3, my, minimal, all}`. A `site='all'` row is shared; a
-site-specific row takes precedence in the portfolio mapper.
+A `site='all'` row is shared. A site row with the same key replaces it, applied
+by `resolveForSite` in `src/lib/mappers/payload-contract.ts`. The comparison key
+differs per domain (see `CONTRACT.md`).
+
+Locales: `en` (default) and `id`, handled by Payload's localization. The
+contract route takes `?locale=` and passes it to every query.
 
 ## 7. Security
 

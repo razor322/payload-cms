@@ -95,17 +95,28 @@ web-admin/
 |---|---|---|
 | `users` | auth collection | email, password, name |
 | `media` | upload collection | alt, file |
-| `projects` | collection | slug, title, role, subtitle, description, impact, highlights[], tech[], github, live, image_url, featured, year, category, status, sort |
-| `experiences` | collection | ext_id, company, position, period, location, type, duration, mode, role, summary, outcomes[], stack[], sort |
+| `projects` | collection | slug, title, role, subtitle, description, impact, highlights[], tech[], github, live, image_url, featured, year, period_start, period_end, category, status, sort |
+| `site-projects` | collection | site (no `all`), project (relationship), sort, featured_override, title_override, subtitle_override |
+| `experiences` | collection | ext_id, company, position, period, period_start, period_end, location, type, duration, mode, role, summary, outcomes[], stack[], sort |
+| `companies` | collection | site, company, company_website, company_icon, is_current, positions[], sort |
 | `capabilities` | collection | site, title, description, tags[], sort |
 | `skills` | collection | site, category, name, icon_key, sort |
-| `terminal-lines` | collection | site, text, delay, color_class, bold, is_cursor, sort |
+| `terminal-lines` | collection | site, text, kind (line/command/output), output_for, delay, color_class, bold, is_cursor, sort |
 | `testimonials` | collection | site, name, role, quote, avatar_url, sort |
 | `awards` | collection | site, kind, title, org, year, description, sort |
 | `section-headers` | collection | site, section, left/middle/right kicker+title |
-| `profile` | global | name, role, location, email, website, avatar_url, intro, socials[] |
+| `site-content` | collection | site (no `all`), hero_*, seo_*, about_*, contact_* |
+| `education` | collection | site, institution, degree, gpa, period_start, period_end, description, skills[], sort |
+| `certifications` | collection | site, title, issuer, issuer_icon, issue_date, credential_id, credential_url, sort |
+| `organizations` | collection | site, company, position, period_start, period_end, description, skills[], sort |
+| `languages` | collection | site, name, level, sort |
+| `profile` | global | name, role, location, email, website, avatar_url, intro, socials[], languages[], documents[] |
 
-`site` check: `in ('v3','my','minimal','all')`.
+`site` check: `in ('v3','my','minimal','all')`. The `site-projects` and
+`site-content` collections have no `all` option, because a shared row makes no
+sense for a per-site composition or a per-site copy.
+
+Localization is on for `en` (default) and `id`.
 
 The tables live in the Postgres schema `payload`. The legacy tables still sit
 in `public` and can be dropped once the new admin is confirmed.
