@@ -170,9 +170,36 @@ Payload 3.91 reads these names. The old v2 names are dead:
 | Button background | `--bg-color` (on `.btn--style-primary`) |
 | Button text | `--color` (on `.btn--style-primary`) |
 | Button border | `--btn-border` (on `.btn`) |
+| Panel and card border | `--theme-border-color`, `--card-border-color` |
 
 Custom CSS lives in `@layer payload { }`, the layer Payload reserves for
 overrides, so it wins over the shipped admin styles.
+
+### 5.5 The neobrutalist theme
+
+`DESIGN.md` holds the direction. The primitives live at the top of
+`custom.css`:
+
+| Token | Value | Use |
+|---|---|---|
+| `--nb-border-w` | `3px` | Border width everywhere |
+| `--nb-border` | `3px solid #000000` | The border |
+| `--nb-shadow` | `5px 5px 0 #000000` | Overlay shadow |
+| `--nb-shadow-sm` | `3px 3px 0 #000000` | Button and card hover shadow |
+| `--nb-yellow` | `#ffeb3b` | The primary action |
+| `--nb-red` | `#ff5252` | Destructive action only |
+| `--nb-blue` | `#2196f3` | Focus ring and active nav item |
+
+Two things Payload does not do on its own, both handled in `custom.css`:
+
+- It ships a blurred shadow on inputs, checkboxes, radios and selects. This
+  style refuses blur, so those rules set `box-shadow: none`.
+- It rounds a few small elements. Those get `border-radius: 0`. The drag handle
+  needs `!important` because Payload sets its radius inline.
+
+The panel is light by default. `admin.theme: "light"` in `payload.config.ts`
+makes Payload resolve the theme before it reads a cookie or the
+`prefers-color-scheme` header, so a dark desktop does not flip the panel.
 
 ## 6. Supabase setup
 

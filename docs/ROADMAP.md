@@ -189,6 +189,9 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       terminal lines gained a kind and an output link; `education`,
       `certifications`, `organizations` and `languages` added
 - [x] Stage D: en/id localization, served through `/api/content?locale=`
+- [x] Stage F: the admin is neobrutalist end to end. `DESIGN.md` records the
+      direction, `custom.css` carries the tokens and the per surface rules.
+      Light by default through `admin.theme: "light"`.
 - [ ] Backfill per-site content in the admin (only `my` has rows today)
 - [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
 - [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
@@ -207,7 +210,30 @@ The final verification ran all three sites crossed with both locales. `projects`
 skills, 3 capabilities and 10 terminal lines, and the newer collections
 (`companies`, `education`, `certifications`, `organizations`, `languages`) are
 empty until they are filled. All seven new collections appear in the admin nav,
-dark mode still flips, and the browser reports 0 console errors.
+and the browser reports 0 console errors.
+
+### Delivery Gate: neobrutalist admin
+
+Measured on the running admin with Playwright, at 1440px and 390px.
+
+| Rule | Result | Evidence |
+|---|---|---|
+| R-02 | PASS | Zero em dashes in `custom.css`, `DESIGN.md` and the four docs I touched. Scanned. |
+| R-03 | PASS | At 390px, `scrollWidth` equals `innerWidth` (390) on login, dashboard, list and create. No overflow. |
+| R-11 | PASS | Zero elements with a radius above 0 across eight pages, except the account photo (50%) and the icon glyphs (100%). Both are a photograph and a glyph, not a shape choice. |
+| R-12 | PASS | Shadows land only on the primary button, the card hover, the upload dropzone, the popup and the modal. Everything else reads flat. |
+| R-01 | PASS | No gradient value anywhere. The seven matches for the word in `custom.css` are all comments stating the rule. |
+| R-21 / R-34 | PASS | One theme. `data-theme` reads `light` with a dark OS preference and a dark `Sec-CH-Prefers-Color-Scheme` header, and the canvas stays paper. |
+| R-25 | PASS | Body text on the canvas is 19.47:1. The primary button, black on `#ffeb3b`, is 17.2:1. |
+| R-26 | PASS | No dead control. Payload renders no theme control when the theme is fixed, so nothing had to be hidden. |
+| R-31 | PASS | `DESIGN.md` gives a one line reason for the palette, the typefaces, the radius, the border and the shadow. |
+| R-32 | PASS | 12 of 12 tab stops on the create form show an outline or a shadow. |
+| R-35 | PASS | Click through, 10 of 10 steps: login, create, list shows the row, sort controls, edit and save, delete with confirmation, the row is gone, account control, media dropzone, bulk upload control. 0 console errors throughout. |
+| R-37 | PASS | `DESIGN.md` exists, states the identity and the dial ENERGY 2 / RHYTHM 1 / MOTION 1. |
+
+The five colour palette is a deliberate override of R-29, approved by the owner.
+`DESIGN.md` records the three rules that keep it readable: black carries the
+structure, yellow appears once per screen, red only marks a destructive action.
 
 **Structure note:** the Payload `(payload)` group renders its own
 `<html>`/`<body>`, so it is the only root layout in the app. Payload tables

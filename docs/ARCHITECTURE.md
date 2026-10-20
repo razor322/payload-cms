@@ -39,7 +39,8 @@ contract (`/api/content?site=`) that the three portfolios fetch at build time.
 | Data access | Payload Local API server-side, REST for the outside | One ORM path, no second client library. |
 | Content model | Canonical superset rows + a `site` column | Content is 90% shared; one row per fact avoids 3x editing. |
 | Database schema | Dedicated Postgres schema `payload` | Keeps Payload's Drizzle push away from the legacy `public` tables, so it never mistakes them for renames. |
-| Theming | Payload theme tokens overridden in `(payload)/custom.css` | Payload 3.91 reads `--theme-bg`, `--style-radius-*`, `--bg-color`; the app theme is paper/ink/orange. |
+| Theming | Neubrutalism through Payload theme tokens in `(payload)/custom.css` | Payload 3.91 reads `--theme-bg`, `--style-radius-*`, `--bg-color`; the panel is paper, ink and one orange accent, with 3px black borders and 5px hard shadows. The direction lives in `DESIGN.md`. |
+| Theme mode | Light by default, set with `admin.theme: "light"` | Payload resolves the theme before it reads a cookie or the `prefers-color-scheme` header, so a dark desktop does not flip the panel. |
 | CSS isolation | Tailwind loader skips `node_modules` | Tailwind's preflight lands after Payload's layer and would strip the admin's styles. |
 | Testing | Vitest on the pure mapper | The only pure module left is the contract mapper. UI is verified by click-through. |
 

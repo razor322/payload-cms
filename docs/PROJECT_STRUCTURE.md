@@ -145,3 +145,5 @@ in `public` and can be dropped once the new admin is confirmed.
 - Never import `lib/payload.ts` into a client component.
 - One responsibility per file; if a component grows past ~200 lines, split it.
 - Theme the admin through Payload's own tokens in `app/(payload)/custom.css`, not through Tailwind classes.
+- The direction lives in `DESIGN.md` at the repo root. Read it before changing any
+  colour, radius, border or shadow.

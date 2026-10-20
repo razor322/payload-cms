@@ -1,5 +1,7 @@
 @layer payload {
-  /* Typography and shape are mode independent. */
+  /* ---------------------------------------------------------------
+     Tokens. The whole panel retunes from here.
+     --------------------------------------------------------------- */
   :root {
     --font-body: var(--ff-sans), system-ui, sans-serif;
     --font-mono: var(--ff-mono), "SF Mono", Menlo, Consolas, monospace;
@@ -9,28 +11,35 @@
     --style-radius-m: 0px;
     --style-radius-l: 0px;
 
-    /* Neobrutalist primitives. The whole panel retunes from here. */
-    --nb-border-w: 2px;
-    --nb-border: var(--nb-border-w) solid var(--theme-text);
-    --nb-shadow: 4px 4px 0 var(--theme-text);
-    --nb-shadow-sm: 2px 2px 0 var(--theme-text);
+    /* Hard border, hard offset shadow, no blur. */
+    --nb-border-w: 3px;
+    --nb-border: var(--nb-border-w) solid #000000;
+    --nb-shadow: 5px 5px 0 #000000;
+    --nb-shadow-sm: 3px 3px 0 #000000;
 
     /* Payload draws panel and card borders from these tokens. */
-    --theme-border-color: var(--theme-text);
-    --card-border-color: var(--theme-text);
+    --theme-border-color: #000000;
+    --card-border-color: #000000;
+
+    /* Flat palette. No gradients anywhere. */
+    --nb-yellow: #ffeb3b;
+    --nb-red: #ff5252;
+    --nb-blue: #2196f3;
   }
 
-  /* Light: warm paper canvas, near-black ink.
-     Payload's own template rules read --theme-bg-color, which 3.91 never
-     defines, so the admin wrapper would stay transparent without it. */
+  /* Light canvas. Payload's own template rules read --theme-bg-color, which
+     3.91 never defines, so the admin wrapper would stay transparent without it. */
   :root {
-    --theme-bg: oklch(0.972 0.026 92);
+    --theme-bg: #fdf6e3;
     --theme-bg-color: var(--theme-bg);
-    --theme-text: oklch(0.145 0 0);
-    --theme-input-bg: oklch(0.972 0.026 92);
-    --theme-overlay: rgba(5, 5, 5, 0.5);
+    --theme-text: #000000;
+    --theme-input-bg: #ffffff;
+    --theme-overlay: rgba(0, 0, 0, 0.5);
   }
 
+  /* ---------------------------------------------------------------
+     Typography
+     --------------------------------------------------------------- */
   h1,
   h2,
   h3,
@@ -38,25 +47,416 @@
   h5,
   h6,
   .payload__page-title,
-  .render-title {
+  .render-title,
+  .typo-h1 {
     font-family: var(--ff-display), system-ui, sans-serif;
     font-weight: 800;
     letter-spacing: -0.02em;
   }
 
-  /* Only the primary button gets the brutalist treatment. A bare .btn rule
-     would override --btn-border on all 23 Payload button variants
-     (secondary, dashed, disabled, icon, the nav hamburger). */
+  /* ---------------------------------------------------------------
+     Buttons. Every variant takes the hard border. The padding grows by
+     the 3px the border adds on each side, so a button keeps its size.
+     --------------------------------------------------------------- */
+  .btn {
+    --btn-border: var(--nb-border);
+    --btn-font-weight: 700;
+    border-radius: 0;
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  }
+
+  .btn--size-xsmall {
+    --btn-padding-block-start: 4px;
+    --btn-padding-block-end: 4px;
+    --btn-padding-inline-start: 10px;
+    --btn-padding-inline-end: 10px;
+  }
+
+  .btn--size-small {
+    --btn-padding-block-start: 8px;
+    --btn-padding-block-end: 8px;
+    --btn-padding-inline-start: 14px;
+    --btn-padding-inline-end: 14px;
+  }
+
+  .btn--size-medium {
+    --btn-padding-block-start: 10px;
+    --btn-padding-block-end: 10px;
+    --btn-padding-inline-start: 16px;
+    --btn-padding-inline-end: 16px;
+  }
+
+  .btn--size-large {
+    --btn-padding-block-start: 12px;
+    --btn-padding-block-end: 12px;
+    --btn-padding-inline-start: 20px;
+    --btn-padding-inline-end: 20px;
+  }
+
+  /* The icon only button keeps the border but tightens the inline padding, so
+     glyphs still line up in dense toolbars. */
+  .btn--icon-only {
+    --btn-padding-inline-start: 10px;
+    --btn-padding-inline-end: 10px;
+  }
+
+  /* Yellow is the one action that moves the task forward, so it appears once
+     per screen. */
   .btn--style-primary {
-    --bg-color: oklch(0.65 0.21 42);
-    --color: oklch(0.145 0 0);
-    --hover-bg: oklch(0.6 0.21 42);
-    --btn-border: 2px solid oklch(0.145 0 0);
-    box-shadow: 3px 3px 0 oklch(0.145 0 0);
+    --bg-color: var(--nb-yellow);
+    --color: #000000;
+    --hover-bg: #ffe14d;
+    box-shadow: var(--nb-shadow-sm);
   }
 
   .btn--style-primary:active {
     transform: translate(3px, 3px);
     box-shadow: none;
+  }
+
+  /* ---------------------------------------------------------------
+     Fields. The form is the busiest screen, so the border has to carry
+     the structure, and the focus ring has to be unmissable.
+     --------------------------------------------------------------- */
+  .field-type,
+  .array-field,
+  .blocks-field,
+  .input,
+  .input-wrapper,
+  .textarea {
+    border-radius: 0;
+  }
+
+  .field-type input,
+  .field-type textarea,
+  .field-type select,
+  .input,
+  .textarea {
+    border: var(--nb-border);
+    background-color: var(--theme-input-bg);
+    padding-block: 10px;
+    padding-inline: 14px;
+    /* Payload ships a soft blurred shadow on inputs. A blur is exactly what
+       this style refuses, so the field sits flat on the page. */
+    box-shadow: none;
+  }
+
+  /* The focus ring is a hard blue border, not a glow. */
+  .field-type input:focus-visible,
+  .field-type textarea:focus-visible,
+  .field-type select:focus-visible,
+  .input:focus-visible,
+  .textarea:focus-visible {
+    outline: var(--nb-border-w) solid var(--nb-blue);
+    outline-offset: 1px;
+    box-shadow: none;
+  }
+
+  .field-type label,
+  .array-field__title,
+  .blocks-field__header .field-type__label {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .field-type .field-description {
+    font-style: normal;
+    opacity: 0.7;
+  }
+
+  .array-field__row,
+  .blocks-field__row {
+    border: var(--nb-border);
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .array-field__add-row,
+  .blocks-field__add-row {
+    border: var(--nb-border);
+    border-style: dashed;
+  }
+
+  /* ---------------------------------------------------------------
+     Tables and the list view. Dense, but the header has to be findable.
+     --------------------------------------------------------------- */
+  .table,
+  .table-wrap,
+  .collection-list__wrap,
+  .list-controls,
+  .paginator {
+    border-radius: 0;
+  }
+
+  .table table {
+    border: var(--nb-border);
+    border-collapse: collapse;
+  }
+
+  .table thead th,
+  .collection-list__header,
+  .row-label {
+    border-bottom: var(--nb-border);
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* A light divider between rows keeps the table readable without turning
+     every row into a box. */
+  .table tbody td,
+  .table tbody th,
+  .row {
+    border-bottom: 1px solid var(--theme-elevation-150);
+  }
+
+  .table tbody tr:last-child td,
+  .table tbody tr:last-child th {
+    border-bottom: 0;
+  }
+
+  .paginator {
+    border: var(--nb-border);
+    border-top: 0;
+  }
+
+  .paginator__page--is-current {
+    background-color: var(--nb-yellow);
+    border: var(--nb-border);
+    font-weight: 700;
+  }
+
+  .collection-list__search-input {
+    border: var(--nb-border);
+    border-radius: 0;
+    padding: 8px 12px;
+  }
+
+  /* ---------------------------------------------------------------
+     Navigation, header and dashboard. The frame is seen first, so it
+     sets the tone for the whole panel.
+     --------------------------------------------------------------- */
+  .nav {
+    border-right: var(--nb-border);
+  }
+
+  .nav__link {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .nav__label {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .nav__link.active,
+  .nav__link:has(.nav__link-indicator) {
+    background-color: var(--nb-blue);
+    color: #000000;
+  }
+
+  .app-header {
+    border-bottom: var(--nb-border);
+    background-color: var(--theme-bg);
+  }
+
+  .app-header__content,
+  .app-header__wrapper {
+    background-color: transparent;
+  }
+
+  .card,
+  .widget {
+    border: var(--nb-border);
+    border-radius: 0;
+    background-color: var(--theme-bg);
+  }
+
+  /* A card lifts on hover, so the shadow marks the thing under the pointer. */
+  .card--has-onclick:hover,
+  .widget:hover {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .card__title,
+  .widget h2,
+  .widget h3 {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------------------------------------------------------------
+     Overlays. These genuinely float above the page, so they take the
+     full shadow.
+     --------------------------------------------------------------- */
+  .popup__content,
+  .drawer__content,
+  .confirmation-modal__wrapper,
+  .payload-toast-item {
+    border: var(--nb-border);
+    border-radius: 0;
+    box-shadow: var(--nb-shadow);
+    background-color: var(--theme-bg);
+  }
+
+  .popup__content .popup__scroll-container,
+  .drawer__content-children {
+    background-color: var(--theme-bg);
+  }
+
+  .banner {
+    border: var(--nb-border);
+    border-radius: 0;
+  }
+
+  .payload-toast-item {
+    font-weight: 700;
+  }
+
+  /* ---------------------------------------------------------------
+     Screens that are not the list or the form.
+     --------------------------------------------------------------- */
+  .template-minimal,
+  .login,
+  .create-first-user,
+  .logout,
+  .not-found {
+    background-color: var(--theme-bg);
+  }
+
+  .login__form,
+  .create-first-user form,
+  .logout__wrap,
+  .not-found__wrap {
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow);
+    padding: 28px;
+    background-color: var(--theme-bg);
+  }
+
+  .upload,
+  .upload__drag,
+  .dropzone,
+  .file-field__dropzone {
+    border: var(--nb-border);
+    border-radius: 0;
+    background-color: var(--theme-elevation-50);
+  }
+
+  .upload__drag:hover,
+  .dropzone:hover,
+  .file-field__dropzone:hover {
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .file-details,
+  .file-details__main-detail,
+  .file {
+    border-radius: 0;
+  }
+
+  .file-details {
+    border: var(--nb-border);
+    padding: 10px;
+  }
+
+  .not-found__button {
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow-sm);
+    font-weight: 700;
+  }
+
+  .doc-controls,
+  .doc-tabs {
+    border-radius: 0;
+  }
+
+  .doc-tab--active {
+    background-color: var(--nb-yellow);
+    border-bottom: 2px solid #000000;
+    font-weight: 700;
+  }
+
+  .doc-tab__label {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------------------------------------------------------------
+     Remaining soft edges. Payload rounds a few small elements, which
+     reads as a different design language next to the square panels.
+     The account avatar keeps its circle: that is a photograph, not a
+     shape choice.
+     --------------------------------------------------------------- */
+  .pill,
+  .bool-cell,
+  .hamburger,
+  .rs__control,
+  .rs__menu,
+  .rs__option,
+  .tag,
+  .error-pill,
+  .droppable-widget,
+  .doc-controls__dots,
+  .pill--size-small,
+  .pill--size-medium,
+  .pill--size-large {
+    border-radius: 0;
+  }
+
+  /* Checkbox and radio keep Payload's soft shadow otherwise, and a blur is
+     what this style refuses. */
+  .checkbox-input__input,
+  .radio-input__styled-radio {
+    border: var(--nb-border);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .radio-input__styled-radio {
+    border-width: 3px;
+  }
+
+  .bool-cell {
+    border: 2px solid #000000;
+    font-weight: 700;
+  }
+
+  .rs__control,
+  .rs__menu,
+  .rs__option {
+    border: var(--nb-border);
+    /* The select ships a soft blurred shadow. Nothing in this style blurs. */
+    box-shadow: none;
+  }
+
+  .rs__control:hover,
+  .rs__control:focus-within {
+    border-color: var(--nb-blue);
+  }
+
+  /* The drag handle sits at 1000px radius, which reads as a soft pill next to
+     the square panels. Payload sets that radius inline, so it takes an
+     important flag to win. */
+  .droppable-widget {
+    border-radius: 0 !important;
+  }
+
+  /* The menu button carries a grey 1px ring on hover. The border language
+     here is black, so the ring follows. */
+  .hamburger:hover {
+    background-color: var(--theme-elevation-100);
+    box-shadow: 0 0 0 2px #000000;
   }
 }
