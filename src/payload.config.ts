@@ -13,6 +13,7 @@ import { Experiences } from "./collections/Experiences";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
 import { SectionHeaders } from "./collections/SectionHeaders";
+import { SiteProjects } from "./collections/SiteProjects";
 import { Skills } from "./collections/Skills";
 import { TerminalLines } from "./collections/TerminalLines";
 import { Testimonials } from "./collections/Testimonials";
@@ -33,6 +34,7 @@ export default buildConfig({
     Users,
     Media,
     Projects,
+    SiteProjects,
     Experiences,
     Companies,
     Capabilities,

@@ -18,24 +18,44 @@ export async function GET(request: Request) {
 
   const payload = await getPayloadClient();
 
-  const [profile, projects, experiences, capabilities, skills, terminalLines, testimonials, awards] =
-    await Promise.all([
-      payload.findGlobal({ slug: "profile", depth: 0 }),
-      payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0 }),
-      payload.find({ collection: "experiences", limit: 200, sort: "sort", depth: 0 }),
-      payload.find({ collection: "capabilities", limit: 200, sort: "sort", depth: 0 }),
-      payload.find({ collection: "skills", limit: 500, sort: "sort", depth: 0 }),
-      payload.find({ collection: "terminal-lines", limit: 500, sort: "sort", depth: 0 }),
-      payload.find({ collection: "testimonials", limit: 200, sort: "sort", depth: 0 }),
-      payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0 }),
-    ]);
+  const [
+    profile,
+    projects,
+    siteProjects,
+    experiences,
+    companies,
+    capabilities,
+    skills,
+    terminalLines,
+    testimonials,
+    awards,
+  ] = await Promise.all([
+    payload.findGlobal({ slug: "profile", depth: 0 }),
+    payload.find({ collection: "projects", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "site-projects", limit: 500, sort: "sort", depth: 0 }),
+    payload.find({ collection: "experiences", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "companies", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "capabilities", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "skills", limit: 500, sort: "sort", depth: 0 }),
+    payload.find({ collection: "terminal-lines", limit: 500, sort: "sort", depth: 0 }),
+    payload.find({ collection: "testimonials", limit: 200, sort: "sort", depth: 0 }),
+    payload.find({ collection: "awards", limit: 200, sort: "sort", depth: 0 }),
+  ]);
 
   const payloadData = toContractPayload(
     {
       profile: profile as unknown as Record<string, unknown>,
       projects: projects.docs as unknown as Record<string, unknown>[],
+      siteProjects: siteProjects.docs as unknown as {
+        site?: string;
+        project: number | { id: number };
+        sort?: number;
+        featured_override?: boolean | null;
+        title_override?: string | null;
+        subtitle_override?: string | null;
+      }[],
       experiences: experiences.docs as unknown as Record<string, unknown>[],
-      companies: [] as Record<string, unknown>[],
+      companies: companies.docs as unknown as Record<string, unknown>[],
       capabilities: capabilities.docs as unknown as Record<string, unknown>[],
       skills: skills.docs as unknown as Record<string, unknown>[],
       terminal_lines: terminalLines.docs as unknown as Record<string, unknown>[],

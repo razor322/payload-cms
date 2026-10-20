@@ -171,9 +171,67 @@ export function pickForSite<T extends Doc>(docs: T[], site: Site): T[] {
   return docs.filter((d) => d.site === "all" || d.site === site);
 }
 
+type SiteProjectRow = {
+  site?: string;
+  project: number | { id: number };
+  sort?: number;
+  featured_override?: boolean | null;
+  title_override?: string | null;
+  subtitle_override?: string | null;
+};
+
+const projectId = (row: SiteProjectRow) =>
+  typeof row.project === "object" && row.project !== null ? row.project.id : row.project;
+
+/**
+ * Builds the project list a site shows.
+ *
+ * With site-projects rows, the site shows exactly those projects in `sort`
+ * order, with the optional overrides applied. With no rows for the site, it
+ * falls back to every project so the endpoint never returns an empty list.
+ */
+export function composeProjects(
+  projectDocs: Doc[],
+  siteProjectDocs: SiteProjectRow[],
+  site: Site,
+  fallbackToAll: boolean,
+): ContractProject[] {
+  const rows = siteProjectDocs
+    .filter((row) => row.site === site)
+    .sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+
+  const byId = new Map<number, Doc>();
+  for (const doc of projectDocs) byId.set(Number(doc.id), doc);
+
+  if (rows.length === 0) {
+    if (!fallbackToAll) return [];
+    return [...projectDocs]
+      .sort((a, b) => Number(a.sort ?? 0) - Number(b.sort ?? 0))
+      .map(toContractProject);
+  }
+
+  const out: ContractProject[] = [];
+  for (const row of rows) {
+    const doc = byId.get(projectId(row));
+    if (!doc) continue;
+    const mapped = toContractProject(doc);
+    out.push({
+      ...mapped,
+      title: row.title_override ? str(row.title_override) : mapped.title,
+      subtitle: row.subtitle_override ? str(row.subtitle_override) : mapped.subtitle,
+      featured:
+        row.featured_override === true || row.featured_override === false
+          ? row.featured_override
+          : mapped.featured,
+    });
+  }
+  return out;
+}
+
 export type PayloadContent = {
   profile: Doc | null;
   projects: Doc[];
+  siteProjects?: SiteProjectRow[];
   experiences: Doc[];
   companies: Doc[];
   capabilities: Doc[];
@@ -186,7 +244,7 @@ export type PayloadContent = {
 export function toContractPayload(input: PayloadContent, site: Site): ContractPayload {
   return {
     profile: toContractProfile(input.profile),
-    projects: input.projects.map(toContractProject),
+    projects: composeProjects(input.projects, input.siteProjects ?? [], site, true),
     experiences: input.experiences.map(toContractExperience),
     companies: pickForSite(input.companies ?? [], site).map(toContractCompany),
     capabilities: pickForSite(input.capabilities, site).map(toContractCapability),
