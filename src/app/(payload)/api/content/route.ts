@@ -35,6 +35,7 @@ export async function GET(request: Request) {
       profile: profile as unknown as Record<string, unknown>,
       projects: projects.docs as unknown as Record<string, unknown>[],
       experiences: experiences.docs as unknown as Record<string, unknown>[],
+      companies: [] as Record<string, unknown>[],
       capabilities: capabilities.docs as unknown as Record<string, unknown>[],
       skills: skills.docs as unknown as Record<string, unknown>[],
       terminal_lines: terminalLines.docs as unknown as Record<string, unknown>[],

@@ -14,6 +14,8 @@ export const Experiences: CollectionConfig = {
     { name: "company", type: "text", required: true },
     { name: "position", type: "text", required: true },
     { name: "period", type: "text", defaultValue: "" },
+    { name: "period_start", type: "text", defaultValue: "" },
+    { name: "period_end", type: "text", defaultValue: "" },
     { name: "location", type: "text", defaultValue: "" },
     { name: "type", type: "text", defaultValue: "" },
     { name: "duration", type: "text", defaultValue: "" },

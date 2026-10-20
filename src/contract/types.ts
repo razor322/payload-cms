@@ -21,6 +21,25 @@ export type ContractExperience = {
   id: string; company: string; position: string; period: string;
   location: string; type: string; duration: string; mode: string; role: string;
   summary: string; outcomes: string[]; stack: string[];
+  periodRange?: { start: string; end?: string };
+};
+
+export type ContractCompanyPosition = {
+  id: string;
+  title: string;
+  period?: { start: string; end?: string };
+  employmentType: string;
+  description: string;
+  skills: string[];
+};
+
+export type ContractCompany = {
+  id: string;
+  company: string;
+  companyWebsite: string;
+  companyIcon: string;
+  isCurrent: boolean;
+  positions: ContractCompanyPosition[];
 };
 
 export type ContractCapability = {
@@ -46,6 +65,7 @@ export type ContractPayload = {
   profile: ContractProfile;
   projects: ContractProject[];
   experiences: ContractExperience[];
+  companies: ContractCompany[];
   capabilities: ContractCapability[];
   skills: ContractSkill[];
   terminal_lines: ContractTerminalLine[];

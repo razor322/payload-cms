@@ -8,6 +8,7 @@ import sharp from "sharp";
 
 import { Awards } from "./collections/Awards";
 import { Capabilities } from "./collections/Capabilities";
+import { Companies } from "./collections/Companies";
 import { Experiences } from "./collections/Experiences";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
@@ -33,6 +34,7 @@ export default buildConfig({
     Media,
     Projects,
     Experiences,
+    Companies,
     Capabilities,
     Skills,
     TerminalLines,

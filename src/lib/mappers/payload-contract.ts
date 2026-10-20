@@ -1,6 +1,7 @@
 import type {
   ContractAward,
   ContractCapability,
+  ContractCompany,
   ContractExperience,
   ContractPayload,
   ContractProfile,
@@ -64,6 +65,33 @@ export function toContractExperience(doc: Doc): ContractExperience {
     summary: str(doc.summary),
     outcomes: arr(doc.outcomes),
     stack: arr(doc.stack),
+    periodRange: str(doc.period_start)
+      ? { start: str(doc.period_start), end: doc.period_end ? str(doc.period_end) : undefined }
+      : undefined,
+  };
+}
+
+export function toContractCompany(doc: Doc): ContractCompany {
+  const rows = Array.isArray(doc.positions) ? (doc.positions as Doc[]) : [];
+  return {
+    id: str(doc.id),
+    company: str(doc.company),
+    companyWebsite: str(doc.company_website),
+    companyIcon: str(doc.company_icon),
+    isCurrent: bool(doc.is_current),
+    positions: rows.map((row) => {
+      const start = str(row.period_start);
+      return {
+        id: str(row.id),
+        title: str(row.title),
+        period: start
+          ? { start, end: row.period_end ? str(row.period_end) : undefined }
+          : undefined,
+        employmentType: str(row.employment_type),
+        description: str(row.description),
+        skills: arr(row.skills),
+      };
+    }),
   };
 }
 
@@ -147,6 +175,7 @@ export type PayloadContent = {
   profile: Doc | null;
   projects: Doc[];
   experiences: Doc[];
+  companies: Doc[];
   capabilities: Doc[];
   skills: Doc[];
   terminal_lines: Doc[];
@@ -159,6 +188,7 @@ export function toContractPayload(input: PayloadContent, site: Site): ContractPa
     profile: toContractProfile(input.profile),
     projects: input.projects.map(toContractProject),
     experiences: input.experiences.map(toContractExperience),
+    companies: pickForSite(input.companies ?? [], site).map(toContractCompany),
     capabilities: pickForSite(input.capabilities, site).map(toContractCapability),
     skills: pickForSite(input.skills, site).map(toContractSkill),
     terminal_lines: pickForSite(input.terminal_lines, site).map(toContractTerminalLine),

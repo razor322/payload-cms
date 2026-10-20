@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 
 import {
   pickForSite,
+  toContractCompany,
+  toContractExperience,
   toContractPayload,
   toContractProfile,
   toContractProject,
@@ -65,6 +67,7 @@ describe("payload-contract mapper", () => {
         profile: { name: "G" },
         projects: [projectDoc],
         experiences: [],
+        companies: [],
         capabilities: [{ id: 1, site: "all", title: "A" }, { id: 2, site: "v3", title: "B" }],
         skills: [{ id: 1, site: "my", name: "S" }],
         terminal_lines: [],
@@ -99,5 +102,49 @@ describe("project period", () => {
     const p = toContractProject({ slug: "x", title: "X", year: "2024" });
     expect(p.period).toBeUndefined();
     expect(p.year).toBe("2024");
+  });
+});
+
+describe("experience period range", () => {
+  it("maps the period range", () => {
+    const e = toContractExperience({
+      company: "Halcom",
+      position: "Software Engineer",
+      period_start: "2026",
+    });
+    expect(e.periodRange).toEqual({ start: "2026", end: undefined });
+  });
+
+  it("leaves the range undefined when absent", () => {
+    expect(toContractExperience({ company: "X", position: "Y" }).periodRange).toBeUndefined();
+  });
+});
+
+describe("company grouping", () => {
+  it("maps a company with its positions", () => {
+    const c = toContractCompany({
+      company: "Halcom",
+      company_website: "https://halcom.id",
+      is_current: true,
+      positions: [
+        {
+          title: "Software Engineer",
+          period_start: "2026",
+          employment_type: "Full-time",
+          description: ">_ Role: Full-Stack",
+          skills: [{ value: "Next.js" }],
+        },
+      ],
+    });
+    expect(c.company).toBe("Halcom");
+    expect(c.isCurrent).toBe(true);
+    expect(c.positions).toHaveLength(1);
+    expect(c.positions[0].title).toBe("Software Engineer");
+    expect(c.positions[0].period).toEqual({ start: "2026", end: undefined });
+    expect(c.positions[0].skills).toEqual(["Next.js"]);
+  });
+
+  it("returns an empty positions array when the field is missing", () => {
+    expect(toContractCompany({ company: "X" }).positions).toEqual([]);
   });
 });
