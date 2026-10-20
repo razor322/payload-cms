@@ -37,6 +37,17 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      Nav: "@/components/admin/AdminNav",
+      header: ["@/components/admin/AdminHeader#AdminHeader"],
+      graphics: {
+        Icon: "@/components/admin/AdminLogo#AdminLogo",
+        Logo: "@/components/admin/AdminLogo#AdminLogo",
+      },
+      logout: {
+        Button: "@/components/admin/AdminLogout#AdminLogout",
+      },
+    },
   },
   collections: [
     Users,

@@ -1,6 +1,6 @@
 @layer payload {
   /* ---------------------------------------------------------------
-     Tokens, taken from the Kyos admin. The panel retunes from here.
+     Tokens for the admin. The panel retunes from here.
      --------------------------------------------------------------- */
   :root {
     --font-body: var(--ff-sans), system-ui, sans-serif;
@@ -66,7 +66,7 @@
 
   /* ---------------------------------------------------------------
      Buttons. 2px ink border, 12px radius, and the press and hover laws
-     from the Kyos button component.
+     for the button states.
      --------------------------------------------------------------- */
   .btn {
     --btn-border: var(--nb-border);
@@ -174,7 +174,7 @@
     border-radius: var(--nb-radius);
     padding-block: 9px;
     padding-inline: 13px;
-    /* Payload ships a blurred shadow on inputs. The Kyos look is flat until
+    /* Payload ships a blurred shadow on inputs. The look is flat until
        focus, so it goes. */
     box-shadow: none;
     transition: border-color 120ms ease, box-shadow 120ms ease;
@@ -524,5 +524,321 @@
   .hamburger:hover {
     background-color: #ececee;
     box-shadow: 0 0 0 2px #09090b;
+  }
+
+  /* ---------------------------------------------------------------
+     Admin layout. A fixed sidebar (256px, 72px collapsed) with a top
+     bar, and a content offset that matches.
+     --------------------------------------------------------------- */
+  .admin-nav-width {
+    width: 256px;
+  }
+
+  .admin-nav {
+    background-color: #fffdf7;
+    border-right: var(--nb-border-soft);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--ff-sans), system-ui, sans-serif;
+    height: 100vh;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    overflow-y: auto;
+    position: sticky;
+    transition: width 120ms ease;
+    width: 256px;
+    z-index: 1;
+  }
+
+  .admin-nav--animate {
+    transition: width 120ms ease;
+  }
+
+  .admin-nav__top {
+    align-items: center;
+    border-bottom: var(--nb-border-soft);
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 16px;
+  }
+
+  .admin-logo {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .admin-logo__mark {
+    align-items: center;
+    background-color: var(--nb-yellow);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    display: inline-flex;
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 900;
+    height: 36px;
+    justify-content: center;
+    letter-spacing: 0.02em;
+    width: 36px;
+  }
+
+  .admin-logo__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    min-width: 0;
+  }
+
+  .admin-logo__title {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .admin-logo__subtitle {
+    color: #71717a;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .admin-nav__toggler {
+    background-color: #ffffff;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    cursor: pointer;
+    flex: 0 0 auto;
+    height: 32px;
+    width: 32px;
+  }
+
+  .admin-nav__toggler:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nb-shadow);
+  }
+
+  .admin-nav__toggler:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  .admin-nav__links {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .admin-nav__link {
+    align-items: center;
+    border: 2px solid transparent;
+    border-radius: var(--nb-radius);
+    color: #09090b;
+    display: flex;
+    gap: 10px;
+    padding: 8px 10px;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .admin-nav__link:hover {
+    background-color: #f4f4f5;
+  }
+
+  .admin-nav__link--active {
+    background-color: var(--nb-yellow);
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .admin-nav__mark {
+    align-items: center;
+    background-color: #ffffff;
+    border: var(--nb-border);
+    border-radius: 8px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    height: 24px;
+    justify-content: center;
+    letter-spacing: 0.02em;
+    width: 24px;
+  }
+
+  .admin-nav__link-label {
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-nav__controls {
+    border-top: var(--nb-border-soft);
+    padding: 12px;
+  }
+
+  .admin-logout {
+    align-items: center;
+    background-color: var(--nb-pink);
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    color: #09090b;
+    display: flex;
+    font-weight: 700;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+
+  .admin-logout:hover {
+    background-color: var(--nb-pink-deep);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: var(--nb-shadow);
+  }
+
+  .admin-logout:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  /* Collapsed: icons only, and the label is clipped but stays in the DOM
+     so the link keeps its accessible name, plus a tooltip on hover and focus. */
+  .admin-nav--collapsed .admin-nav__link-label,
+  .admin-nav--collapsed .admin-logo__text,
+  .admin-nav--collapsed .admin-logout__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .admin-nav--collapsed {
+    width: 72px;
+  }
+
+  .admin-nav--collapsed .admin-nav__link,
+  .admin-nav--collapsed .admin-nav__top,
+  .admin-nav--collapsed .admin-logout {
+    justify-content: center;
+  }
+
+  .admin-nav--collapsed .admin-nav__link::after {
+    background-color: #09090b;
+    border-radius: 8px;
+    color: #ffffff;
+    content: attr(data-tooltip);
+    font-size: 11px;
+    left: calc(100% + 10px);
+    opacity: 0;
+    padding: 4px 8px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 120ms ease;
+    white-space: nowrap;
+    z-index: 5;
+  }
+
+  .admin-nav--collapsed .admin-nav__link:hover::after,
+  .admin-nav--collapsed .admin-nav__link:focus-visible::after {
+    opacity: 1;
+  }
+
+  .admin-header {
+    align-items: center;
+    background-color: var(--theme-bg);
+    border-bottom: var(--nb-border);
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    min-height: 64px;
+    padding: 0 20px;
+  }
+
+  .admin-header__title {
+    font-family: var(--ff-display), system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .admin-header__user {
+    align-items: center;
+    background-color: #fffdf7;
+    border: var(--nb-border);
+    border-radius: var(--nb-radius);
+    box-shadow: var(--nb-shadow-sm);
+    display: flex;
+    gap: 10px;
+    padding: 6px 12px;
+  }
+
+  .admin-header__avatar {
+    align-items: center;
+    background-color: var(--nb-pink-deep);
+    border-radius: 50%;
+    color: #ffffff;
+    display: inline-flex;
+    font-weight: 800;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+  }
+
+  .admin-header__user-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .admin-header__user-name {
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .admin-header__user-role {
+    color: #71717a;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Mobile: the sidebar slides over the content and stops offsetting it. */
+  @media (max-width: 1024px) {
+    .admin-nav {
+      box-shadow: var(--nb-shadow);
+      inset-inline-start: 0;
+      position: fixed;
+    }
+
+    .admin-nav--collapsed {
+      width: 0;
+      overflow: hidden;
+      border-right: 0;
+    }
+
+    .admin-header {
+      padding-inline-start: 56px;
+    }
   }
 }

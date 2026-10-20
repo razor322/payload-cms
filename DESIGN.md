@@ -1,7 +1,6 @@
 # Design direction: Portfolio Admin
 
-Direction agreed with the owner, taken from the Kyos admin
-(kyos-photoboth/kyos-app). The agent recorded it. The owner owns it.
+Direction agreed with the owner. The agent recorded it. The owner owns it.
 
 ## Identity
 
@@ -36,7 +35,7 @@ Ink is #09090b, never pure black, so the panel keeps a trace of warmth.
 |---|---|---|
 | Heading | Montserrat | Geometric and heavy, carries the uppercase page titles |
 | Body | DM Sans | Neutral and compact, reads well at 13 to 15px |
-| Mono | JetBrains Mono | Ids, slugs and counts stay aligned. This role is ours; Kyos has none. |
+| Mono | JetBrains Mono | Ids, slugs and counts stay aligned. |
 
 Card titles and nav items are uppercase at 10 to 12px with wide tracking. Body
 text stays sentence case.
