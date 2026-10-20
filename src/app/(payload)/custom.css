@@ -65,13 +65,13 @@
   }
 
   /* ---------------------------------------------------------------
-     Buttons. Every variant takes the hard border. The padding grows by
-     the 3px the border adds on each side, so a button keeps its size.
+     Buttons. 2px ink border, 12px radius, and the press and hover laws
+     from the Kyos button component.
      --------------------------------------------------------------- */
   .btn {
     --btn-border: var(--nb-border);
     --btn-font-weight: 700;
-    border-radius: 0;
+    border-radius: var(--nb-radius);
     transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
   }
 
@@ -83,45 +83,72 @@
   }
 
   .btn--size-small {
-    --btn-padding-block-start: 8px;
-    --btn-padding-block-end: 8px;
+    --btn-padding-block-start: 6px;
+    --btn-padding-block-end: 6px;
     --btn-padding-inline-start: 14px;
     --btn-padding-inline-end: 14px;
   }
 
   .btn--size-medium {
-    --btn-padding-block-start: 10px;
-    --btn-padding-block-end: 10px;
+    --btn-padding-block-start: 8px;
+    --btn-padding-block-end: 8px;
     --btn-padding-inline-start: 16px;
     --btn-padding-inline-end: 16px;
   }
 
   .btn--size-large {
-    --btn-padding-block-start: 12px;
-    --btn-padding-block-end: 12px;
+    --btn-padding-block-start: 10px;
+    --btn-padding-block-end: 10px;
     --btn-padding-inline-start: 20px;
     --btn-padding-inline-end: 20px;
   }
 
-  /* The icon only button keeps the border but tightens the inline padding, so
-     glyphs still line up in dense toolbars. */
   .btn--icon-only {
     --btn-padding-inline-start: 10px;
     --btn-padding-inline-end: 10px;
   }
 
-  /* Yellow is the one action that moves the task forward, so it appears once
-     per screen. */
+  /* The primary action is ink on snow, the deepest thing on the page. */
   .btn--style-primary {
-    --bg-color: var(--nb-yellow);
-    --color: #000000;
-    --hover-bg: #ffe14d;
-    box-shadow: var(--nb-shadow-sm);
+    --bg-color: #09090b;
+    --color: #ffffff;
+    --hover-bg: #27272a;
+    box-shadow: var(--nb-shadow);
+  }
+
+  .btn--style-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nb-shadow-lg);
   }
 
   .btn--style-primary:active {
-    transform: translate(3px, 3px);
+    transform: translateY(2px);
     box-shadow: none;
+  }
+
+  /* The secondary action is the pastel yellow. */
+  .btn--style-secondary {
+    --bg-color: var(--nb-yellow);
+    --color: #09090b;
+    --hover-bg: var(--nb-yellow-hover);
+    --btn-border: var(--nb-border);
+    box-shadow: var(--nb-shadow-sm);
+  }
+
+  .btn--style-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--nb-shadow);
+  }
+
+  .btn--style-secondary:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  /* Focus ring, yellow at 60 percent, the same on every control. */
+  .btn:focus-visible {
+    outline: 3px solid rgba(255, 234, 167, 0.6);
+    outline-offset: 1px;
   }
 
   /* ---------------------------------------------------------------
