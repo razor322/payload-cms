@@ -197,10 +197,17 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       a static export, so the CMS must be publicly reachable at build time)
 
 **Known state after the model work (recorded):** only `my` has per-site rows
-(`skills`, `capabilities`, `terminal_lines`, `section_headers`). `v3` and
-`minimal` return the shared rows plus nothing, and the project list falls back
-to all seven projects, so the endpoint is never empty. Filling `v3` and
-`minimal` is a manual step in the admin.
+(`skills` 30, `capabilities` 3, `terminal_lines` 10, `section_headers` 5).
+`v3` and `minimal` return the shared rows plus nothing, and the project list
+falls back to all seven projects, so the endpoint is never empty. Filling `v3`
+and `minimal` is a manual step in the admin.
+
+The final verification ran all three sites crossed with both locales. `projects`
+(7) and `experiences` (3) come back for every combination, `my` carries its 30
+skills, 3 capabilities and 10 terminal lines, and the newer collections
+(`companies`, `education`, `certifications`, `organizations`, `languages`) are
+empty until they are filled. All seven new collections appear in the admin nav,
+dark mode still flips, and the browser reports 0 console errors.
 
 **Structure note:** the Payload `(payload)` group renders its own
 `<html>`/`<body>`, so it is the only root layout in the app. Payload tables
