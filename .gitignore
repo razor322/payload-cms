@@ -49,3 +49,6 @@ dev.err
 
 # local access notes, contains credentials
 docs/LOCAL-ACCESS.md
+
+# agent skill working files, kept local
+docs/superpowers/
