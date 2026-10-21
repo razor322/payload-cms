@@ -196,7 +196,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       app. The frame, the cards, the controls and the type come from it, and so
       do the dashboard, the list and the form. `DESIGN.md` records the
       direction and every place this admin differs; `custom.css` carries the
-      tokens and the component classes; `src/components/kyos/` holds the ported
+      tokens and the component classes; `src/components/admin/ui/` holds the ported
       components.
 - [x] Backfill per-site content, seeded from the three portfolio repos by
       `scripts/seed-content.ts`
@@ -298,7 +298,7 @@ tokens behind them.
 |---|---|---|
 | R-02 | PASS | No em dash in `custom.css`, `DESIGN.md`, the four admin components or the docs. |
 | R-03 | PASS | At 390px, `scrollWidth` is 375 against `innerWidth` 390 on the dashboard. The page does not scroll sideways. |
-| R-11 | PASS | The measured radii are 8px for a badge, 12px for a control, 16px for a card and 999px for the accent bar. Nothing below the kyos floor of 8px, except the table cell that Payload rounds on one side only. |
+| R-11 | PASS | The measured radii are 8px for a badge, 12px for a control, 16px for a card and 999px for the accent bar. The 6px that Payload rounds the odd table rows with is cleared, so the rows are flat. |
 | R-12 | PASS | The shadows are the kyos three steps: 2px on the small controls, 4px on the cards and the primary button, 6px on hover. The inputs carry none, because the kyos elevation is the hairline border. |
 | R-21 / R-34 | PASS | One theme. `data-theme` reads `light`, the canvas is `#f4f4f5`. |
 | R-25 | PASS | Body text `#18181b` on the canvas. The nav label `#71717a` on white, the kyos fog. The yellow `#FFEAA7` carries ink text, and the yellow marks the current nav item only. |
@@ -314,6 +314,19 @@ bottom. The top bar is white with a cloud rule, the page title on the left and
 the locale switcher and the account chip on the right. The content column
 starts where the sidebar ends, the way the kyos admin offsets its content by
 the width of its sidebar.
+
+**The band is filled and the table is flat.** The account chip was stranded
+next to the title with 730 pixels of empty band to its right, because Payload
+leaves the controls where the wrapper puts them; the controls wrapper now
+spaces them apart, so the chip sits beside the locale switcher. The table rows
+carried Payload's grey fill and a 6px radius on the odd rows; the fill is now
+the snow and cloud alternation the reference uses and no row carries a radius.
+The cells are vertically centred. The content gutter is the reference 40px, so
+the cards reach the edge of the screen, and the fields are capped at a 720px
+measure, which is the one thing that made a form read as Payload.
+
+**Class names carry `pa-`, for the portfolio admin.** The reference app name
+belongs in the docs, not in the code, so no class or token names it.
 
 **One band, one brand, one account.** The earlier build stacked a title band
 above Payload's own header, repeated the brand in both, and offered the

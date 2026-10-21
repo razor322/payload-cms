@@ -141,10 +141,25 @@ Dark mode. The panel is light by default, set in payload.config.ts.
 ## How this is built
 
 The admin routes carry Payload's own stylesheet and `custom.css`, and no
-Tailwind. Every kyos surface is therefore written twice: the React components
-in `src/components/kyos/` carry the structure and the classes, and the classes
+Tailwind. Every surface is therefore written twice: the React components in
+`src/components/admin/ui/` carry the structure and the classes, and the classes
 themselves live in `custom.css` next to the tokens. A component never carries a
 Tailwind utility, because it would render as plain markup.
+
+The classes carry a `pa-` prefix, for the portfolio admin, and the tokens carry
+`--pa-`. Neither names the reference app: the reference belongs in this
+document, not in the code.
+
+Two Payload variables do most of the work. `--theme-elevation-0` through
+`-1000` is the fifteen step grey ramp Payload paints surface fills, dividers
+and disabled states from; it is retuned to the zinc scale here, which clears
+the table rows, the head text, the dividers and the disabled fills in one
+place. `--gutter-h` pads the content column; it is set to the 40px the
+reference uses, which is what lets the cards reach the edge of the screen.
+
+The top band title comes from a step nav the page pushes into a context. The
+list and the form push their own; a custom dashboard view has to push it, or
+the band is left empty. `SetPageTitle` does that for the dashboard.
 
 ## The dashboard
 
