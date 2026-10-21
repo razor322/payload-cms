@@ -1243,12 +1243,17 @@
   }
 
   /* The row of actions on the form: the title on the left, the buttons on
-     the right, over a cloud rule. */
+     the right, over a cloud rule. Payload draws its own hairline divider
+     under the row, so that one goes. */
   .doc-controls {
     border: 0;
     border-bottom: var(--kyos-border-soft);
     border-radius: 0;
     padding-bottom: 16px;
+  }
+
+  .doc-controls__divider {
+    display: none;
   }
 
   .doc-controls__wrapper {
