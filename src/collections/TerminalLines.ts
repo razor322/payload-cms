@@ -7,6 +7,9 @@ export const TerminalLines: CollectionConfig = {
   admin: {
     useAsTitle: "text",
     defaultColumns: ["text", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

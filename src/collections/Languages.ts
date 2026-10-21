@@ -7,6 +7,9 @@ export const Languages: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "level", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

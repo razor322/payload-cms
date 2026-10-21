@@ -7,6 +7,9 @@ export const Education: CollectionConfig = {
   admin: {
     useAsTitle: "institution",
     defaultColumns: ["institution", "degree", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

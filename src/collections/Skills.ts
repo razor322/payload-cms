@@ -7,6 +7,9 @@ export const Skills: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "category", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

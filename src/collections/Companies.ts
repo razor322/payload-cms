@@ -8,6 +8,9 @@ export const Companies: CollectionConfig = {
     useAsTitle: "company",
     defaultColumns: ["company", "site", "is_current", "sort"],
     description: "One employer with its positions. Used by minimal-dev-portfolio.",
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

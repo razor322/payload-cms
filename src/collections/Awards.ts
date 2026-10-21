@@ -7,6 +7,9 @@ export const Awards: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "kind", "year", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

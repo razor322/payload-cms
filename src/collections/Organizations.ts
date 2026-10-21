@@ -7,6 +7,9 @@ export const Organizations: CollectionConfig = {
   admin: {
     useAsTitle: "company",
     defaultColumns: ["company", "position", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

@@ -7,6 +7,9 @@ export const Certifications: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "issuer", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

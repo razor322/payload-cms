@@ -5,6 +5,9 @@ export const Experiences: CollectionConfig = {
   admin: {
     useAsTitle: "position",
     defaultColumns: ["company", "position", "period", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

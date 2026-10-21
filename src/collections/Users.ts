@@ -5,6 +5,9 @@ export const Users: CollectionConfig = {
   auth: true,
   admin: {
     useAsTitle: "email",
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: ({ req }) => Boolean(req.user),

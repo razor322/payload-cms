@@ -4,6 +4,9 @@ export const Media: CollectionConfig = {
   slug: "media",
   admin: {
     useAsTitle: "filename",
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

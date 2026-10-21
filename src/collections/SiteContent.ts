@@ -7,6 +7,9 @@ export const SiteContent: CollectionConfig = {
   admin: {
     useAsTitle: "site",
     description: "Hero, SEO, about and contact copy for one portfolio.",
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

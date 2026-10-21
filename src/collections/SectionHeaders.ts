@@ -12,6 +12,9 @@ export const SectionHeaders: CollectionConfig = {
   admin: {
     useAsTitle: "section",
     defaultColumns: ["site", "section"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

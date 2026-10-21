@@ -7,6 +7,9 @@ export const Testimonials: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "role", "site", "sort"],
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,

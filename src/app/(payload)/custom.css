@@ -322,19 +322,9 @@
 
   /* ---------------------------------------------------------------
      The list. The kyos table: an ink rule under the head, a soft rule
-     between the rows, and a warm hover.
+     between the rows, and a warm hover. The frame around it belongs to
+     the card the list view draws, not to the table itself.
      --------------------------------------------------------------- */
-  .table,
-  .table-wrap,
-  .collection-list__wrap,
-  .list-controls,
-  .paginator {
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    background-color: #fffdf7;
-    box-shadow: var(--kyos-shadow);
-  }
-
   .table table {
     border-collapse: collapse;
   }
@@ -1045,12 +1035,11 @@
     border-radius: var(--kyos-radius-badge);
   }
 
+  /* The pills and the small marks take the kyos badge: an 8px radius, a
+     10px label in caps. The select is not a badge, so it is left out. */
   .pill,
   .bool-cell,
   .hamburger,
-  .rs__control,
-  .rs__menu,
-  .rs__option,
   .tag,
   .error-pill {
     border-radius: var(--kyos-radius-badge);
@@ -1085,12 +1074,297 @@
   .rs__option {
     background-color: #ffffff;
     border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
   }
 
   .rs__control:focus-within {
     border-color: #09090b;
     outline: 3px solid #09090b;
     outline-offset: 2px;
+  }
+
+  /* ---------------------------------------------------------------
+     The kyos list. Payload draws the list as one card that holds the
+     head, the toolbar and the table, but it frames the toolbar and the
+     table separately. The card keeps the frame, the parts inside go
+     flush, and the two rules are the only separators.
+     --------------------------------------------------------------- */
+  .collection-list {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-card);
+    box-shadow: var(--kyos-shadow);
+    overflow: hidden;
+  }
+
+  /* The head the slot writes: flush, with the rule under it. */
+  .list-header-slot {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  /* The toolbar: no frame of its own, one rule between it and the table. */
+  .collection-list .list-controls {
+    background-color: transparent;
+    border: 0;
+    border-bottom: var(--kyos-border);
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  .collection-list .gutter {
+    padding-inline: 0;
+  }
+
+  .list-controls .search-bar {
+    background-color: #f4f4f5;
+    border-radius: var(--kyos-radius);
+  }
+
+  /* The table and the paginator inside the card. */
+  .collection-list .table,
+  .collection-list .table-wrap,
+  .collection-list .paginator {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  .collection-list .paginator {
+    border-top: var(--kyos-border);
+  }
+
+  .list-controls__rows-per-page,
+  .per-page {
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .sort-column__buttons,
+  .sort-complex {
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* ---------------------------------------------------------------
+     The kyos form. A 12px label in caps, a 14px field, a helper line in
+     fog, and the row of actions with the title beside it.
+     --------------------------------------------------------------- */
+  .field-label,
+  .field-type label,
+  .field-type__wrap > label,
+  .label {
+    color: #09090b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .field-type .field-description,
+  .field-description {
+    color: #71717a;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .field-type .required,
+  .field-label .required {
+    color: #ff6b6b;
+  }
+
+  /* The select Payload draws for a select field. */
+  .rs__control {
+    background-color: #ffffff;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: none;
+    min-height: 40px;
+  }
+
+  .rs__control .rs__single-value,
+  .rs__control .rs__placeholder,
+  .rs__control .rs__input-container,
+  .rs__control input {
+    color: #18181b;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .rs__control .rs__placeholder {
+    color: #a1a1aa;
+  }
+
+  .rs__menu {
+    background-color: #ffffff;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow);
+    overflow: hidden;
+  }
+
+  .rs__option {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .rs__option--is-focused,
+  .rs__option--is-selected {
+    background-color: #ffeaa7;
+    color: #09090b;
+  }
+
+  /* The boolean field, drawn as the kyos switch. */
+  .checkbox-input__input {
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-badge);
+    box-shadow: none;
+    height: 20px;
+    width: 20px;
+  }
+
+  .checkbox-input__input:checked {
+    background-color: #ffeaa7;
+  }
+
+  /* The row of actions on the form: the title on the left, the buttons on
+     the right, over a cloud rule. */
+  .doc-controls {
+    border: 0;
+    border-bottom: var(--kyos-border-soft);
+    border-radius: 0;
+    padding-bottom: 16px;
+  }
+
+  .doc-controls__wrapper {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .doc-controls__controls {
+    gap: 12px;
+  }
+
+  /* The tabs Payload draws for a localized or tabbed document. */
+  .doc-tabs {
+    background-color: #ffffff;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow-sm);
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .doc-tab {
+    border: 2px solid transparent;
+    border-radius: var(--kyos-radius);
+    color: #71717a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    transition:
+      background-color 120ms ease,
+      color 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .doc-tab:hover {
+    background-color: #f4f4f5;
+    color: #09090b;
+  }
+
+  .doc-tab--active {
+    background-color: #ffeaa7;
+    border: var(--kyos-border);
+    box-shadow: var(--kyos-shadow-sm);
+    color: #09090b;
+  }
+
+  /* The array and block rows carry the same card language as the panels. */
+  .array-field__draggable-rows > *,
+  .array-field__row,
+  .blocks-field__row {
+    background-color: #fafafa;
+    border: var(--kyos-border-soft);
+    border-radius: var(--kyos-radius);
+  }
+
+  .array-field__draggable-rows > *:hover,
+  .array-field__row:hover {
+    border-color: #09090b;
+  }
+
+  /* ---------------------------------------------------------------
+     The overlays. The kyos dialog takes the hover shadow, the dropdown
+     and the toast the base one.
+     --------------------------------------------------------------- */
+  .popup__content,
+  .drawer__content,
+  .confirmation-modal__wrapper {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-card);
+    box-shadow: var(--kyos-shadow-lg);
+  }
+
+  .payload-toast-item {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* The document menu and the column menu, drawn as the kyos dropdown. */
+  .popup__content .popup-button-list__button,
+  .popup-button-list__button {
+    border: 0;
+    border-radius: var(--kyos-radius-badge);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .popup-button-list__button:hover {
+    background-color: #ffeaa7;
+    color: #09090b;
+  }
+
+  /* The empty state Payload shows when a list has no rows. */
+  .no-results,
+  .list-no-results {
+    background-color: #f4f4f5;
+    border: 2px dashed #d4d4d8;
+    border-radius: var(--kyos-radius-card);
+    color: #71717a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 32px;
+    text-align: center;
+    text-transform: uppercase;
   }
 
   /* Payload sets this radius inline, so it takes an important flag. */
@@ -1195,4 +1469,535 @@
       box-shadow: var(--kyos-shadow);
     }
   }
+  /* ---------------------------------------------------------------
+     The kyos component classes. The admin routes carry no Tailwind, so
+     every kyos surface is written here and used by the React components.
+     --------------------------------------------------------------- */
+  .kyos-dashboard {
+    padding-block: 24px;
+  }
+
+  .kyos-dashboard__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .kyos-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .kyos-grid--four {
+    grid-template-columns: 1fr;
+  }
+
+  .kyos-grid--two,
+  .kyos-grid--three {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .kyos-grid--four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .kyos-grid--two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .kyos-grid--four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .kyos-grid--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .kyos-col-span-2 {
+    min-width: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .kyos-col-span-2 {
+      grid-column: span 2;
+    }
+  }
+
+  /* The stat card, lifted from the kyos StatCard. */
+  .kyos-stat {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-card);
+    box-shadow: var(--kyos-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  .kyos-stat:hover {
+    box-shadow: var(--kyos-shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .kyos-stat__top {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .kyos-stat__title-wrap {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .kyos-stat__bar {
+    border: 1px solid #09090b;
+    border-radius: 999px;
+    display: inline-block;
+    flex-shrink: 0;
+    height: 32px;
+    width: 6px;
+  }
+
+  .kyos-stat__title {
+    color: #71717a;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .kyos-stat__icon-chip {
+    align-items: center;
+    background-color: #f4f4f5;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow-sm);
+    display: flex;
+    flex-shrink: 0;
+    height: 36px;
+    justify-content: center;
+    width: 36px;
+  }
+
+  .kyos-stat__bottom {
+    margin-top: auto;
+  }
+
+  .kyos-stat__value {
+    color: #09090b;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .kyos-stat__subtext {
+    background-color: #f4f4f5;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-badge);
+    color: #71717a;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    padding: 4px 8px;
+    text-transform: uppercase;
+  }
+
+  /* The card, lifted from the kyos Card and SectionCard. */
+  .kyos-card {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-card);
+    box-shadow: var(--kyos-shadow);
+    color: #09090b;
+    overflow: hidden;
+  }
+
+  .kyos-card__head {
+    align-items: center;
+    border-bottom: var(--kyos-border);
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 16px 24px;
+  }
+
+  .kyos-card__head-main {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .kyos-card__icon-chip {
+    align-items: center;
+    background-color: #f4f4f5;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow-sm);
+    display: flex;
+    flex-shrink: 0;
+    height: 40px;
+    justify-content: center;
+    width: 40px;
+  }
+
+  .kyos-card__head-text {
+    min-width: 0;
+  }
+
+  .kyos-card__title {
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .kyos-card__subtitle {
+    color: #71717a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .kyos-card__head-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+  }
+
+  .kyos-card__content {
+    padding: 24px;
+  }
+
+  .kyos-card__content--flush {
+    padding: 0;
+  }
+
+  .kyos-card__empty {
+    color: #71717a;
+    font-size: 14px;
+    padding: 24px;
+  }
+
+  /* The rows inside a card: the kyos table row, without the table. */
+  .kyos-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .kyos-rows > li + li {
+    border-top: var(--kyos-border-soft);
+  }
+
+  .kyos-row {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: background-color 120ms ease;
+  }
+
+  .kyos-row:hover {
+    background-color: rgba(255, 234, 167, 0.4);
+  }
+
+  .kyos-row__label {
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kyos-row__meta {
+    color: #71717a;
+    flex-shrink: 0;
+    font-family: var(--ff-mono), monospace;
+    font-size: 12px;
+  }
+
+  /* The chart card and the bar chart, lifted from the kyos ChartCard. */
+  .kyos-chart-card {
+    background-color: #fffdf7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius-card);
+    box-shadow: var(--kyos-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+  }
+
+  .kyos-chart-card__title {
+    border-bottom: 2px solid #ececee;
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .kyos-chart-card__body {
+    flex: 1 1 auto;
+    min-height: 280px;
+    position: relative;
+  }
+
+  .kyos-chart {
+    width: 100%;
+  }
+
+  .kyos-chart__plot {
+    display: flex;
+    gap: 12px;
+  }
+
+  .kyos-chart__axis {
+    color: #71717a;
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    font-weight: 600;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    text-align: right;
+    width: 32px;
+  }
+
+  .kyos-chart__area {
+    flex: 1 1 auto;
+    min-width: 0;
+    position: relative;
+  }
+
+  .kyos-chart__grid {
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .kyos-chart__grid-line {
+    border-top: 1px dashed #ececee;
+    display: block;
+    height: 0;
+  }
+
+  .kyos-chart__grid-line--base {
+    border-top: var(--kyos-border);
+  }
+
+  .kyos-chart__bars {
+    align-items: flex-end;
+    bottom: 0;
+    display: flex;
+    gap: 16px;
+    left: 0;
+    padding-bottom: 24px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .kyos-chart__bar-wrap {
+    align-items: center;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+
+  .kyos-chart__bar-value {
+    color: #09090b;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .kyos-chart__bar {
+    border: var(--kyos-border);
+    border-bottom: 0;
+    border-radius: 6px 6px 0 0;
+    max-width: 72px;
+    min-height: 4px;
+    transition: height 200ms ease;
+    width: 100%;
+  }
+
+  .kyos-chart__labels {
+    display: flex;
+    gap: 12px;
+  }
+
+  .kyos-chart__labels-spacer {
+    flex: 0 0 auto;
+    width: 32px;
+  }
+
+  .kyos-chart__labels-row {
+    display: flex;
+    flex: 1 1 auto;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .kyos-chart__label {
+    color: #71717a;
+    flex: 1 1 0;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 0;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The list head, lifted from the kyos CardHeaderAction. */
+  .kyos-list-head {
+    border-bottom: var(--kyos-border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  .kyos-list-head__row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .kyos-list-head__title {
+    color: #09090b;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .kyos-list-head__subtitle {
+    color: #71717a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .kyos-list-head__actions {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+  }
+
+  /* The kyos button, for the markup the components write by hand. */
+  .kyos-button {
+    align-items: center;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 6px;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease,
+      background-color 120ms ease;
+  }
+
+  .kyos-button--accent {
+    background-color: var(--kyos-yellow);
+    box-shadow: var(--kyos-shadow-sm);
+    color: #09090b;
+  }
+
+  .kyos-button--accent:hover {
+    background-color: var(--kyos-yellow-hover);
+    box-shadow: var(--kyos-shadow);
+    transform: translateY(-2px);
+  }
+
+  .kyos-button--accent:active {
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+
+  /* The empty state, lifted from the kyos EmptyState. */
+  .kyos-empty {
+    align-items: center;
+    background-color: #f4f4f5;
+    border: 2px dashed #d4d4d8;
+    border-radius: var(--kyos-radius-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .kyos-empty__chip {
+    background-color: #e4e4e7;
+    border: var(--kyos-border);
+    border-radius: var(--kyos-radius);
+    box-shadow: var(--kyos-shadow-sm);
+    color: #09090b;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .kyos-empty__title {
+    color: #a1a1aa;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .kyos-empty__text {
+    color: #71717a;
+    font-size: 12px;
+    margin-top: 4px;
+    max-width: 24rem;
+  }
+
 }

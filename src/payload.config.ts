@@ -46,6 +46,14 @@ export default buildConfig({
       logout: {
         Button: "@/components/admin/AdminLogout#AdminLogout",
       },
+      views: {
+        // The dashboard is the kyos dashboard: a row of stat cards, a wide
+        // chart with a narrow one, and two lists. Payload's modular widgets
+        // would put its own grid around the page.
+        dashboard: {
+          Component: "@/components/admin/AdminDashboard#AdminDashboard",
+        },
+      },
     },
   },
   collections: [

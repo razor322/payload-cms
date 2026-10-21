@@ -8,6 +8,9 @@ export const SiteProjects: CollectionConfig = {
     useAsTitle: "site",
     defaultColumns: ["site", "project", "sort", "featured_override"],
     description: "Which projects a portfolio shows, and in what order.",
+    components: {
+      beforeList: ["@/components/admin/AdminListHeader#AdminListHeader"],
+    },
   },
   access: {
     read: () => true,
