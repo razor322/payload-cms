@@ -36,4 +36,21 @@ describe("composeProjects", () => {
   it("returns nothing when the site has no rows and the fallback is off", () => {
     expect(composeProjects(projects, [], "v3", false)).toEqual([]);
   });
+
+  it("applies the image override, because each portfolio keeps its own assets", () => {
+    const rows = [{ site: "my", project: 1, sort: 0, image_override: "/projects/dzikra.webp" }];
+    const out = composeProjects(projects, rows, "my", true);
+    expect(out[0].image).toBe("/projects/dzikra.webp");
+  });
+
+  it("keeps the project image when the site does not override it", () => {
+    const rows = [{ site: "my", project: 1, sort: 0 }];
+    const out = composeProjects(
+      [{ ...projects[0], image_url: "/images/projects/bks.webp" }],
+      rows,
+      "my",
+      true,
+    );
+    expect(out[0].image).toBe("/images/projects/bks.webp");
+  });
 });

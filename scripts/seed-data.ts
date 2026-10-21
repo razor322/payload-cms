@@ -184,6 +184,23 @@ export const TITLE_OVERRIDES: Record<string, Record<string, string>> = {
   },
 };
 
+/**
+ * The image path each portfolio uses. The projects are shared, but every
+ * portfolio keeps its own assets, so the path differs. The minimal portfolio
+ * renders no project image at all, so it gets nothing.
+ */
+export const IMAGE_OVERRIDES: Record<string, Record<string, string>> = {
+  my: {
+    dzikra: "/projects/dzikra.webp",
+    raisehand: "/projects/raisehand.webp",
+    "eztix-id": "/projects/ez2.webp",
+    "room-space-booking": "/projects/sir2.webp",
+    emonesia: "/projects/emonesia.webp",
+    "trolley-petani": "/projects/trolley.webp",
+    "catering-management-system": "/projects/cat2.webp",
+  },
+};
+
 /** The shared project facts the minimal portfolio shows as a period. */
 export const PROJECT_PERIODS: Record<string, { start: string; end: string }> = {
   dzikra: { start: "09.2024", end: "12.2024" },

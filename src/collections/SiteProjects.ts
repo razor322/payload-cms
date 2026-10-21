@@ -42,6 +42,14 @@ export const SiteProjects: CollectionConfig = {
       type: "text",
       admin: { description: "Leave empty to use the project subtitle." },
     },
+    {
+      name: "image_override",
+      type: "text",
+      admin: {
+        description:
+          "Leave empty to use the project image. Each portfolio keeps its own assets, so the path differs per site.",
+      },
+    },
   ],
   indexes: [{ fields: ["site", "project"], unique: true }],
 };

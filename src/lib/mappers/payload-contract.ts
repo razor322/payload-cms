@@ -276,6 +276,7 @@ type SiteProjectRow = {
   featured_override?: boolean | null;
   title_override?: string | null;
   subtitle_override?: string | null;
+  image_override?: string | null;
 };
 
 const projectId = (row: SiteProjectRow) =>
@@ -317,6 +318,7 @@ export function composeProjects(
       ...mapped,
       title: row.title_override ? str(row.title_override) : mapped.title,
       subtitle: row.subtitle_override ? str(row.subtitle_override) : mapped.subtitle,
+      image: row.image_override ? str(row.image_override) : mapped.image,
       featured:
         row.featured_override === true || row.featured_override === false
           ? row.featured_override

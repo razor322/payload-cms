@@ -14,6 +14,7 @@ import { getPayload } from "payload";
 import config from "../src/payload.config";
 import {
   EXPERIENCE_PERIODS,
+  IMAGE_OVERRIDES,
   MINIMAL_AWARDS,
   MINIMAL_CERTIFICATIONS,
   MINIMAL_COMPANIES,
@@ -87,12 +88,14 @@ for (const [site, slugs] of Object.entries(SITE_PROJECTS)) {
     const id = projectId.get(slug);
     if (!id) throw new Error(`unknown project slug: ${slug}`);
     const override = TITLE_OVERRIDES[site]?.[slug];
+    const image = IMAGE_OVERRIDES[site]?.[slug] ?? "";
     await create("site-projects", {
       site,
       project: id,
       sort: index,
       featured_override: site === "v3" ? null : false,
       title_override: override ?? "",
+      image_override: image,
     });
   }
 }
