@@ -75,11 +75,7 @@ export async function AdminNav({ payload, permissions, visibleEntities, i18n, re
   }
 
   return (
-    <AdminNavClient
-      groups={groups}
-      initialNavOpen={Boolean(navPreferences?.open)}
-      navPreferences={navPreferences}
-    />
+    <AdminNavClient groups={groups} navPreferences={navPreferences} />
   );
 }
 

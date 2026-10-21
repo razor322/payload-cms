@@ -32,9 +32,16 @@
     --nb-pink: #ff90e8;
     --nb-pink-deep: #e74c89;
 
+    /* Muted text. Dark enough to clear 4.5:1 on the canvas and on cream. */
+    --nb-muted: #6b6b74;
+
     /* Payload draws panel and card borders from these tokens. */
     --theme-border-color: #09090b;
     --card-border-color: #09090b;
+
+    /* Payload sizes the layout grid and its own nav from this one, so the
+       sidebar and the content column stay in step. */
+    --nav-width: 256px;
   }
 
   /* Canvas and ink. Payload's template rules read --theme-bg-color, which 3.91
@@ -204,13 +211,13 @@
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 0.1em;
-    color: #71717a;
+    color: var(--nb-muted);
   }
 
   .field-type .field-description {
     font-style: normal;
     font-size: 12px;
-    color: #71717a;
+    color: var(--nb-muted);
   }
 
   .array-field__row,
@@ -252,7 +259,7 @@
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 0.08em;
-    color: #71717a;
+    color: var(--nb-muted);
   }
 
   .table tbody td,
@@ -457,6 +464,25 @@
     border-radius: var(--nb-radius);
   }
 
+  /* Payload ships a soft shadow on its pills and on the popup button list.
+     A blur is what this language refuses. */
+  .pill,
+  .popup-button-list__button,
+  .doc-controls__dots {
+    border-radius: 8px;
+    box-shadow: none;
+  }
+
+  .hamburger {
+    box-shadow: none;
+  }
+
+  /* The icon button ships a soft shadow too. Only the primary and secondary
+     actions carry one. */
+  .btn--icon-style-without-border {
+    box-shadow: none;
+  }
+
   .rs__control,
   .rs__menu,
   .rs__option {
@@ -530,24 +556,23 @@
      Admin layout. A fixed sidebar (256px, 72px collapsed) with a top
      bar, and a content offset that matches.
      --------------------------------------------------------------- */
-  .admin-nav-width {
-    width: 256px;
-  }
-
   .admin-nav {
     background-color: #fffdf7;
     border-right: var(--nb-border-soft);
-    display: flex;
-    flex-direction: column;
     font-family: var(--ff-sans), system-ui, sans-serif;
     height: 100vh;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    overflow-y: auto;
-    position: sticky;
+    /* Payload hides its own nav until open. This one is always visible,
+       the collapsed state is the rail. */
+    opacity: 1;
+    top: 0;
     transition: width 120ms ease;
-    width: 256px;
+    width: var(--nav-width);
     z-index: 1;
+    /* The logo belongs at the very top of the sidebar. */
+    --nav-padding-block-start: 0px;
+    --nav-padding-block-end: 12px;
+    --nav-padding-inline-start: 12px;
+    --nav-padding-inline-end: 12px;
   }
 
   .admin-nav--animate {
@@ -560,7 +585,7 @@
     display: flex;
     gap: 10px;
     justify-content: space-between;
-    padding: 16px;
+    padding: 16px 4px;
   }
 
   .admin-logo {
@@ -601,7 +626,7 @@
   }
 
   .admin-logo__subtitle {
-    color: #71717a;
+    color: var(--nb-muted);
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -633,7 +658,7 @@
     flex-direction: column;
     flex: 1 1 auto;
     gap: 4px;
-    padding: 12px;
+    padding: 12px 0 0;
   }
 
   .admin-nav__link {
@@ -703,7 +728,7 @@
 
   .admin-logout:hover {
     background-color: var(--nb-pink-deep);
-    color: #ffffff;
+    color: #09090b;
     transform: translateY(-2px);
     box-shadow: var(--nb-shadow);
   }
@@ -731,6 +756,14 @@
 
   .admin-nav--collapsed {
     width: 72px;
+  }
+
+  /* Payload sizes the layout grid from its own nav state. The collapsed rail
+     keeps a column, so the content moves with it instead of being covered. */
+  @media (min-width: 1441px) {
+    .template-default:has(.admin-nav--collapsed) {
+      grid-template-columns: 72px auto;
+    }
   }
 
   .admin-nav--collapsed .admin-nav__link,
@@ -797,7 +830,7 @@
     align-items: center;
     background-color: var(--nb-pink-deep);
     border-radius: 50%;
-    color: #ffffff;
+    color: #09090b;
     display: inline-flex;
     font-weight: 800;
     height: 28px;
@@ -817,28 +850,51 @@
   }
 
   .admin-header__user-role {
-    color: #71717a;
+    color: var(--nb-muted);
     font-size: 10px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  /* Mobile: the sidebar slides over the content and stops offsetting it. */
-  @media (max-width: 1024px) {
+  /* Below the wide layout the sidebar is a fixed rail. It stays visible, so
+     the collections are always reachable, and the toggle widens it over the
+     content. */
+  @media (max-width: 1440px) {
+    .template-default,
+    .template-default--nav-open {
+      grid-template-columns: 0 auto;
+    }
+
+    /* The sidebar is fixed here, so it leaves the grid. The content keeps
+       the rail width to itself, and the header stays full width. */
+    .template-default__wrap {
+      grid-column: 2;
+      padding-inline-start: 72px;
+    }
+
     .admin-nav {
       box-shadow: var(--nb-shadow);
+      inset-block: 0;
       inset-inline-start: 0;
       position: fixed;
+      width: var(--nav-width);
     }
 
     .admin-nav--collapsed {
-      width: 0;
-      overflow: hidden;
-      border-right: 0;
+      width: 72px;
     }
 
-    .admin-header {
-      padding-inline-start: 56px;
+    /* The header holds the breadcrumb, the document controls and the
+       account. It wraps rather than pushing the account off the screen. */
+    .app-header__content,
+    .app-header__wrapper,
+    .app-header__controls-wrapper {
+      flex-wrap: wrap;
+    }
+
+    /* The rail already carries the brand, so the header keeps the mark only. */
+    .app-header .admin-logo__text {
+      display: none;
     }
   }
 }

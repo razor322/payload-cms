@@ -26,7 +26,6 @@ type NavGroupData = {
 type Props = {
   groups: NavGroupData[];
   navPreferences: { groups?: Record<string, { open?: boolean }>; open?: boolean } | null;
-  initialNavOpen: boolean;
 };
 
 const baseClass = "nav";
@@ -51,112 +50,133 @@ const markFor = (label: string): string => {
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[1][0]).toUpperCase();
 };
-
-export function AdminNavClient({ groups, navPreferences, initialNavOpen }: Props) {
-  const { navOpen, hydrated, shouldAnimate, navRef } = useNav();
+export function AdminNavClient({ groups, navPreferences }: Props) {
+  const { navOpen, hydrated, shouldAnimate, navRef, setNavOpen } = useNav();
   const { config } = useConfig();
   const { i18n } = useTranslation();
   const pathname = usePathname();
+
+  // On the narrow layout the sidebar is a rail that opens over the content,
+  // so it closes again on every navigation and on Escape.
+  const firstRender = React.useRef(true);
+
+  React.useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (window.matchMedia("(max-width: 1440px)").matches) setNavOpen(false);
+  }, [pathname, setNavOpen]);
+
+  React.useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (window.matchMedia("(max-width: 1440px)").matches) setNavOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [setNavOpen]);
 
   const adminRoute = config.routes.admin;
 
   const isCollapsed = hydrated && !navOpen;
 
+  // Payload sizes the layout grid from these classes, so the sidebar keeps
+  // its column and its mobile drawer behaviour.
   const className = [
+    baseClass,
     "admin-nav",
-    hydrated ? "admin-nav--hydrated" : "",
+    navOpen ? `${baseClass}--nav-open` : "",
+    shouldAnimate ? `${baseClass}--nav-animate` : "",
+    hydrated ? `${baseClass}--nav-hydrated` : "",
     isCollapsed ? "admin-nav--collapsed" : "",
-    shouldAnimate ? "admin-nav--animate" : "",
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <aside
-      className={className}
-      // Matches NavWrapper: an inert closed drawer is not focusable.
-      inert={isCollapsed && initialNavOpen === false ? true : undefined}
-      ref={navRef as React.Ref<HTMLElement>}
-    >
-      <div className="admin-nav__top">
-        <AdminLogo />
-        <NavToggler className="admin-nav__toggler" />
-      </div>
+    <aside className={className}>
+      <div className={`${baseClass}__scroll`} ref={navRef as React.Ref<HTMLDivElement>}>
+        <div className="admin-nav__top">
+          <AdminLogo />
+          <NavToggler className="admin-nav__toggler" />
+        </div>
 
-      <nav className={`${baseClass}__wrap admin-nav__links`}>
-        {groups.map((group) => (
-          <NavGroup
-            isOpen={navPreferences?.groups?.[group.label]?.open}
-            key={group.label}
-            label={group.label}
-          >
-            {group.entities.map((entity, i) => {
-              const text = labelFor(entity.label, i18n);
-              let href = "";
-              let id = "";
-              if (entity.type === EntityType.collection) {
-                href = formatAdminURL({
-                  adminRoute,
-                  path: `/collections/${entity.slug}`,
-                });
-                id = `nav-${entity.slug}`;
-              }
-              if (entity.type === EntityType.global) {
-                href = formatAdminURL({
-                  adminRoute,
-                  path: `/globals/${entity.slug}`,
-                });
-                id = `nav-global-${entity.slug}`;
-              }
+        <nav className={`${baseClass}__wrap admin-nav__links`}>
+          {groups.map((group) => (
+            <NavGroup
+              isOpen={navPreferences?.groups?.[group.label]?.open}
+              key={group.label}
+              label={group.label}
+            >
+              {group.entities.map((entity, i) => {
+                const text = labelFor(entity.label, i18n);
+                let href = "";
+                let id = "";
+                if (entity.type === EntityType.collection) {
+                  href = formatAdminURL({
+                    adminRoute,
+                    path: `/collections/${entity.slug}`,
+                  });
+                  id = `nav-${entity.slug}`;
+                }
+                if (entity.type === EntityType.global) {
+                  href = formatAdminURL({
+                    adminRoute,
+                    path: `/globals/${entity.slug}`,
+                  });
+                  id = `nav-global-${entity.slug}`;
+                }
 
-              const isActive =
-                pathname.startsWith(href) &&
-                ["/", undefined].includes(pathname[href.length]);
+                const isActive =
+                  pathname.startsWith(href) &&
+                  ["/", undefined].includes(pathname[href.length]);
 
-              const content = (
-                <React.Fragment>
-                  <span className="admin-nav__mark" aria-hidden="true">
-                    {markFor(text)}
-                  </span>
-                  <span className="admin-nav__link-label">{text}</span>
-                </React.Fragment>
-              );
+                const content = (
+                  <React.Fragment>
+                    <span className="admin-nav__mark" aria-hidden="true">
+                      {markFor(text)}
+                    </span>
+                    <span className="admin-nav__link-label">{text}</span>
+                  </React.Fragment>
+                );
 
-              if (pathname === href) {
+                if (pathname === href) {
+                  return (
+                    <div
+                      className={`${baseClass}__link admin-nav__link admin-nav__link--active`}
+                      id={id}
+                      key={i}
+                    >
+                      {content}
+                    </div>
+                  );
+                }
+
                 return (
-                  <div
-                    className={`${baseClass}__link admin-nav__link admin-nav__link--active`}
+                  <Link
+                    aria-label={text}
+                    className={`${baseClass}__link admin-nav__link${
+                      isActive ? " admin-nav__link--active" : ""
+                    }`}
+                    data-tooltip={text}
+                    href={href}
                     id={id}
                     key={i}
+                    prefetch={false}
+                    title={text}
                   >
                     {content}
-                  </div>
+                  </Link>
                 );
-              }
+              })}
+            </NavGroup>
+          ))}
+        </nav>
 
-              return (
-                <Link
-                  aria-label={text}
-                  className={`${baseClass}__link admin-nav__link${
-                    isActive ? " admin-nav__link--active" : ""
-                  }`}
-                  data-tooltip={text}
-                  href={href}
-                  id={id}
-                  key={i}
-                  prefetch={false}
-                  title={text}
-                >
-                  {content}
-                </Link>
-              );
-            })}
-          </NavGroup>
-        ))}
-      </nav>
-
-      <div className={`${baseClass}__controls admin-nav__controls`}>
-        <AdminLogout />
+        <div className={`${baseClass}__controls admin-nav__controls`}>
+          <AdminLogout />
+        </div>
       </div>
     </aside>
   );

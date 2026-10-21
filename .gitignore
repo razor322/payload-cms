@@ -52,3 +52,9 @@ docs/LOCAL-ACCESS.md
 
 # agent skill working files, kept local
 docs/superpowers/
+
+# browser automation output and dev server logs
+.playwright-mcp/
+dev-out.log
+dev-err.log
+verify.log
