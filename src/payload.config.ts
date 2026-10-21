@@ -39,7 +39,6 @@ export default buildConfig({
     },
     components: {
       Nav: "@/components/admin/AdminNav",
-      header: ["@/components/admin/AdminHeader#AdminHeader"],
       graphics: {
         Icon: "@/components/admin/AdminLogo#AdminLogo",
         Logo: "@/components/admin/AdminLogo#AdminLogo",

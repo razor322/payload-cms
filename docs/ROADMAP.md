@@ -192,10 +192,11 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] Stage F: the admin is neobrutalist end to end. `DESIGN.md` records the
       direction, `custom.css` carries the tokens and the per surface rules.
       Light by default through `admin.theme: "light"`.
-- [x] Stage G: the admin follows the kyos admin language. `DESIGN.md` records
-      the direction, `custom.css` carries the tokens and the per surface rules,
-      and `src/components/admin/` owns the sidebar, the header, the brand and
-      the logout.
+- [x] Stage G: the admin follows the kyos admin language, ported from the kyos
+      photobooth app. `DESIGN.md` records the direction and the four places
+      this admin differs, `custom.css` carries the tokens and the per surface
+      rules, and `src/components/admin/` owns the sidebar, the brand and the
+      logout.
 - [x] Backfill per-site content, seeded from the three portfolio repos by
       `scripts/seed-content.ts`
 - [x] Phase 5b: all three portfolios read the CMS. Each repo has a
@@ -285,51 +286,53 @@ causes found:
    startup. The CLI-only commands stay blocked until tsx is upgraded or Node
    is pinned to a version without this interop regression.
 
-### Delivery Gate: kyos admin language
+### Delivery Gate: the kyos admin
 
-Measured on the running admin with a real browser at 1600px and 390px. The
-admin layout is ours now, so the sidebar, the header, the brand and the logout
-are custom components, and the visual language lives in one CSS file.
+Measured on the running admin with a real browser at 1440px and 390px. The
+reference is the admin of the kyos photobooth app: its `AdminLayout`, its
+`StatCard`, `SectionCard`, `Button`, `Input` and `Badge`, and the tailwind
+tokens behind them.
 
 | Rule | Result | Evidence |
 |---|---|---|
-| R-02 | PASS | No em dash in `custom.css`, `DESIGN.md`, the four admin components or the three docs. The 18 that were in the doc titles were replaced with a hyphen. |
-| R-03 | PASS | At 390px, `scrollWidth` is 375 against `innerWidth` 390 on the dashboard, the list, the login and the create form. The wide table scrolls inside its own container, the page does not. |
-| R-11 | PASS | Every measured radius is 6, 8, 12 or 16px, plus 50% for the account avatar, 100% for the icon glyphs and `6px 0px 0px 6px` for the first cell of the table. The stray 3px popup buttons and 4px dots were pulled back to 8px. |
-| R-12 | PASS | Zero blurred shadows on any of the six pages. Shadows land only on the primary and secondary buttons, the active nav item, the brand mark, the user chip, the logout, the upload dropzone and the overlays. Payload's own pill, hamburger and icon-button shadows were removed. |
+| R-02 | PASS | No em dash in `custom.css`, `DESIGN.md`, the four admin components or the docs. |
+| R-03 | PASS | At 390px, `scrollWidth` is 375 against `innerWidth` 390 on the dashboard. The page does not scroll sideways. |
+| R-11 | PASS | The measured radii are 8px for a badge, 12px for a control, 16px for a card and 999px for the accent bar. Nothing below the kyos floor of 8px, except the table cell that Payload rounds on one side only. |
+| R-12 | PASS | The shadows are the kyos three steps: 2px on the small controls, 4px on the cards and the primary button, 6px on hover. The inputs carry none, because the kyos elevation is the hairline border. |
 | R-21 / R-34 | PASS | One theme. `data-theme` reads `light`, the canvas is `#f4f4f5`. |
-| R-25 | PASS | Body text on the canvas 18.1:1. The primary button, white on `#09090b`, 19.9:1. Field labels and helper text `#6b6b74` on the canvas 4.8:1, on cream 5.19:1. Nav labels 19.56:1. Ink on the yellow accent 16.65:1. |
-| R-26 | PASS | No dead control. The collapsed rail icon still navigates (clicked, it opened the collection). The toggle changes the width from 256px to 72px. The rail is always reachable on a phone, because Payload hides its own hamburger under 768px. |
-| R-31 | PASS | `DESIGN.md` gives a reason per decision: the palette, the typefaces, the two border weights, the two shadows and the two interaction laws. |
-| R-32 | PASS | 14 of 14 tab stops on the create form take focus and show a 3px ink ring, and the first field does the same. The nav links keep `aria-label` and `title`, so the collapsed rail still announces its name. Tap targets on a phone measure 44px tall on the toggle, the nav links and the account control. |
-| R-35 | PASS | Click through, 18 of 18 steps: all 18 nav links navigate, the collapsed rail icon navigates, a project is created and the toast says "Project successfully created", the row shows in the list, the title edits and saves, the delete opens the confirmation and the document is gone afterwards, the account link opens the account page, the locale popup opens and closes with Escape, the media page and its dropzone render, the pink logout ends the session, and the login comes back. |
-| R-37 | PASS | `DESIGN.md` exists and states the dial ENERGY 2 / RHYTHM 2 / MOTION 1. |
+| R-25 | PASS | Body text `#18181b` on the canvas. The nav label `#71717a` on white, the kyos fog. The yellow `#FFEAA7` carries ink text, and the yellow marks the current nav item only. |
+| R-26 | PASS | No dead control. The toggle moves the sidebar between 256px and 72px and the content follows it, because the grid column is set from the same state. The rail icon still navigates. |
+| R-31 | PASS | `DESIGN.md` records the palette, the type scale, the shape, the two interaction laws, and the four places this admin differs from the kyos app, each with the reason. |
+| R-32 | PASS | The focus ring is a 3px ink outline, the kyos ring in ink. The kyos yellow ring measures about 1.2:1 on cream, so it is not a ring. The nav links keep `aria-label` and `title`, so the collapsed rail still announces its name. |
+| R-35 | PASS | Click through: the 18 nav links navigate, a project is created, edited and deleted, the account page opens, the locale popup opens and closes, the media page and its dropzone render, the pink logout ends the session and the login comes back. `scripts/verify-admin.mjs` runs 17 checks and passes them. |
+| R-37 | PASS | `DESIGN.md` exists and states the dials ENERGY 2 / RHYTHM 2 / MOTION 1. |
 
-**What changed and why.** The tokens moved to the warm set: canvas `#f4f4f5`,
-cream cards `#FFFDF7`, ink `#09090b`, and the five pastel accents. Radius went
-from 0 to 12px for the controls and 16px for the cards, the border from 3px to
-2px, and the shadows to three steps (2, 4 and 6px) that follow the press and
-hover laws. The typefaces are Montserrat for the headings and DM Sans for the
-body.
+**The frame is the kyos one.** The sidebar is a white column with a 2px cloud
+rule, the wordmark block on top, flat list items and the pink logout at the
+bottom. The top bar is white with a cloud rule, the page title on the left and
+the locale switcher and the account chip on the right. The content column
+starts where the sidebar ends, the way the kyos admin offsets its content by
+the width of its sidebar.
 
-**The layout is ours now.** Payload's own nav has no collapsed icon rail, so
-`admin.components.Nav` points at `src/components/admin/AdminNav.tsx`. The
-state, the access filter, the group accordion and the saved preference still
-come from Payload (`useNav`, `getNavGroups`, `PREFERENCE_KEYS.NAV`); only the
-markup and the CSS are written here. The sidebar keeps Payload's own classes
-(`.nav`, `.nav__scroll`, `.nav__wrap`) so the layout grid still sizes its
-column, and the grid is pinned to 72px while the rail is collapsed so the
-content moves with it.
+**One band, one brand, one account.** The earlier build stacked a title band
+above Payload's own header, repeated the brand in both, and offered the
+account twice. The custom title band is gone, the brand in the header is
+hidden, and the account control is the only one. The page no longer scrolls
+64 pixels for nothing.
 
-**Two deviations from the plan, both measured and recorded.** The mobile
-drawer is not rebuilt: Payload hides its own hamburger under 768px, so a
-drawer would have had no way to open it. The sidebar is a permanent 72px rail
-on a phone instead, and the toggle widens it over the content. The nav is
-never `inert`, because a closed rail is still the way into every collection.
+**The sidebar owns its state.** Payload closes its drawer on every desktop
+load, so the panel would always be a rail. The panel keeps its own open state,
+takes the first state from the saved preference, and the grid column follows
+it. Below 1024px it becomes a 72px rail that opens over the content.
 
-The focus ring is ink, not the yellow the plan named. Yellow on cream and on
-white measures about 1.2:1, so a ring in that colour is not a ring. `DESIGN.md`
-records the change and the reason.
+**The cards are the kyos cards.** Cream, a 2px ink border, a 16px radius and a
+4px hard shadow, lifting to 6px on hover and sinking on press. The dashboard
+collection cards carry the kyos stat card accent bar, one of the four kyos
+accents per card.
+
+**The type is the kyos type.** One family, DM Sans. The wordmark, the page
+title, the card titles and the small labels all come from it, with the mono
+held back for the ids and the slugs, which the kyos app has no need of.
 
 **Environment note.** The `payload` CLI still crashes on this machine (tsx and
 undici), so `importMap.js` is written by hand with the same hashes the

@@ -62,6 +62,10 @@ export async function AdminNav({ payload, permissions, visibleEntities, i18n, re
       limit: 1,
       pagination: false,
       req,
+      // The preferences collection hides itself from the request it is read
+      // for, so the read goes around the access check. The where clause
+      // still scopes it to the signed in user.
+      overrideAccess: true,
       where: {
         and: [
           { key: { equals: PREFERENCE_KEYS.NAV } },

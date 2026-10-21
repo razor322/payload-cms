@@ -163,7 +163,7 @@ try {
 
     record("sidebar renders the admin-nav class", dash.includes("admin-nav"));
     record("logo renders the admin-logo class", dash.includes("admin-logo"));
-    record("header renders the admin-header class", dash.includes("admin-header"));
+    record("header renders the app header", dash.includes("app-header"));
     record("logout renders the admin-logout class", dash.includes("admin-logout"));
     record("nav renders collection links", /admin\/collections\/projects/.test(dash));
     record("nav renders the profile global link", /admin\/globals\/profile/.test(dash));

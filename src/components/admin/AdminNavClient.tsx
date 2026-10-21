@@ -1,11 +1,11 @@
 "use client";
 
-import { Link, NavGroup, NavToggler, useNav } from "@payloadcms/ui";
+import { Link, NavGroup, useNav, usePreferences } from "@payloadcms/ui";
 import { EntityType } from "@payloadcms/ui/shared";
 import { useConfig } from "@payloadcms/ui";
 import { useTranslation } from "@payloadcms/ui";
 import { getTranslation } from "@payloadcms/translations";
-import { formatAdminURL } from "payload/shared";
+import { formatAdminURL, PREFERENCE_KEYS } from "payload/shared";
 import { usePathname } from "next/navigation";
 import React from "react";
 
@@ -54,24 +54,45 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
   const { navOpen, hydrated, shouldAnimate, navRef, setNavOpen } = useNav();
   const { config } = useConfig();
   const { i18n } = useTranslation();
+  const { setPreference } = usePreferences();
   const pathname = usePathname();
 
-  // On the narrow layout the sidebar is a rail that opens over the content,
-  // so it closes again on every navigation and on Escape.
-  const firstRender = React.useRef(true);
+  // The sidebar has its own open state. Payload closes its drawer on every
+  // desktop load, so the rail would be the default and the kyos panel would
+  // never be seen. The saved preference decides the first state instead.
+  const [expanded, setExpanded] = React.useState(true);
 
-  React.useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    if (window.matchMedia("(max-width: 1440px)").matches) setNavOpen(false);
-  }, [pathname, setNavOpen]);
+  // The preference arrives with the second render, so the state follows it
+  // while rendering rather than from an effect.
+  const [lastPreference, setLastPreference] = React.useState(navPreferences);
+  if (navPreferences && navPreferences !== lastPreference) {
+    setLastPreference(navPreferences);
+    if (typeof navPreferences.open === "boolean") setExpanded(navPreferences.open);
+  }
+
+  // On the narrow layout the sidebar is a rail that opens over the content,
+  // so it folds again on every navigation.
+  const [lastPath, setLastPath] = React.useState(pathname);
+  if (lastPath !== pathname) {
+    setLastPath(pathname);
+    if (window.matchMedia("(max-width: 1023px)").matches) setExpanded(false);
+  }
+
+  const toggleSidebar = React.useCallback(() => {
+    const next = !expanded;
+    setExpanded(next);
+    // Payload keeps the drawer state of the nav. The desktop panel is ours,
+    // but the mobile drawer still follows Payload, so both are told.
+    setNavOpen(next);
+    void setPreference(PREFERENCE_KEYS.NAV, { open: next }, true);
+  }, [expanded, setExpanded, setNavOpen, setPreference]);
 
   React.useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      if (window.matchMedia("(max-width: 1440px)").matches) setNavOpen(false);
+      if (!window.matchMedia("(max-width: 1023px)").matches) return;
+      setExpanded(false);
+      setNavOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -79,7 +100,7 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
 
   const adminRoute = config.routes.admin;
 
-  const isCollapsed = hydrated && !navOpen;
+  const isCollapsed = !expanded;
 
   // Payload sizes the layout grid from these classes, so the sidebar keeps
   // its column and its mobile drawer behaviour.
@@ -90,6 +111,7 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
     shouldAnimate ? `${baseClass}--nav-animate` : "",
     hydrated ? `${baseClass}--nav-hydrated` : "",
     isCollapsed ? "admin-nav--collapsed" : "",
+    expanded ? "admin-nav--expanded" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -98,8 +120,37 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
     <aside className={className}>
       <div className={`${baseClass}__scroll`} ref={navRef as React.Ref<HTMLDivElement>}>
         <div className="admin-nav__top">
-          <AdminLogo />
-          <NavToggler className="admin-nav__toggler" />
+          <Link
+            aria-label="Dashboard"
+            className="admin-nav__brand"
+            href={formatAdminURL({ adminRoute, path: "/" })}
+            prefetch={false}
+          >
+            <AdminLogo />
+          </Link>
+          <button
+            aria-expanded={expanded}
+            aria-label={expanded ? "Collapse the sidebar" : "Expand the sidebar"}
+            className="admin-nav__toggler"
+            onClick={toggleSidebar}
+            title={expanded ? "Collapse the sidebar" : "Expand the sidebar"}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="18"
+            >
+              <rect height="18" rx="2" width="18" x="3" y="3" />
+              <path d="M9 3v18" />
+            </svg>
+          </button>
         </div>
 
         <nav className={`${baseClass}__wrap admin-nav__links`}>
