@@ -192,18 +192,37 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] Stage F: the admin is neobrutalist end to end. `DESIGN.md` records the
       direction, `custom.css` carries the tokens and the per surface rules.
       Light by default through `admin.theme: "light"`.
-- [ ] Backfill per-site content in the admin (only `my` has rows today)
+- [x] Stage G: the admin follows the kyos admin language. `DESIGN.md` records
+      the direction, `custom.css` carries the tokens and the per surface rules,
+      and `src/components/admin/` owns the sidebar, the header, the brand and
+      the logout.
+- [x] Backfill per-site content, seeded from the three portfolio repos by
+      `scripts/seed-content.ts`
 - [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
 - [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
 - [ ] Drop the 49 template testimonials from `minimal-dev-portfolio`
 - [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
       a static export, so the CMS must be publicly reachable at build time)
 
-**Known state after the model work (recorded):** only `my` has per-site rows
-(`skills` 30, `capabilities` 3, `terminal_lines` 10, `section_headers` 5).
-`v3` and `minimal` return the shared rows plus nothing, and the project list
-falls back to all seven projects, so the endpoint is never empty. Filling `v3`
-and `minimal` is a manual step in the admin.
+**Known state after the backfill (recorded):** every site now has its rows.
+`v3` has `skills` 29, `capabilities` 4, `site_content` 1 and 7 composed
+projects. `my` keeps its 30 skills, 3 capabilities and 29 terminal lines (the
+10 lines plus the 2 commands and their 17 output lines, which the CMS had
+missed). `minimal` has `skills` 20, `companies` 3, `education` 1,
+`certifications` 6, `organizations` 2, `languages` 2, `awards` 4, `site_content`
+1 and 7 composed projects, with the catering project labelled
+"SEA Catering Management". The shared project and experience rows now carry the
+period the minimal portfolio shows, and the profile carries the socials, the
+languages and the three documents. `scripts/seed-content.ts` replaces the site
+scoped rows, so the backfill can be re-run after a content change in a
+portfolio repo.
+
+**Two gaps the backfill left, stated rather than hidden.** The v3 focus list
+(Performance, Accessibility, Clean UI, Great UX) has no site wide slot in the
+model, so it is repeated as the tags of the four v3 capabilities. The project
+image path is per site: the CMS carries the portfolio-v3 path
+(`/images/projects/...`) because that is the site that reads it, while the
+minimal portfolio keeps its own local assets (`/projects/...`).
 
 The final verification ran all three sites crossed with both locales. `projects`
 (7) and `experiences` (3) come back for every combination, `my` carries its 30
