@@ -563,7 +563,9 @@
   .app-header__account .gravatar-account {
     background-color: var(--kyos-pink-deep);
     border: var(--kyos-border);
-    border-radius: var(--kyos-radius-badge);
+    /* Payload sets the radius inline, so it takes an important flag. The kyos
+       chip carries a rounded square, not a circle. */
+    border-radius: var(--kyos-radius-badge) !important;
     box-shadow: var(--kyos-shadow-sm);
   }
 
