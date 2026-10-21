@@ -50,6 +50,14 @@ export const SiteProjects: CollectionConfig = {
           "Leave empty to use the project image. Each portfolio keeps its own assets, so the path differs per site.",
       },
     },
+    {
+      name: "description_override",
+      type: "textarea",
+      admin: {
+        description:
+          "Leave empty to use the project description. A portfolio can tell the same project differently.",
+      },
+    },
   ],
   indexes: [{ fields: ["site", "project"], unique: true }],
 };

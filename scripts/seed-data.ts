@@ -134,7 +134,7 @@ export const SITE_CONTENT = [
     ],
     seo_og_image: "/images/foto.jpg",
     about_subtitle:
-      "Gybran Nauval Yuhandika — Software Engineer based in Padang, Indonesia. Specializing in high-performance interfaces and bringing AI into modern product workflows. Operating across the full product lifecycle (UI/UX, Mobile, Web, and Backend infrastructure), with a track record of shipping 7+ production platforms. Agnostic but highly specialized. Orchestrating scalable ecosystems using Next.js, React, Flutter, and NestJS, backed by robust Docker, PostgreSQL, and Prisma environments. I design and build digital products that connect great user experiences with reliable engineering.",
+      "- Gybran Nauval Yuhandika — Software Engineer based in Padang, Indonesia. Specializing in high-performance interfaces and bringing AI into modern product workflows.\n- Operating across the full product lifecycle (UI/UX, Mobile, Web, and Backend infrastructure), with a track record of shipping 7+ production platforms.\n- Agnostic but highly specialized. Orchestrating scalable ecosystems using Next.js, React, Flutter, and NestJS, backed by robust Docker, PostgreSQL, and Prisma environments.\n- I design and build digital products that connect great user experiences with reliable engineering.",
     about_portrait: "/images/light.webp",
     about_portrait_alt: "Gybran Nauval Yuhandika",
     about_location: "Padang, West Sumatra, Indonesia",
@@ -181,6 +181,7 @@ export const SITE_PROJECTS = {
 export const TITLE_OVERRIDES: Record<string, Record<string, string>> = {
   minimal: {
     "catering-management-system": "SEA Catering Management",
+    "room-space-booking": "Room and Space Booking",
   },
 };
 
@@ -198,6 +199,22 @@ export const IMAGE_OVERRIDES: Record<string, Record<string, string>> = {
     emonesia: "/projects/emonesia.webp",
     "trolley-petani": "/projects/trolley.webp",
     "catering-management-system": "/projects/cat2.webp",
+  },
+};
+
+/**
+ * The description each portfolio tells for a project. The minimal portfolio
+ * writes the focus, the architecture and the impact, so it keeps its own text.
+ */
+export const DESCRIPTION_OVERRIDES: Record<string, Record<string, string>> = {
+  minimal: {
+    "dzikra": ">_ Focus: Consumer Habit-Tracking App (Production)\n>_ Architecture: Engineered a high-performance Flutter mobile client integrated with GetX state management and Firebase real-time sync.\n>_ Impact: Successfully deployed to Google Play Store. Established sticky, notification-driven habit loops with a frictionless UX tailored for high-mobility daily active users.",
+    "raisehand": ">_ Focus: Enterprise HR & Attendance System (Production)\n>_ Architecture: Designed a secure, location-aware Flutter application utilizing GPS-based verification and automated push-notification pipelines.\n>_ Impact: Digitized core HR operations for Inovasi360 & Bigio, transforming manual leave requests and attendance tracking into an automated, zero-friction mobile workflow.",
+    "eztix-id": ">_ Focus: Full-Stack Event Ticketing Platform\n>_ Architecture: Architected a scalable Next.js and TypeScript frontend seamlessly integrated with a Node.js REST API and Firebase Authentication.\n>_ Impact: Consolidated consumer-facing ticket reservations and backend administrative operations into a single, high-performance web ecosystem.",
+    "room-space-booking": ">_ Focus: Corporate Resource Allocation System\n>_ Architecture: Built a robust monolithic application using Laravel and MySQL, styled with Tailwind CSS for rapid and responsive UI development.\n>_ Impact: Streamlined internal space reservations by replacing fragmented booking methods with a centralized, role-based availability tracking platform.",
+    "emonesia": ">_ Focus: AI-Powered Social Sentiment Analytics\n>_ Architecture: Integrated a fine-tuned IndoBERT NLP model with a Flutter frontend via REST API to process live data streams from X (Twitter).\n>_ Impact: Transformed massive volumes of unstructured public discourse into structured, categorizable emotional insights and exportable CSV reports for data-driven decision making.",
+    "trolley-petani": ">_ Focus: D2C Agri-Tech Mobile Platform\n>_ Architecture: Engineered a scalable Flutter application designed to bypass traditional, fragmented agricultural supply chains.\n>_ Impact: Awarded 'Rising Star' at UNIMAS (Malaysia) for establishing a direct-to-consumer ecosystem that maximizes farmer profit margins and ensures transparent product tracking.",
+    "catering-management-system": ">_ Focus: B2B Operations Prototype (SEA Academy Project)\n>_ Architecture: Developed a modular Next.js frontend with shadcn/ui and TypeScript, orchestrated with a Node.js/Express backend for robust relational data handling.\n>_ Impact: Architected an end-to-end catering management prototype for COMPFEST 17. Successfully demonstrated the capability to centralize complex order states, inventory logic, and CRM workflows into a unified command center.",
   },
 };
 
@@ -481,6 +498,7 @@ export const MY_TERMINAL_OUTPUTS = [
 /** The minimal portfolio groups the experience by employer. */
 export const MINIMAL_COMPANIES = [
   {
+    ext_id: "halcom",
     company: "Halcom",
     company_website: "",
     company_icon: "briefcase",
@@ -508,6 +526,7 @@ export const MINIMAL_COMPANIES = [
     ],
   },
   {
+    ext_id: "bigio",
     company: "PT. Bejana Investidata Globalindo (Bigio)",
     company_website: "",
     company_icon: "briefcase",
@@ -533,6 +552,7 @@ export const MINIMAL_COMPANIES = [
     ],
   },
   {
+    ext_id: "semen-padang",
     company: "PT. Kabau Sirah Semen Padang",
     company_website: "",
     company_icon: "briefcase",

@@ -53,4 +53,12 @@ describe("composeProjects", () => {
     );
     expect(out[0].image).toBe("/images/projects/bks.webp");
   });
+
+  it("applies the description override, because a portfolio can tell a project differently", () => {
+    const rows = [
+      { site: "minimal", project: 1, sort: 0, description_override: ">_ Focus: Habit app" },
+    ];
+    const out = composeProjects(projects, rows, "minimal", true);
+    expect(out[0].description).toBe(">_ Focus: Habit app");
+  });
 });

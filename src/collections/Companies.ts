@@ -14,6 +14,7 @@ export const Companies: CollectionConfig = {
   },
   fields: [
     siteField,
+    { name: "ext_id", type: "text" },
     { name: "company", type: "text", required: true },
     { name: "company_website", type: "text", defaultValue: "" },
     {

@@ -93,7 +93,7 @@ export function toContractExperience(doc: Doc): ContractExperience {
 export function toContractCompany(doc: Doc): ContractCompany {
   const rows = Array.isArray(doc.positions) ? (doc.positions as Doc[]) : [];
   return {
-    id: str(doc.id),
+    id: str(doc.ext_id) || str(doc.id),
     company: str(doc.company),
     companyWebsite: str(doc.company_website),
     companyIcon: str(doc.company_icon),
@@ -277,6 +277,7 @@ type SiteProjectRow = {
   title_override?: string | null;
   subtitle_override?: string | null;
   image_override?: string | null;
+  description_override?: string | null;
 };
 
 const projectId = (row: SiteProjectRow) =>
@@ -319,6 +320,9 @@ export function composeProjects(
       title: row.title_override ? str(row.title_override) : mapped.title,
       subtitle: row.subtitle_override ? str(row.subtitle_override) : mapped.subtitle,
       image: row.image_override ? str(row.image_override) : mapped.image,
+      description: row.description_override
+        ? str(row.description_override)
+        : mapped.description,
       featured:
         row.featured_override === true || row.featured_override === false
           ? row.featured_override

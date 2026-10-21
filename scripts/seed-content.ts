@@ -13,6 +13,7 @@ import { getPayload } from "payload";
 
 import config from "../src/payload.config";
 import {
+  DESCRIPTION_OVERRIDES,
   EXPERIENCE_PERIODS,
   IMAGE_OVERRIDES,
   MINIMAL_AWARDS,
@@ -89,6 +90,7 @@ for (const [site, slugs] of Object.entries(SITE_PROJECTS)) {
     if (!id) throw new Error(`unknown project slug: ${slug}`);
     const override = TITLE_OVERRIDES[site]?.[slug];
     const image = IMAGE_OVERRIDES[site]?.[slug] ?? "";
+    const description = DESCRIPTION_OVERRIDES[site]?.[slug] ?? "";
     await create("site-projects", {
       site,
       project: id,
@@ -96,6 +98,7 @@ for (const [site, slugs] of Object.entries(SITE_PROJECTS)) {
       featured_override: site === "v3" ? null : false,
       title_override: override ?? "",
       image_override: image,
+      description_override: description,
     });
   }
 }
