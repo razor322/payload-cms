@@ -138,6 +138,49 @@ hover.
 
 Dark mode. The panel is light by default, set in payload.config.ts.
 
+## How this is built
+
+The admin routes carry Payload's own stylesheet and `custom.css`, and no
+Tailwind. Every kyos surface is therefore written twice: the React components
+in `src/components/kyos/` carry the structure and the classes, and the classes
+themselves live in `custom.css` next to the tokens. A component never carries a
+Tailwind utility, because it would render as plain markup.
+
+## The dashboard
+
+The dashboard is the kyos dashboard, not Payload's widget grid. A row of four
+stat cards, a row with a wide chart and a narrow one, and a row of two lists.
+The numbers come from the CMS, so the page reports the content: the documents
+across the collection tables, the number of tables, the media, and the sites
+the projects are composed for.
+
+- A stat card is the kyos `StatCard`: an accent bar at the head of the title, a
+  small caps label, an icon chip, the value at 30px, and a subtext chip.
+- A chart card is the kyos `ChartCard`: a title in caps over a cloud rule, then
+  the plot. The bars carry a 2px ink stroke, a 6px top radius and one of the
+  kyos accents, over a dashed cloud grid with the axis in ink.
+- A list card is the kyos `Card` with a `SectionCard` head, and its rows are
+  the kyos table rows without the table.
+
+Payload's own dashboard is a drag and drop grid of widgets. This page replaces
+it, so the widget layout and its preference go with it. That is the one
+structural change of the migration, and the trade is deliberate: the page now
+says something true about the content instead of hosting tiles.
+
+## The list
+
+One card. The head carries the collection name and the count, the toolbar under
+it carries the search, the filters and the columns, and the table is last. The
+two rules, ink under the head and ink under the toolbar, are the only
+separators. Payload draws the same three parts as three framed blocks; the
+stylesheet joins them into the one card the kyos admin draws.
+
+## The form
+
+The labels are 12px in caps with tracking, the fields are 14px in medium
+weight, the select takes the 12px control radius and no shadow, and the row of
+actions sits over a cloud rule with the document title beside it.
+
 ## What differs from the kyos app, and why
 
 - The sidebar collapses. The kyos app has nine items and a fixed column; this

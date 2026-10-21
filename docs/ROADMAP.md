@@ -192,11 +192,12 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 - [x] Stage F: the admin is neobrutalist end to end. `DESIGN.md` records the
       direction, `custom.css` carries the tokens and the per surface rules.
       Light by default through `admin.theme: "light"`.
-- [x] Stage G: the admin follows the kyos admin language, ported from the kyos
-      photobooth app. `DESIGN.md` records the direction and the four places
-      this admin differs, `custom.css` carries the tokens and the per surface
-      rules, and `src/components/admin/` owns the sidebar, the brand and the
-      logout.
+- [x] Stage G: the admin is the kyos admin, ported from the kyos photobooth
+      app. The frame, the cards, the controls and the type come from it, and so
+      do the dashboard, the list and the form. `DESIGN.md` records the
+      direction and every place this admin differs; `custom.css` carries the
+      tokens and the component classes; `src/components/kyos/` holds the ported
+      components.
 - [x] Backfill per-site content, seeded from the three portfolio repos by
       `scripts/seed-content.ts`
 - [x] Phase 5b: all three portfolios read the CMS. Each repo has a
@@ -333,6 +334,32 @@ accents per card.
 **The type is the kyos type.** One family, DM Sans. The wordmark, the page
 title, the card titles and the small labels all come from it, with the mono
 held back for the ids and the slugs, which the kyos app has no need of.
+
+**The dashboard is the kyos dashboard.** Payload's widget grid is replaced by
+`admin.components.views.dashboard`. Four stat cards read the CMS (the documents
+across the collection tables, the number of tables, the media, the sites), two
+chart cards draw the counts, and two list cards hold the recently edited
+projects and the recently uploaded media. The charts are drawn with the
+stylesheet, not a chart library, so the admin gained no dependency. The trade
+is recorded in `DESIGN.md`: Payload's drag and drop widget layout and its
+preference are gone.
+
+**The list is one card.** Payload draws the head, the toolbar and the table as
+three framed blocks. The stylesheet joins them into the one card the kyos admin
+draws, with an ink rule under the head and another under the toolbar, and the
+head comes from a `beforeList` slot on all 17 collections, carrying the name
+and the count.
+
+**The form is the kyos form.** Labels at 12px in caps, fields at 14px in medium
+weight with a 2px ink border and no shadow, the select at the 12px control
+radius, the boolean at the 8px badge radius, and the row of actions over a
+cloud rule.
+
+**The admin routes carry no Tailwind.** They load Payload's stylesheet and
+`custom.css` only, so every kyos component is written as structure plus a
+class, and the class lives in `custom.css`. A Tailwind utility in a component
+would render as plain markup, which is why the first build of the dashboard
+came out unshaped and was rewritten.
 
 **Environment note.** The `payload` CLI still crashes on this machine (tsx and
 undici), so `importMap.js` is written by hand with the same hashes the
