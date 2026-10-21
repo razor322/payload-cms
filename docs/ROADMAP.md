@@ -198,7 +198,10 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
       the logout.
 - [x] Backfill per-site content, seeded from the three portfolio repos by
       `scripts/seed-content.ts`
-- [ ] Phase 5b: rewire `MYportfolio` and `minimal-dev-portfolio`
+- [x] Phase 5b: all three portfolios read the CMS. Each repo has a
+      `scripts/sync-content.mjs` that fetches `/api/content?site=<site>` at
+      build time and writes a generated file, with the old file kept when the
+      CMS is unreachable. The branch is `feature/cms-rewire` in each repo.
 - [ ] Drop the legacy `public` Postgres tables once the new admin is signed off
 - [ ] Drop the 49 template testimonials from `minimal-dev-portfolio`
 - [ ] Deploy `web-admin` so the portfolio build can reach the CMS (the site is
@@ -220,16 +223,18 @@ portfolio repo.
 **Two gaps the backfill left, stated rather than hidden.** The v3 focus list
 (Performance, Accessibility, Clean UI, Great UX) has no site wide slot in the
 model, so it is repeated as the tags of the four v3 capabilities. The project
-image path is per site: the CMS carries the portfolio-v3 path
-(`/images/projects/...`) because that is the site that reads it, while the
-minimal portfolio keeps its own local assets (`/projects/...`).
+image path is per site, so the composition carries an `image_override` beside
+the `title_override` and the `description_override`. A portfolio that keeps its
+own assets and its own wording now sets those, and the shared project row
+stays the fallback.
 
 The final verification ran all three sites crossed with both locales. `projects`
-(7) and `experiences` (3) come back for every combination, `my` carries its 30
-skills, 3 capabilities and 10 terminal lines, and the newer collections
-(`companies`, `education`, `certifications`, `organizations`, `languages`) are
-empty until they are filled. All seven new collections appear in the admin nav,
-and the browser reports 0 console errors.
+(7) and `experiences` (3) come back for every combination. `v3` carries 29
+skills and 4 capabilities, `my` carries 30 skills, 3 capabilities and 29
+terminal lines, and `minimal` carries 20 skills, 3 companies, 1 education row,
+6 certifications, 2 organizations, 2 languages and 4 awards. A bad site
+returns 400. All the new collections appear in the admin nav, and the browser
+reports 0 console errors.
 
 ### Delivery Gate: neobrutalist admin
 
