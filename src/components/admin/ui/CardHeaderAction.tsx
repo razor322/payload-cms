@@ -15,13 +15,13 @@ export function CardHeaderAction({
   title: string;
 }) {
   return (
-    <div className="kyos-list-head">
-      <div className="kyos-list-head__row">
+    <div className="pa-list-head">
+      <div className="pa-list-head__row">
         <div>
-          <h3 className="kyos-list-head__title">{title}</h3>
-          {subtitle ? <p className="kyos-list-head__subtitle">{subtitle}</p> : null}
+          <h3 className="pa-list-head__title">{title}</h3>
+          {subtitle ? <p className="pa-list-head__subtitle">{subtitle}</p> : null}
         </div>
-        {action ? <div className="kyos-list-head__actions">{action}</div> : null}
+        {action ? <div className="pa-list-head__actions">{action}</div> : null}
       </div>
     </div>
   );
@@ -37,8 +37,8 @@ export function EmptyState({
   title?: string;
 }) {
   return (
-    <div className="kyos-empty">
-      <div className="kyos-empty__chip">
+    <div className="pa-empty">
+      <div className="pa-empty__chip">
         {icon ?? (
           <svg
             aria-hidden="true"
@@ -56,8 +56,8 @@ export function EmptyState({
           </svg>
         )}
       </div>
-      <p className="kyos-empty__title">{title}</p>
-      {description ? <p className="kyos-empty__text">{description}</p> : null}
+      <p className="pa-empty__title">{title}</p>
+      {description ? <p className="pa-empty__text">{description}</p> : null}
     </div>
   );
 }

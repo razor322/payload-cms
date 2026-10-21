@@ -11,45 +11,45 @@
      --------------------------------------------------------------- */
   :root {
     /* Surfaces */
-    --kyos-canvas: #f4f4f5;
-    --kyos-card: #fffdf7;
-    --kyos-snow: #ffffff;
-    --kyos-subtle: #fafafa;
+    --pa-canvas: #f4f4f5;
+    --pa-card: #fffdf7;
+    --pa-snow: #ffffff;
+    --pa-subtle: #fafafa;
 
     /* Ink */
-    --kyos-ink: #09090b;
-    --kyos-graphite: #18181b;
-    --kyos-iron: #3f3f46;
-    --kyos-fog: #71717a;
-    --kyos-ash: #a1a1aa;
-    --kyos-mist: #d4d4d8;
-    --kyos-cloud: #ececee;
+    --pa-ink: #09090b;
+    --pa-graphite: #18181b;
+    --pa-iron: #3f3f46;
+    --pa-fog: #71717a;
+    --pa-ash: #a1a1aa;
+    --pa-mist: #d4d4d8;
+    --pa-cloud: #ececee;
 
     /* Accents. The yellow marks the current place, the pink the way out,
        the red the way to undo. */
-    --kyos-yellow: #ffeaa7;
-    --kyos-yellow-hover: #f6d878;
-    --kyos-red: #ff6b6b;
-    --kyos-red-hover: #ff5252;
-    --kyos-blue: #74b9ff;
-    --kyos-pink: #ff90e8;
-    --kyos-pink-deep: #e74c89;
-    --kyos-purple: #4a2e83;
-    --kyos-ink-deep: #2d1b54;
-    --kyos-ember: #ff5a00;
-    --kyos-ember-deep: #802900;
+    --pa-yellow: #ffeaa7;
+    --pa-yellow-hover: #f6d878;
+    --pa-red: #ff6b6b;
+    --pa-red-hover: #ff5252;
+    --pa-blue: #74b9ff;
+    --pa-pink: #ff90e8;
+    --pa-pink-deep: #e74c89;
+    --pa-purple: #4a2e83;
+    --pa-ink-deep: #2d1b54;
+    --pa-ember: #ff5a00;
+    --pa-ember-deep: #802900;
 
     /* Shape */
-    --kyos-border: 2px solid #09090b;
-    --kyos-border-soft: 2px solid #ececee;
-    --kyos-radius: 12px;
-    --kyos-radius-card: 16px;
-    --kyos-radius-badge: 8px;
+    --pa-border: 2px solid #09090b;
+    --pa-border-soft: 2px solid #ececee;
+    --pa-radius: 12px;
+    --pa-radius-card: 16px;
+    --pa-radius-badge: 8px;
 
     /* Three shadow steps. Base sits on objects, hover lifts, press drops. */
-    --kyos-shadow: 4px 4px 0 #000000;
-    --kyos-shadow-sm: 2px 2px 0 #000000;
-    --kyos-shadow-lg: 6px 6px 0 #000000;
+    --pa-shadow: 4px 4px 0 #000000;
+    --pa-shadow-sm: 2px 2px 0 #000000;
+    --pa-shadow-lg: 6px 6px 0 #000000;
 
     /* Payload draws panel and card borders from these tokens. */
     --theme-border-color: #09090b;
@@ -59,6 +59,31 @@
     --theme-text: #09090b;
     --theme-input-bg: #ffffff;
     --theme-overlay: rgba(0, 0, 0, 0.5);
+
+    /* Payload paints surface fills, dividers and disabled states from this
+       fifteen step grey ramp. It ships its own, so the whole admin reads off
+       system until the ramp is the kyos zinc scale. This one edit clears the
+       table rows, the head text, the dividers and the disabled fills at once. */
+    --theme-elevation-0: #ffffff;
+    --theme-elevation-25: #fafafa;
+    --theme-elevation-50: #fafafa;
+    --theme-elevation-100: #f4f4f5;
+    --theme-elevation-150: #ececee;
+    --theme-elevation-200: #d4d4d8;
+    --theme-elevation-250: #c8c8cd;
+    --theme-elevation-300: #a1a1aa;
+    --theme-elevation-400: #71717a;
+    --theme-elevation-500: #52525b;
+    --theme-elevation-600: #3f3f46;
+    --theme-elevation-700: #2f2f36;
+    --theme-elevation-800: #27272a;
+    --theme-elevation-900: #18181b;
+    --theme-elevation-950: #09090b;
+    --theme-elevation-1000: #000000;
+
+    /* The content gutter. The kyos admin pads its main column by 40px, which
+       is what makes the cards reach the edge of the screen. */
+    --gutter-h: 40px;
 
     /* Payload sizes the layout grid and its own nav from this one, so the
        sidebar and the content column stay in step. */
@@ -109,9 +134,9 @@
      laws: hover lifts 2px and grows the shadow, press sinks it.
      --------------------------------------------------------------- */
   .btn {
-    --btn-border: var(--kyos-border);
+    --btn-border: var(--pa-border);
     --btn-font-weight: 700;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
     transition:
       transform 120ms ease,
       box-shadow 120ms ease,
@@ -157,14 +182,14 @@
     --bg-color: #09090b;
     --text-color: #ffffff;
     background-color: #09090b;
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow);
     color: #ffffff;
   }
 
   .btn--style-primary:hover {
     background-color: #27272a;
-    box-shadow: var(--kyos-shadow-lg);
+    box-shadow: var(--pa-shadow-lg);
     transform: translateY(-2px);
   }
 
@@ -177,14 +202,14 @@
     --bg-color: #ffeaa7;
     --text-color: #09090b;
     background-color: #ffeaa7;
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
   .btn--style-secondary:hover {
     background-color: #f6d878;
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
@@ -195,14 +220,14 @@
 
   .btn--style-danger {
     background-color: #ff6b6b;
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
   .btn--style-danger:hover {
     background-color: #ff5252;
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
@@ -227,23 +252,23 @@
   .btn--style-ghost:hover {
     background-color: #f4f4f5;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow-sm);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
   /* The light button carries the kyos yellow, the way the app does. */
   .btn--style-light {
-    --bg-color: var(--kyos-yellow);
+    --bg-color: var(--pa-yellow);
     --text-color: #09090b;
-    background-color: var(--kyos-yellow);
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow-sm);
+    background-color: var(--pa-yellow);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
   .btn--style-light:hover {
-    background-color: var(--kyos-yellow-hover);
-    box-shadow: var(--kyos-shadow);
+    background-color: var(--pa-yellow-hover);
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
@@ -263,7 +288,7 @@
   .input,
   .input-wrapper,
   .textarea {
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
   }
 
   .field-type input,
@@ -272,8 +297,8 @@
   .input,
   .textarea {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     box-shadow: none;
     color: #18181b;
     font-size: 14px;
@@ -316,8 +341,8 @@
   .array-field__row,
   .blocks-field__row {
     background-color: #fafafa;
-    border: var(--kyos-border-soft);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border-soft);
+    border-radius: var(--pa-radius);
   }
 
   /* ---------------------------------------------------------------
@@ -333,7 +358,7 @@
   .collection-list__header,
   .sort-column {
     background-color: #f4f4f5;
-    border-bottom: var(--kyos-border);
+    border-bottom: var(--pa-border);
     color: #09090b;
     font-size: 10px;
     font-weight: 700;
@@ -347,15 +372,42 @@
     border-bottom: 2px solid #ececee;
     color: #18181b;
     font-size: 14px;
+    vertical-align: middle;
   }
 
+  /* Payload fills the odd rows from its own grey ramp and rounds them with a
+     6px radius, which breaks the flat kyos row. The odd row is snow, the even
+     row is a soft cloud, and no row carries a radius. The fill goes on the
+     row, at the same weight as the rule it replaces, so it lands. */
+  .table tbody tr,
+  .table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+    border-radius: 0;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+    border-radius: 0;
+  }
+
+  .table tbody tr:nth-child(odd) td,
+  .table tbody tr:nth-child(odd) th,
   .table tbody tr:nth-child(even) td,
   .table tbody tr:nth-child(even) th {
-    background-color: rgba(244, 244, 245, 0.7);
+    background-color: transparent;
+    border-radius: 0;
   }
 
-  .table tbody tr:hover td {
+  .table tbody tr:hover td,
+  .table tbody tr:hover th {
     background-color: rgba(255, 234, 167, 0.4);
+  }
+
+  /* The first and the last cell of a row carry the ink rail on hover, the
+     way the kyos table does with its selected state. */
+  .table tbody tr:hover td:first-child,
+  .table tbody tr:has(.cell-_select input:checked) td:first-child {
+    box-shadow: inset 3px 0 0 0 #09090b;
   }
 
   .table tbody tr:last-child td,
@@ -369,8 +421,8 @@
 
   .paginator__page--is-current {
     background-color: #ffeaa7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     color: #09090b;
     font-weight: 700;
   }
@@ -378,8 +430,8 @@
   .collection-list__search-input,
   .search-filter__input {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     font-size: 14px;
   }
 
@@ -395,19 +447,19 @@
 
   /* The create action in the list header. The kyos secondary button. */
   .list-create-new-doc__create-new-button {
-    --bg-color: var(--kyos-yellow);
+    --bg-color: var(--pa-yellow);
     --text-color: #09090b;
-    background-color: var(--kyos-yellow) !important;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    background-color: var(--pa-yellow) !important;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b !important;
     font-weight: 700;
   }
 
   .list-create-new-doc__create-new-button:hover {
-    background-color: var(--kyos-yellow-hover) !important;
-    box-shadow: var(--kyos-shadow);
+    background-color: var(--pa-yellow-hover) !important;
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
@@ -425,8 +477,8 @@
   .bool-cell {
     align-items: center;
     background-color: #ffeaa7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-badge);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-badge);
     color: #09090b;
     display: inline-flex;
     font-size: 10px;
@@ -444,12 +496,12 @@
      --------------------------------------------------------------- */
   .nav {
     background-color: #ffffff;
-    border-right: var(--kyos-border-soft);
+    border-right: var(--pa-border-soft);
   }
 
   .app-header {
     background-color: #ffffff;
-    border-bottom: var(--kyos-border-soft);
+    border-bottom: var(--pa-border-soft);
     min-height: 64px;
     position: sticky;
     top: 0;
@@ -468,18 +520,30 @@
     justify-content: space-between;
   }
 
+  /* One row: the title takes the room, the controls sit at the end. Payload
+     leaves the account chip right after the title, which strands it in the
+     middle of the band with an empty stretch to its right. */
   .app-header__controls-wrapper {
     align-items: center;
     gap: 12px;
+    justify-content: space-between;
   }
 
   .app-header__step-nav-wrapper {
     align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
     width: auto;
   }
 
   .app-header__actions-wrapper {
+    flex: 0 0 auto;
+    margin-left: auto;
     margin-right: 0;
+  }
+
+  .app-header__account {
+    margin-left: 0;
   }
 
   /* The sidebar carries the brand already. The header keeps the title. */
@@ -496,7 +560,17 @@
     font-size: 20px;
     font-weight: 800;
     letter-spacing: -0.03em;
+    min-width: 0;
     text-transform: uppercase;
+  }
+
+  /* The title shrinks last, so a long collection name is clipped rather than
+     pushing the controls off the band. */
+  .step-nav__last > *,
+  .step-nav__last {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* Payload renders a second copy of the locale switcher inline in the row.
@@ -507,7 +581,7 @@
 
   .localizer-button {
     border: 2px solid transparent;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
     color: #71717a;
     font-size: 14px;
     font-weight: 500;
@@ -522,7 +596,7 @@
   .localizer-button:hover {
     background-color: #f4f4f5;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow-sm);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
@@ -536,8 +610,8 @@
   .app-header__account {
     align-items: center;
     background-color: #fffdf7;
-    border: var(--kyos-border-soft);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border-soft);
+    border-radius: var(--pa-radius);
     display: inline-flex;
     gap: 8px;
     justify-content: center;
@@ -551,12 +625,12 @@
   }
 
   .app-header__account .gravatar-account {
-    background-color: var(--kyos-pink-deep);
-    border: var(--kyos-border);
+    background-color: var(--pa-pink-deep);
+    border: var(--pa-border);
     /* Payload sets the radius inline, so it takes an important flag. The kyos
        chip carries a rounded square, not a circle. */
-    border-radius: var(--kyos-radius-badge) !important;
-    box-shadow: var(--kyos-shadow-sm);
+    border-radius: var(--pa-radius-badge) !important;
+    box-shadow: var(--pa-shadow-sm);
   }
 
   /* ---------------------------------------------------------------
@@ -565,7 +639,7 @@
      --------------------------------------------------------------- */
   .admin-nav {
     background-color: #ffffff;
-    border-right: var(--kyos-border-soft);
+    border-right: var(--pa-border-soft);
     font-family: var(--ff-sans), system-ui, sans-serif;
     height: 100vh;
     /* Payload hides its own nav until open. This one is always visible,
@@ -587,7 +661,7 @@
 
   .admin-nav__top {
     align-items: center;
-    border-bottom: var(--kyos-border-soft);
+    border-bottom: var(--pa-border-soft);
     display: flex;
     gap: 10px;
     justify-content: space-between;
@@ -653,7 +727,7 @@
     align-items: center;
     background-color: #ffffff;
     border: 2px solid transparent;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
     color: #09090b;
     display: inline-flex;
     height: 44px;
@@ -669,7 +743,7 @@
   .admin-nav__toggler:hover {
     background-color: #f4f4f5;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow-sm);
+    box-shadow: var(--pa-shadow-sm);
   }
 
   .admin-nav__toggler:active {
@@ -689,7 +763,7 @@
   .admin-nav__link {
     align-items: center;
     border: 2px solid transparent;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
     color: #71717a;
     display: flex;
     font-size: 14px;
@@ -711,14 +785,14 @@
   .admin-nav__link:hover {
     background-color: #f4f4f5;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow-sm);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
   .admin-nav__link--active {
     background-color: #ffeaa7;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
     color: #09090b;
     font-weight: 700;
     transform: translateY(-2px);
@@ -759,16 +833,16 @@
   }
 
   .admin-nav__controls {
-    border-top: var(--kyos-border-soft);
+    border-top: var(--pa-border-soft);
     padding: 16px 0 0;
   }
 
   .admin-logout {
     align-items: center;
     background-color: #ff90e8;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow);
     color: #09090b;
     display: flex;
     font-size: 14px;
@@ -787,7 +861,7 @@
     background-color: #e74c89;
     color: #09090b;
     transform: translateY(-2px);
-    box-shadow: var(--kyos-shadow-lg);
+    box-shadow: var(--pa-shadow-lg);
   }
 
   .admin-logout:active {
@@ -847,7 +921,7 @@
 
   .admin-nav--collapsed .admin-nav__link::after {
     background-color: #09090b;
-    border-radius: var(--kyos-radius-badge);
+    border-radius: var(--pa-radius-badge);
     color: #ffffff;
     content: attr(data-tooltip);
     font-size: 11px;
@@ -875,9 +949,9 @@
   .widget,
   .card {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     transition:
       transform 120ms ease,
       box-shadow 120ms ease,
@@ -885,14 +959,14 @@
   }
 
   .card {
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
   }
 
   /* A card lifts on hover, so the shadow marks the thing under the pointer.
      Pressing sinks it and drops the shadow. */
   .card--has-onclick:hover,
   .widget:hover {
-    box-shadow: var(--kyos-shadow-lg);
+    box-shadow: var(--pa-shadow-lg);
     transform: translateY(-2px);
   }
 
@@ -921,7 +995,7 @@
   /* The accent bar of the kyos stat card. The collection cards carry the
      same marks, one per card, in the kyos accent colours. */
   .collections__card-list .card__title::before {
-    background-color: var(--kyos-ember);
+    background-color: var(--pa-ember);
     border: 1px solid #09090b;
     border-radius: 999px;
     content: "";
@@ -933,30 +1007,30 @@
   }
 
   .collections__card-list > li:nth-child(4n + 2) .card__title::before {
-    background-color: var(--kyos-purple);
+    background-color: var(--pa-purple);
   }
 
   .collections__card-list > li:nth-child(4n + 3) .card__title::before {
-    background-color: var(--kyos-pink-deep);
+    background-color: var(--pa-pink-deep);
   }
 
   .collections__card-list > li:nth-child(4n + 4) .card__title::before {
-    background-color: var(--kyos-ink-deep);
+    background-color: var(--pa-ink-deep);
   }
 
   /* The action that opens a collection. The kyos icon chip. */
   .card__actions .btn {
     background-color: #f4f4f5;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
     height: 40px;
     width: 40px;
   }
 
   .card__actions .btn:hover {
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
@@ -974,9 +1048,9 @@
   .confirmation-modal__wrapper,
   .payload-toast-item {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
   }
 
   .popup__content .popup__scroll-container,
@@ -986,14 +1060,14 @@
 
   .banner {
     background-color: #ffeaa7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     color: #09090b;
     font-weight: 700;
   }
 
   .payload-toast-item {
-    box-shadow: var(--kyos-shadow);
+    box-shadow: var(--pa-shadow);
   }
 
   /* ---------------------------------------------------------------
@@ -1005,7 +1079,7 @@
   .file-field__dropzone {
     background-color: #fafafa;
     border: 2px dashed #a1a1aa;
-    border-radius: var(--kyos-radius-card);
+    border-radius: var(--pa-radius-card);
   }
 
   .upload__drag:hover,
@@ -1017,8 +1091,8 @@
 
   .file-details,
   .file {
-    border: var(--kyos-border-soft);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border-soft);
+    border-radius: var(--pa-radius);
   }
 
   .file-details {
@@ -1031,8 +1105,8 @@
      --------------------------------------------------------------- */
   .checkbox-input__input,
   .radio-input__styled-radio {
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-badge);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-badge);
   }
 
   /* The pills and the small marks take the kyos badge: an 8px radius, a
@@ -1042,7 +1116,7 @@
   .hamburger,
   .tag,
   .error-pill {
-    border-radius: var(--kyos-radius-badge);
+    border-radius: var(--pa-radius-badge);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -1053,8 +1127,8 @@
   .popup-button-list__button,
   .doc-controls__dots {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
@@ -1066,15 +1140,15 @@
   .hamburger:hover {
     background-color: #f4f4f5;
     border-color: #09090b;
-    box-shadow: var(--kyos-shadow-sm);
+    box-shadow: var(--pa-shadow-sm);
   }
 
   .rs__control,
   .rs__menu,
   .rs__option {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     font-size: 14px;
     font-weight: 500;
     letter-spacing: normal;
@@ -1095,9 +1169,9 @@
      --------------------------------------------------------------- */
   .collection-list {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     overflow: hidden;
   }
 
@@ -1114,7 +1188,7 @@
   .collection-list .list-controls {
     background-color: transparent;
     border: 0;
-    border-bottom: var(--kyos-border);
+    border-bottom: var(--pa-border);
     border-radius: 0;
     box-shadow: none;
     margin: 0;
@@ -1126,7 +1200,7 @@
 
   .list-controls .search-bar {
     background-color: #f4f4f5;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
   }
 
   /* The table and the paginator inside the card. */
@@ -1140,13 +1214,13 @@
   }
 
   .collection-list .paginator {
-    border-top: var(--kyos-border);
+    border-top: var(--pa-border);
   }
 
   .list-controls__rows-per-page,
   .per-page {
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     font-size: 14px;
     font-weight: 500;
   }
@@ -1172,6 +1246,46 @@
     text-transform: uppercase;
   }
 
+  /* The kyos form keeps a readable measure for the fields and lets the
+     arrays and the collapsibles take the full width. A text input as wide as
+     the content column is the one thing that makes a form read as Payload. */
+  .field-type {
+    max-width: 720px;
+  }
+
+  .field-type:has(.array-field),
+  .field-type:has(.blocks-field),
+  .field-type:has(.collapsible),
+  .field-type:has(.rich-text),
+  .array-field,
+  .blocks-field,
+  .collapsible,
+  .rich-text {
+    max-width: none;
+  }
+
+  /* The collapsible head, as the kyos panel head: a cloud ground, a 12px top
+     radius and an ink rule under it. Payload paints it from its grey ramp. */
+  .collapsible__toggle,
+  .collapsible__toggle-wrap {
+    background-color: #fafafa;
+    border-bottom: 2px solid #ececee;
+    border-radius: var(--pa-radius) var(--pa-radius) 0 0;
+  }
+
+  .collapsible__toggle:hover {
+    background-color: #f4f4f5;
+  }
+
+  .collapsible__label,
+  .row-label {
+    color: #09090b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
   .field-type .field-description,
   .field-description {
     color: #71717a;
@@ -1187,8 +1301,8 @@
   /* The select Payload draws for a select field. */
   .rs__control {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     box-shadow: none;
     min-height: 40px;
   }
@@ -1210,9 +1324,9 @@
 
   .rs__menu {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow);
     overflow: hidden;
   }
 
@@ -1231,8 +1345,8 @@
 
   /* The boolean field, drawn as the kyos switch. */
   .checkbox-input__input {
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-badge);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-badge);
     box-shadow: none;
     height: 20px;
     width: 20px;
@@ -1247,7 +1361,7 @@
      under the row, so that one goes. */
   .doc-controls {
     border: 0;
-    border-bottom: var(--kyos-border-soft);
+    border-bottom: var(--pa-border-soft);
     border-radius: 0;
     padding-bottom: 16px;
   }
@@ -1271,16 +1385,16 @@
   /* The tabs Payload draws for a localized or tabbed document. */
   .doc-tabs {
     background-color: #ffffff;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     gap: 8px;
     padding: 6px;
   }
 
   .doc-tab {
     border: 2px solid transparent;
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
     color: #71717a;
     font-size: 12px;
     font-weight: 700;
@@ -1300,8 +1414,8 @@
 
   .doc-tab--active {
     background-color: #ffeaa7;
-    border: var(--kyos-border);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
@@ -1310,8 +1424,8 @@
   .array-field__row,
   .blocks-field__row {
     background-color: #fafafa;
-    border: var(--kyos-border-soft);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border-soft);
+    border-radius: var(--pa-radius);
   }
 
   .array-field__draggable-rows > *:hover,
@@ -1327,16 +1441,16 @@
   .drawer__content,
   .confirmation-modal__wrapper {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow-lg);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow-lg);
   }
 
   .payload-toast-item {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow);
     font-size: 14px;
     font-weight: 500;
   }
@@ -1345,7 +1459,7 @@
   .popup__content .popup-button-list__button,
   .popup-button-list__button {
     border: 0;
-    border-radius: var(--kyos-radius-badge);
+    border-radius: var(--pa-radius-badge);
     font-size: 14px;
     font-weight: 500;
     letter-spacing: normal;
@@ -1362,7 +1476,7 @@
   .list-no-results {
     background-color: #f4f4f5;
     border: 2px dashed #d4d4d8;
-    border-radius: var(--kyos-radius-card);
+    border-radius: var(--pa-radius-card);
     color: #71717a;
     font-size: 12px;
     font-weight: 700;
@@ -1394,22 +1508,22 @@
   .logout__wrap,
   .not-found__wrap {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     padding: 28px;
   }
 
   .not-found__button {
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     font-weight: 700;
   }
 
   .doc-controls,
   .doc-tabs {
-    border-radius: var(--kyos-radius);
+    border-radius: var(--pa-radius);
   }
 
   .doc-tab--active {
@@ -1471,79 +1585,80 @@
     /* The rail sits in the space the content keeps for it, so it needs no
        shadow. The open sidebar covers the content, so it does. */
     .admin-nav:not(.admin-nav--collapsed) {
-      box-shadow: var(--kyos-shadow);
+      box-shadow: var(--pa-shadow);
     }
   }
   /* ---------------------------------------------------------------
      The kyos component classes. The admin routes carry no Tailwind, so
      every kyos surface is written here and used by the React components.
      --------------------------------------------------------------- */
-  .kyos-dashboard {
-    padding-block: 24px;
+  .pa-dashboard {
+    /* The kyos main column sits 80px under the bar and 48px above the fold. */
+    padding-block: 80px 48px;
   }
 
-  .kyos-dashboard__stack {
+  .pa-dashboard__stack {
     display: flex;
     flex-direction: column;
     gap: 24px;
   }
 
-  .kyos-grid {
+  .pa-grid {
     display: grid;
     gap: 24px;
   }
 
   /* A grid item defaults to its min-content width, which a chart with long
      labels would push past the screen. Every cell may shrink. */
-  .kyos-grid > * {
+  .pa-grid > * {
     min-width: 0;
   }
 
-  .kyos-grid--four {
+  .pa-grid--four {
     grid-template-columns: 1fr;
   }
 
-  .kyos-grid--two,
-  .kyos-grid--three {
+  .pa-grid--two,
+  .pa-grid--three {
     grid-template-columns: 1fr;
   }
 
   @media (min-width: 768px) {
-    .kyos-grid--four {
+    .pa-grid--four {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .kyos-grid--two {
+    .pa-grid--two {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1024px) {
-    .kyos-grid--four {
+    .pa-grid--four {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
-    .kyos-grid--three {
+    .pa-grid--three {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .kyos-col-span-2 {
+  .pa-col-span-2 {
     min-width: 0;
   }
 
   @media (min-width: 1024px) {
-    .kyos-col-span-2 {
+    .pa-col-span-2 {
       grid-column: span 2;
     }
   }
 
   /* The stat card, lifted from the kyos StatCard. */
-  .kyos-stat {
+  .pa-stat {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -1553,26 +1668,26 @@
       box-shadow 120ms ease;
   }
 
-  .kyos-stat:hover {
-    box-shadow: var(--kyos-shadow-lg);
+  .pa-stat:hover {
+    box-shadow: var(--pa-shadow-lg);
     transform: translateY(-4px);
   }
 
-  .kyos-stat__top {
+  .pa-stat__top {
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
   }
 
-  .kyos-stat__title-wrap {
+  .pa-stat__title-wrap {
     align-items: center;
     display: flex;
     gap: 8px;
     min-width: 0;
   }
 
-  .kyos-stat__bar {
+  .pa-stat__bar {
     border: 1px solid #09090b;
     border-radius: 999px;
     display: inline-block;
@@ -1581,7 +1696,7 @@
     width: 6px;
   }
 
-  .kyos-stat__title {
+  .pa-stat__title {
     color: #71717a;
     font-size: 11px;
     font-weight: 700;
@@ -1589,12 +1704,12 @@
     text-transform: uppercase;
   }
 
-  .kyos-stat__icon-chip {
+  .pa-stat__icon-chip {
     align-items: center;
     background-color: #f4f4f5;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     display: flex;
     flex-shrink: 0;
     height: 36px;
@@ -1602,11 +1717,11 @@
     width: 36px;
   }
 
-  .kyos-stat__bottom {
+  .pa-stat__bottom {
     margin-top: auto;
   }
 
-  .kyos-stat__value {
+  .pa-stat__value {
     color: #09090b;
     font-size: 30px;
     font-weight: 800;
@@ -1615,10 +1730,10 @@
     overflow-wrap: anywhere;
   }
 
-  .kyos-stat__subtext {
+  .pa-stat__subtext {
     background-color: #f4f4f5;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-badge);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-badge);
     color: #71717a;
     display: inline-block;
     font-size: 10px;
@@ -1630,37 +1745,37 @@
   }
 
   /* The card, lifted from the kyos Card and SectionCard. */
-  .kyos-card {
+  .pa-card {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     color: #09090b;
     overflow: hidden;
   }
 
-  .kyos-card__head {
+  .pa-card__head {
     align-items: center;
-    border-bottom: var(--kyos-border);
+    border-bottom: var(--pa-border);
     display: flex;
     gap: 16px;
     justify-content: space-between;
     padding: 16px 24px;
   }
 
-  .kyos-card__head-main {
+  .pa-card__head-main {
     align-items: center;
     display: flex;
     gap: 12px;
     min-width: 0;
   }
 
-  .kyos-card__icon-chip {
+  .pa-card__icon-chip {
     align-items: center;
     background-color: #f4f4f5;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     display: flex;
     flex-shrink: 0;
     height: 40px;
@@ -1668,11 +1783,11 @@
     width: 40px;
   }
 
-  .kyos-card__head-text {
+  .pa-card__head-text {
     min-width: 0;
   }
 
-  .kyos-card__title {
+  .pa-card__title {
     color: #09090b;
     font-size: 14px;
     font-weight: 800;
@@ -1683,7 +1798,7 @@
     white-space: nowrap;
   }
 
-  .kyos-card__subtitle {
+  .pa-card__subtitle {
     color: #71717a;
     font-size: 10px;
     font-weight: 700;
@@ -1692,39 +1807,39 @@
     text-transform: uppercase;
   }
 
-  .kyos-card__head-actions {
+  .pa-card__head-actions {
     align-items: center;
     display: flex;
     flex-shrink: 0;
     gap: 8px;
   }
 
-  .kyos-card__content {
+  .pa-card__content {
     padding: 24px;
   }
 
-  .kyos-card__content--flush {
+  .pa-card__content--flush {
     padding: 0;
   }
 
-  .kyos-card__empty {
+  .pa-card__empty {
     color: #71717a;
     font-size: 14px;
     padding: 24px;
   }
 
   /* The rows inside a card: the kyos table row, without the table. */
-  .kyos-rows {
+  .pa-rows {
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .kyos-rows > li + li {
-    border-top: var(--kyos-border-soft);
+  .pa-rows > li + li {
+    border-top: var(--pa-border-soft);
   }
 
-  .kyos-row {
+  .pa-row {
     align-items: center;
     display: flex;
     gap: 16px;
@@ -1734,11 +1849,11 @@
     transition: background-color 120ms ease;
   }
 
-  .kyos-row:hover {
+  .pa-row:hover {
     background-color: rgba(255, 234, 167, 0.4);
   }
 
-  .kyos-row__label {
+  .pa-row__label {
     color: #09090b;
     font-size: 14px;
     font-weight: 700;
@@ -1747,7 +1862,7 @@
     white-space: nowrap;
   }
 
-  .kyos-row__meta {
+  .pa-row__meta {
     color: #71717a;
     flex-shrink: 0;
     font-family: var(--ff-mono), monospace;
@@ -1755,11 +1870,11 @@
   }
 
   /* The chart card and the bar chart, lifted from the kyos ChartCard. */
-  .kyos-chart-card {
+  .pa-chart-card {
     background-color: #fffdf7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius-card);
-    box-shadow: var(--kyos-shadow);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -1767,7 +1882,7 @@
     padding: 24px;
   }
 
-  .kyos-chart-card__title {
+  .pa-chart-card__title {
     border-bottom: 2px solid #ececee;
     color: #09090b;
     font-size: 14px;
@@ -1778,24 +1893,24 @@
     text-transform: uppercase;
   }
 
-  .kyos-chart-card__body {
+  .pa-chart-card__body {
     flex: 1 1 auto;
     min-height: 280px;
     min-width: 0;
     position: relative;
   }
 
-  .kyos-chart {
+  .pa-chart {
     width: 100%;
   }
 
-  .kyos-chart__plot {
+  .pa-chart__plot {
     display: flex;
     gap: 12px;
     min-width: 0;
   }
 
-  .kyos-chart__axis {
+  .pa-chart__axis {
     color: #71717a;
     display: flex;
     flex-direction: column;
@@ -1807,14 +1922,14 @@
     width: 32px;
   }
 
-  .kyos-chart__area {
+  .pa-chart__area {
     flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     position: relative;
   }
 
-  .kyos-chart__grid {
+  .pa-chart__grid {
     bottom: 24px;
     display: flex;
     flex-direction: column;
@@ -1826,17 +1941,17 @@
     top: 0;
   }
 
-  .kyos-chart__grid-line {
+  .pa-chart__grid-line {
     border-top: 1px dashed #ececee;
     display: block;
     height: 0;
   }
 
-  .kyos-chart__grid-line--base {
-    border-top: var(--kyos-border);
+  .pa-chart__grid-line--base {
+    border-top: var(--pa-border);
   }
 
-  .kyos-chart__bars {
+  .pa-chart__bars {
     align-items: flex-end;
     min-width: 0;
     bottom: 0;
@@ -1849,7 +1964,7 @@
     top: 0;
   }
 
-  .kyos-chart__bar-wrap {
+  .pa-chart__bar-wrap {
     align-items: center;
     display: flex;
     flex: 1 1 0;
@@ -1860,14 +1975,14 @@
     min-width: 0;
   }
 
-  .kyos-chart__bar-value {
+  .pa-chart__bar-value {
     color: #09090b;
     font-size: 12px;
     font-weight: 700;
   }
 
-  .kyos-chart__bar {
-    border: var(--kyos-border);
+  .pa-chart__bar {
+    border: var(--pa-border);
     border-bottom: 0;
     border-radius: 6px 6px 0 0;
     max-width: 72px;
@@ -1876,24 +1991,24 @@
     width: 100%;
   }
 
-  .kyos-chart__labels {
+  .pa-chart__labels {
     display: flex;
     gap: 12px;
   }
 
-  .kyos-chart__labels-spacer {
+  .pa-chart__labels-spacer {
     flex: 0 0 auto;
     width: 32px;
   }
 
-  .kyos-chart__labels-row {
+  .pa-chart__labels-row {
     display: flex;
     flex: 1 1 auto;
     gap: 16px;
     min-width: 0;
   }
 
-  .kyos-chart__label {
+  .pa-chart__label {
     color: #71717a;
     flex: 1 1 0;
     font-size: 11px;
@@ -1906,21 +2021,21 @@
   }
 
   /* The list head, lifted from the kyos CardHeaderAction. */
-  .kyos-list-head {
-    border-bottom: var(--kyos-border);
+  .pa-list-head {
+    border-bottom: var(--pa-border);
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 16px 20px;
   }
 
-  .kyos-list-head__row {
+  .pa-list-head__row {
     align-items: center;
     display: flex;
     justify-content: space-between;
   }
 
-  .kyos-list-head__title {
+  .pa-list-head__title {
     color: #09090b;
     font-size: 15px;
     font-weight: 800;
@@ -1928,7 +2043,7 @@
     text-transform: uppercase;
   }
 
-  .kyos-list-head__subtitle {
+  .pa-list-head__subtitle {
     color: #71717a;
     font-size: 10px;
     font-weight: 700;
@@ -1937,17 +2052,17 @@
     text-transform: uppercase;
   }
 
-  .kyos-list-head__actions {
+  .pa-list-head__actions {
     align-items: center;
     display: flex;
     gap: 12px;
   }
 
   /* The kyos button, for the markup the components write by hand. */
-  .kyos-button {
+  .pa-button {
     align-items: center;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
     cursor: pointer;
     display: inline-flex;
     font-size: 14px;
@@ -1961,29 +2076,29 @@
       background-color 120ms ease;
   }
 
-  .kyos-button--accent {
-    background-color: var(--kyos-yellow);
-    box-shadow: var(--kyos-shadow-sm);
+  .pa-button--accent {
+    background-color: var(--pa-yellow);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
   }
 
-  .kyos-button--accent:hover {
-    background-color: var(--kyos-yellow-hover);
-    box-shadow: var(--kyos-shadow);
+  .pa-button--accent:hover {
+    background-color: var(--pa-yellow-hover);
+    box-shadow: var(--pa-shadow);
     transform: translateY(-2px);
   }
 
-  .kyos-button--accent:active {
+  .pa-button--accent:active {
     box-shadow: none;
     transform: translateY(2px);
   }
 
   /* The empty state, lifted from the kyos EmptyState. */
-  .kyos-empty {
+  .pa-empty {
     align-items: center;
     background-color: #f4f4f5;
     border: 2px dashed #d4d4d8;
-    border-radius: var(--kyos-radius-card);
+    border-radius: var(--pa-radius-card);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1991,17 +2106,17 @@
     text-align: center;
   }
 
-  .kyos-empty__chip {
+  .pa-empty__chip {
     background-color: #e4e4e7;
-    border: var(--kyos-border);
-    border-radius: var(--kyos-radius);
-    box-shadow: var(--kyos-shadow-sm);
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
     margin-bottom: 12px;
     padding: 12px;
   }
 
-  .kyos-empty__title {
+  .pa-empty__title {
     color: #a1a1aa;
     font-size: 12px;
     font-weight: 700;
@@ -2009,7 +2124,7 @@
     text-transform: uppercase;
   }
 
-  .kyos-empty__text {
+  .pa-empty__text {
     color: #71717a;
     font-size: 12px;
     margin-top: 4px;

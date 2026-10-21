@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardHeaderAction } from "@/components/kyos/CardHeaderAction";
+import { CardHeaderAction } from "@/components/admin/ui/CardHeaderAction";
 
 /**
  * The list head, as the kyos admin writes it: the collection name, the
@@ -50,7 +50,7 @@ export function AdminListHeader({
       <CardHeaderAction
         action={
           hasCreatePermission && newDocumentURL ? (
-            <a className="kyos-button kyos-button--accent" href={newDocumentURL}>
+            <a className="pa-button pa-button--accent" href={newDocumentURL}>
               <svg
                 aria-hidden="true"
                 fill="none"

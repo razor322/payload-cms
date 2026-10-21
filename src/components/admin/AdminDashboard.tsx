@@ -1,8 +1,9 @@
 import React from "react";
 
-import { BarChart, ChartCard } from "@/components/kyos/BarChart";
-import { Card, CardContent, CardHeader } from "@/components/kyos/Card";
-import { StatCard } from "@/components/kyos/StatCard";
+import { BarChart, ChartCard } from "@/components/admin/ui/BarChart";
+import { Card, CardContent, CardHeader } from "@/components/admin/ui/Card";
+import { SetPageTitle } from "@/components/admin/ui/SetPageTitle";
+import { StatCard } from "@/components/admin/ui/StatCard";
 import { getPayloadClient } from "@/lib/payload";
 
 /**
@@ -97,9 +98,10 @@ export async function AdminDashboard() {
   });
 
   return (
-    <div className="kyos-dashboard gutter gutter--left gutter--right">
-      <div className="kyos-dashboard__stack">
-        <div className="kyos-grid kyos-grid--four">
+    <div className="pa-dashboard gutter gutter--left gutter--right">
+      <SetPageTitle title="Dashboard" />
+      <div className="pa-dashboard__stack">
+        <div className="pa-grid pa-grid--four">
           <StatCard
             accentColor="#ff5a00"
             icon={
@@ -153,45 +155,45 @@ export async function AdminDashboard() {
           />
         </div>
 
-        <div className="kyos-grid kyos-grid--three">
-          <div className="kyos-col-span-2">
+        <div className="pa-grid pa-grid--three">
+          <div className="pa-col-span-2">
             <ChartCard title="Projects composed per site">
               <BarChart bars={perSite.map((row) => ({ ...row, color: "#ff5a00" }))} />
             </ChartCard>
           </div>
-          <div className="kyos-col-span-1">
+          <div className="pa-col-span-1">
             <ChartCard title="Largest tables">
               <BarChart bars={byCollection} />
             </ChartCard>
           </div>
         </div>
 
-        <div className="kyos-grid kyos-grid--two">
+        <div className="pa-grid pa-grid--two">
           <Card>
             <CardHeader
               action={
-                <a className="kyos-button kyos-button--accent" href={`${adminRoute}/collections/projects`}>
+                <a className="pa-button pa-button--accent" href={`${adminRoute}/collections/projects`}>
                   Open
                 </a>
               }
               subtitle="the last edited"
               title="Projects"
             />
-            <CardContent className="kyos-card__content kyos-card__content--flush">
+            <CardContent className="pa-card__content pa-card__content--flush">
               {recent.docs.length === 0 ? (
-                <p className="kyos-card__empty">No projects yet.</p>
+                <p className="pa-card__empty">No projects yet.</p>
               ) : (
-                <ul className="kyos-rows">
+                <ul className="pa-rows">
                   {recent.docs.map((doc) => (
                     <li key={String(doc.id)}>
                       <a
-                        className="kyos-row"
+                        className="pa-row"
                         href={`${adminRoute}/collections/projects/${doc.id}`}
                       >
-                        <span className="kyos-row__label">
+                        <span className="pa-row__label">
                           {String((doc as { title?: string }).title ?? doc.id)}
                         </span>
-                        <span className="kyos-row__meta">
+                        <span className="pa-row__meta">
                           {String((doc as { slug?: string }).slug ?? "")}
                         </span>
                       </a>
@@ -205,28 +207,28 @@ export async function AdminDashboard() {
           <Card>
             <CardHeader
               action={
-                <a className="kyos-button kyos-button--accent" href={`${adminRoute}/collections/media`}>
+                <a className="pa-button pa-button--accent" href={`${adminRoute}/collections/media`}>
                   Open
                 </a>
               }
               subtitle="the last uploaded"
               title="Media"
             />
-            <CardContent className="kyos-card__content kyos-card__content--flush">
+            <CardContent className="pa-card__content pa-card__content--flush">
               {mediaRows.docs.length === 0 ? (
-                <p className="kyos-card__empty">No media yet.</p>
+                <p className="pa-card__empty">No media yet.</p>
               ) : (
-                <ul className="kyos-rows">
+                <ul className="pa-rows">
                   {mediaRows.docs.map((doc) => (
                     <li key={String(doc.id)}>
                       <a
-                        className="kyos-row"
+                        className="pa-row"
                         href={`${adminRoute}/collections/media/${doc.id}`}
                       >
-                        <span className="kyos-row__label">
+                        <span className="pa-row__label">
                           {String((doc as { filename?: string }).filename ?? doc.id)}
                         </span>
-                        <span className="kyos-row__meta">
+                        <span className="pa-row__meta">
                           {String((doc as { mimeType?: string }).mimeType ?? "")}
                         </span>
                       </a>

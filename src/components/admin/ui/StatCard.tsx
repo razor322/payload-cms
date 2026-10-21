@@ -18,20 +18,20 @@ export function StatCard({
   value: React.ReactNode;
 }) {
   return (
-    <div className="kyos-stat">
-      <div className="kyos-stat__top">
-        <div className="kyos-stat__title-wrap">
+    <div className="pa-stat">
+      <div className="pa-stat__top">
+        <div className="pa-stat__title-wrap">
           <span
-            className="kyos-stat__bar"
+            className="pa-stat__bar"
             style={{ backgroundColor: accentColor }}
           />
-          <h3 className="kyos-stat__title">{title}</h3>
+          <h3 className="pa-stat__title">{title}</h3>
         </div>
-        {icon ? <div className="kyos-stat__icon-chip">{icon}</div> : null}
+        {icon ? <div className="pa-stat__icon-chip">{icon}</div> : null}
       </div>
-      <div className="kyos-stat__bottom">
-        <div className="kyos-stat__value">{value}</div>
-        {subtext ? <p className="kyos-stat__subtext">{subtext}</p> : null}
+      <div className="pa-stat__bottom">
+        <div className="pa-stat__value">{value}</div>
+        {subtext ? <p className="pa-stat__subtext">{subtext}</p> : null}
       </div>
     </div>
   );

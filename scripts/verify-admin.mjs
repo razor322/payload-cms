@@ -171,14 +171,18 @@ try {
       "no leftover of the earlier admin language",
       !/admin-header|nb-border|nb-shadow|Montserrat/i.test(dash),
     );
-    record("dashboard is the kyos dashboard, not the widget grid", dash.includes("kyos-dashboard") && !dash.includes("modular-dashboard"));
-    record("dashboard shows the stat cards", (dash.match(/kyos-stat\b/g) ?? []).length >= 4);
-    record("dashboard draws the kyos charts", dash.includes("kyos-chart-card") && dash.includes("kyos-chart__bar"));
-    record("dashboard lists the recent content", dash.includes("kyos-row"));
+    record("dashboard is the kyos dashboard, not the widget grid", dash.includes("pa-dashboard") && !dash.includes("modular-dashboard"));
+    record("dashboard shows the stat cards", (dash.match(/pa-stat\b/g) ?? []).length >= 4);
+    record("dashboard draws the kyos charts", dash.includes("pa-chart-card") && dash.includes("pa-chart__bar"));
+    record("dashboard lists the recent content", dash.includes("pa-row"));
     record(
-      "list head renders the kyos card head",
-      (bodies.list ?? "").includes("kyos-list-head") && (bodies.list ?? "").includes("collection-list"),
+      "list head renders the pa card head",
+      (bodies.list ?? "").includes("pa-list-head") && (bodies.list ?? "").includes("collection-list"),
     );
+    record("no reference branding in the class names", !/kyos-/.test(dash));
+    // The title is written into the top band by the view at runtime, so the
+    // server html only proves the view that sets it is the one rendering.
+    record("the dashboard view sets the page title", dash.includes("pa-dashboard") && dash.includes("step-nav"));
     record(
       "the collapsed nav keeps an accessible name on every link",
       (dash.match(/aria-label="/g) ?? []).length > 0,

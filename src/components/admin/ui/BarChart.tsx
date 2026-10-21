@@ -17,32 +17,32 @@ export function BarChart({
   const steps = 4;
 
   return (
-    <div className="kyos-chart">
-      <div className="kyos-chart__plot" style={{ height }}>
-        <div className="kyos-chart__axis">
+    <div className="pa-chart">
+      <div className="pa-chart__plot" style={{ height }}>
+        <div className="pa-chart__axis">
           {Array.from({ length: steps + 1 }, (_, index) => (
             <span key={index}>{Math.round((top / steps) * (steps - index))}</span>
           ))}
         </div>
-        <div className="kyos-chart__area">
-          <div className="kyos-chart__grid">
+        <div className="pa-chart__area">
+          <div className="pa-chart__grid">
             {Array.from({ length: steps + 1 }, (_, index) => (
               <span
                 key={index}
                 className={
-                  index === steps ? "kyos-chart__grid-line kyos-chart__grid-line--base" : "kyos-chart__grid-line"
+                  index === steps ? "pa-chart__grid-line pa-chart__grid-line--base" : "pa-chart__grid-line"
                 }
               />
             ))}
           </div>
-          <div className="kyos-chart__bars">
+          <div className="pa-chart__bars">
             {bars.map((bar) => {
               const percent = top === 0 ? 0 : (bar.value / top) * 100;
               return (
-                <div className="kyos-chart__bar-wrap" key={bar.label}>
-                  <span className="kyos-chart__bar-value">{bar.value}</span>
+                <div className="pa-chart__bar-wrap" key={bar.label}>
+                  <span className="pa-chart__bar-value">{bar.value}</span>
                   <div
-                    className="kyos-chart__bar"
+                    className="pa-chart__bar"
                     style={{
                       backgroundColor: bar.color,
                       height: `${Math.max(percent, 1)}%`,
@@ -55,11 +55,11 @@ export function BarChart({
           </div>
         </div>
       </div>
-      <div className="kyos-chart__labels">
-        <div className="kyos-chart__labels-spacer" />
-        <div className="kyos-chart__labels-row">
+      <div className="pa-chart__labels">
+        <div className="pa-chart__labels-spacer" />
+        <div className="pa-chart__labels-row">
           {bars.map((bar) => (
-            <div className="kyos-chart__label" key={bar.label}>
+            <div className="pa-chart__label" key={bar.label}>
               {bar.label}
             </div>
           ))}
@@ -81,9 +81,9 @@ export function ChartCard({
   title: string;
 }) {
   return (
-    <div className="kyos-chart-card">
-      <h3 className="kyos-chart-card__title">{title}</h3>
-      <div className="kyos-chart-card__body">{children}</div>
+    <div className="pa-chart-card">
+      <h3 className="pa-chart-card__title">{title}</h3>
+      <div className="pa-chart-card__body">{children}</div>
     </div>
   );
 }
