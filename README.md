@@ -44,6 +44,7 @@ bun run build      # production build
 bun run lint       # eslint
 bun test           # vitest (contract mapper)
 node scripts/verify-admin.mjs   # boots the admin, probes it, stops it
+bun scripts/seed-content.ts    # writes the per-site content from the portfolio repos
 bun run payload -- generate:types   # regenerate payload-types.ts
 ```
 

@@ -220,6 +220,18 @@ bun test
 bun run build
 ```
 
+Two scripts read `.env.local` and talk to the database directly:
+
+```bash
+bun scripts/seed-content.ts       # writes the per-site content from the three
+                                  # portfolio repos, replacing the site scoped
+                                  # rows and updating the shared ones
+node scripts/verify-admin.mjs     # boots the admin, probes it, stops it
+```
+
+Both are safe to re-run. The seed replaces the site scoped rows, so a content
+change in a portfolio repo can be pushed with one command.
+
 ## 8. Deployment
 
 - Host: Vercel or any Node host.
