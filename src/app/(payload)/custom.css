@@ -1488,6 +1488,12 @@
     gap: 24px;
   }
 
+  /* A grid item defaults to its min-content width, which a chart with long
+     labels would push past the screen. Every cell may shrink. */
+  .kyos-grid > * {
+    min-width: 0;
+  }
+
   .kyos-grid--four {
     grid-template-columns: 1fr;
   }
@@ -1752,6 +1758,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-width: 0;
     padding: 24px;
   }
 
@@ -1769,6 +1776,7 @@
   .kyos-chart-card__body {
     flex: 1 1 auto;
     min-height: 280px;
+    min-width: 0;
     position: relative;
   }
 
@@ -1779,6 +1787,7 @@
   .kyos-chart__plot {
     display: flex;
     gap: 12px;
+    min-width: 0;
   }
 
   .kyos-chart__axis {
@@ -1796,6 +1805,7 @@
   .kyos-chart__area {
     flex: 1 1 auto;
     min-width: 0;
+    overflow: hidden;
     position: relative;
   }
 
@@ -1823,6 +1833,7 @@
 
   .kyos-chart__bars {
     align-items: flex-end;
+    min-width: 0;
     bottom: 0;
     display: flex;
     gap: 16px;
