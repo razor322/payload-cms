@@ -152,10 +152,11 @@
     box-shadow: none;
   }
 
-  /* Focus ring, yellow at 60 percent, the same on every control. */
+  /* Focus ring. Ink, not the yellow accent: yellow on cream and on white
+     measures about 1.2:1, which is not a ring anyone can see. */
   .btn:focus-visible {
-    outline: 3px solid rgba(255, 234, 167, 0.6);
-    outline-offset: 1px;
+    outline: 3px solid #09090b;
+    outline-offset: 2px;
   }
 
   /* ---------------------------------------------------------------
@@ -199,7 +200,7 @@
   .input:focus-visible,
   .textarea:focus-visible {
     border-color: #09090b;
-    outline: 3px solid rgba(255, 234, 167, 0.6);
+    outline: 3px solid #09090b;
     outline-offset: 0;
     box-shadow: none;
   }
@@ -301,7 +302,7 @@
 
   .collection-list__search-input:focus-visible {
     border-color: #09090b;
-    outline: 3px solid rgba(255, 234, 167, 0.6);
+    outline: 3px solid #09090b;
   }
 
   /* The boolean cell becomes a small ink badge. */
@@ -492,7 +493,7 @@
 
   .rs__control:focus-within {
     border-color: #09090b;
-    outline: 3px solid rgba(255, 234, 167, 0.6);
+    outline: 3px solid #09090b;
   }
 
   /* Payload sets this radius inline, so it takes an important flag. */
@@ -550,6 +551,26 @@
   .hamburger:hover {
     background-color: #ececee;
     box-shadow: 0 0 0 2px #09090b;
+  }
+
+  /* The account control in the header is a small circle, so it gets a
+     44px target around it. */
+  .app-header__account {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Focus ring for the frame controls. Ink, so it reads on cream. */
+  .admin-nav__link:focus-visible,
+  .admin-nav__toggler:focus-visible,
+  .admin-logout:focus-visible,
+  .admin-header__user:focus-visible,
+  .nav-group__toggle:focus-visible {
+    outline: 3px solid #09090b;
+    outline-offset: 2px;
   }
 
   /* ---------------------------------------------------------------
@@ -639,8 +660,8 @@
     box-shadow: var(--nb-shadow-sm);
     cursor: pointer;
     flex: 0 0 auto;
-    height: 32px;
-    width: 32px;
+    height: 44px;
+    width: 44px;
   }
 
   .admin-nav__toggler:hover {
@@ -668,6 +689,7 @@
     color: #09090b;
     display: flex;
     gap: 10px;
+    min-height: 44px;
     padding: 8px 10px;
     position: relative;
     text-decoration: none;

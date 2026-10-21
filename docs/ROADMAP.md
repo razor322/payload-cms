@@ -1,4 +1,4 @@
-# Roadmap — Web Admin Portofolio
+# Roadmap - Web Admin Portofolio
 
 Phases are sequential. Each phase ends with a working, testable increment.
 Checkbox marks completion; a phase is done only when its Verification line passes.
@@ -7,7 +7,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 0 — Documentation
+## Phase 0 - Documentation
 
 - [x] PRD, Roadmap, Architecture, Project Structure, Configuration, README
 - [x] Per-phase plans under `docs/plans/`
@@ -16,7 +16,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 1 — Scaffold
+## Phase 1 - Scaffold
 
 - [x] `create-next-app` in `web-admin/` (bun, TS, App Router, `src/`, Tailwind v4)
 - [x] shadcn/ui init
@@ -30,7 +30,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 2 — Data layer (TDD)
+## Phase 2 - Data layer (TDD)
 
 - [x] Zod schemas per domain
 - [x] Reorder helper + tests
@@ -42,7 +42,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 3 — Supabase wiring + auth
+## Phase 3 - Supabase wiring + auth
 
 - [x] `supabase/server.ts` (cookie client via `@supabase/ssr`)
 - [x] `supabase/admin.ts` (service-role client)
@@ -55,11 +55,11 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 4 — Database
+## Phase 4 - Database
 
-- [x] `0001_schema.sql` — tables + enums
-- [x] `0002_rls.sql` — anon SELECT-only, storage policies
-- [x] `seed.sql` — content from the three sites
+- [x] `0001_schema.sql` - tables + enums
+- [x] `0002_rls.sql` - anon SELECT-only, storage policies
+- [x] `seed.sql` - content from the three sites
 - [x] Apply migrations to the Supabase project
 - [x] Storage bucket `portfolio` created
 
@@ -68,7 +68,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 5 — Brut component set
+## Phase 5 - Brut component set
 
 - [x] Button, Input, Textarea, Select, Checkbox
 - [x] Card, Table, Tag, Badge
@@ -80,7 +80,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 6 — Projects CRUD
+## Phase 6 - Projects CRUD
 
 - [x] Projects list (table)
 - [x] Project form (arrays: highlights, tech; image upload)
@@ -93,7 +93,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 7 — Remaining domains
+## Phase 7 - Remaining domains
 
 - [x] Experiences CRUD
 - [x] Skills CRUD
@@ -108,9 +108,9 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 8 — Content contract
+## Phase 8 - Content contract
 
-- [x] `contract/types.ts` — the JSON each portfolio consumes
+- [x] `contract/types.ts` - the JSON each portfolio consumes
 - [x] Mapping documented per site
 - [x] Handoff notes for the rewire pass
 
@@ -119,7 +119,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 9 — Polish + delivery gate
+## Phase 9 - Polish + delivery gate
 
 - [ ] Antislop Delivery Gate report (R-35 click-through included)
 - [ ] Accessibility pass (contrast, focus, keyboard)
@@ -140,7 +140,7 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ---
 
-## Phase 10 — Payload CMS migration
+## Phase 10 - Payload CMS migration
 
 - [x] Payload 3.91.0 installed (deps pinned, versions matched)
 - [x] `payload.config.ts` (postgres adapter) + Payload-owned `users` collection
@@ -260,3 +260,55 @@ causes found:
    (`export const importMap = {}`) and Payload generates it at Next dev/build
    startup. The CLI-only commands stay blocked until tsx is upgraded or Node
    is pinned to a version without this interop regression.
+
+### Delivery Gate: kyos admin language
+
+Measured on the running admin with a real browser at 1600px and 390px. The
+admin layout is ours now, so the sidebar, the header, the brand and the logout
+are custom components, and the visual language lives in one CSS file.
+
+| Rule | Result | Evidence |
+|---|---|---|
+| R-02 | PASS | No em dash in `custom.css`, `DESIGN.md`, the four admin components or the three docs. The 18 that were in the doc titles were replaced with a hyphen. |
+| R-03 | PASS | At 390px, `scrollWidth` is 375 against `innerWidth` 390 on the dashboard, the list, the login and the create form. The wide table scrolls inside its own container, the page does not. |
+| R-11 | PASS | Every measured radius is 6, 8, 12 or 16px, plus 50% for the account avatar, 100% for the icon glyphs and `6px 0px 0px 6px` for the first cell of the table. The stray 3px popup buttons and 4px dots were pulled back to 8px. |
+| R-12 | PASS | Zero blurred shadows on any of the six pages. Shadows land only on the primary and secondary buttons, the active nav item, the brand mark, the user chip, the logout, the upload dropzone and the overlays. Payload's own pill, hamburger and icon-button shadows were removed. |
+| R-21 / R-34 | PASS | One theme. `data-theme` reads `light`, the canvas is `#f4f4f5`. |
+| R-25 | PASS | Body text on the canvas 18.1:1. The primary button, white on `#09090b`, 19.9:1. Field labels and helper text `#6b6b74` on the canvas 4.8:1, on cream 5.19:1. Nav labels 19.56:1. Ink on the yellow accent 16.65:1. |
+| R-26 | PASS | No dead control. The collapsed rail icon still navigates (clicked, it opened the collection). The toggle changes the width from 256px to 72px. The rail is always reachable on a phone, because Payload hides its own hamburger under 768px. |
+| R-31 | PASS | `DESIGN.md` gives a reason per decision: the palette, the typefaces, the two border weights, the two shadows and the two interaction laws. |
+| R-32 | PASS | 14 of 14 tab stops on the create form take focus and show a 3px ink ring, and the first field does the same. The nav links keep `aria-label` and `title`, so the collapsed rail still announces its name. Tap targets on a phone measure 44px tall on the toggle, the nav links and the account control. |
+| R-35 | PASS | Click through, 18 of 18 steps: all 18 nav links navigate, the collapsed rail icon navigates, a project is created and the toast says "Project successfully created", the row shows in the list, the title edits and saves, the delete opens the confirmation and the document is gone afterwards, the account link opens the account page, the locale popup opens and closes with Escape, the media page and its dropzone render, the pink logout ends the session, and the login comes back. |
+| R-37 | PASS | `DESIGN.md` exists and states the dial ENERGY 2 / RHYTHM 2 / MOTION 1. |
+
+**What changed and why.** The tokens moved to the warm set: canvas `#f4f4f5`,
+cream cards `#FFFDF7`, ink `#09090b`, and the five pastel accents. Radius went
+from 0 to 12px for the controls and 16px for the cards, the border from 3px to
+2px, and the shadows to three steps (2, 4 and 6px) that follow the press and
+hover laws. The typefaces are Montserrat for the headings and DM Sans for the
+body.
+
+**The layout is ours now.** Payload's own nav has no collapsed icon rail, so
+`admin.components.Nav` points at `src/components/admin/AdminNav.tsx`. The
+state, the access filter, the group accordion and the saved preference still
+come from Payload (`useNav`, `getNavGroups`, `PREFERENCE_KEYS.NAV`); only the
+markup and the CSS are written here. The sidebar keeps Payload's own classes
+(`.nav`, `.nav__scroll`, `.nav__wrap`) so the layout grid still sizes its
+column, and the grid is pinned to 72px while the rail is collapsed so the
+content moves with it.
+
+**Two deviations from the plan, both measured and recorded.** The mobile
+drawer is not rebuilt: Payload hides its own hamburger under 768px, so a
+drawer would have had no way to open it. The sidebar is a permanent 72px rail
+on a phone instead, and the toggle widens it over the content. The nav is
+never `inert`, because a closed rail is still the way into every collection.
+
+The focus ring is ink, not the yellow the plan named. Yellow on cream and on
+white measures about 1.2:1, so a ring in that colour is not a ring. `DESIGN.md`
+records the change and the reason.
+
+**Environment note.** The `payload` CLI still crashes on this machine (tsx and
+undici), so `importMap.js` is written by hand with the same hashes the
+generator produces; Payload rewrites it on the next dev or build run and the
+output matched. `scripts/verify-admin.mjs` starts the admin, probes it and
+stops it, with a hard deadline so it can never hang.

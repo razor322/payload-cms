@@ -1,4 +1,4 @@
-# Architecture — Web Admin Portofolio
+# Architecture - Web Admin Portofolio
 
 ---
 
@@ -39,7 +39,8 @@ contract (`/api/content?site=`) that the three portfolios fetch at build time.
 | Data access | Payload Local API server-side, REST for the outside | One ORM path, no second client library. |
 | Content model | Canonical superset rows + a `site` column | Content is 90% shared; one row per fact avoids 3x editing. |
 | Database schema | Dedicated Postgres schema `payload` | Keeps Payload's Drizzle push away from the legacy `public` tables, so it never mistakes them for renames. |
-| Theming | Neubrutalism through Payload theme tokens in `(payload)/custom.css` | Payload 3.91 reads `--theme-bg`, `--style-radius-*`, `--bg-color`; the panel is paper, ink and one orange accent, with 3px black borders and 5px hard shadows. The direction lives in `DESIGN.md`. |
+| Theming | A warm cream and pastel language through Payload theme tokens in `(payload)/custom.css` | Payload 3.91 reads `--theme-bg`, `--style-radius-*`, `--bg-color`; the panel is a neutral canvas, cream cards, near-black ink and three pastel accents, with 2px borders and hard offset shadows. The direction lives in `DESIGN.md`. |
+| Admin layout | Custom components in `src/components/admin/`, registered through `admin.components` | The sidebar, the header, the brand and the logout are ours, because Payload's own nav has no collapsed icon rail. The state, the access filter and the saved preference still come from Payload (`useNav`, `getNavGroups`, `PREFERENCE_KEYS.NAV`). |
 | Theme mode | Light by default, set with `admin.theme: "light"` | Payload resolves the theme before it reads a cookie or the `prefers-color-scheme` header, so a dark desktop does not flip the panel. |
 | CSS isolation | Tailwind loader skips `node_modules` | Tailwind's preflight lands after Payload's layer and would strip the admin's styles. |
 | Testing | Vitest on the pure mapper | The only pure module left is the contract mapper. UI is verified by click-through. |

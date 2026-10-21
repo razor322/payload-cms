@@ -20,7 +20,7 @@ panel never has to shout.
 | Canvas | #f4f4f5 | Page background |
 | Card | #FFFDF7 | Card and panel surfaces |
 | Ink | #09090b | Text, borders, shadows |
-| Muted | #71717a | Subtitles, inactive nav, helper text |
+| Muted | #6b6b74 | Subtitles, inactive nav, helper text |
 | Structural border | #ececee | Dividers and panel edges |
 | Yellow | #FFEAA7 | Secondary action, active nav, secondary badge |
 | Red | #FF6B6B | Destructive action and badge |
@@ -51,11 +51,16 @@ text stays sentence case.
 | Shadow, base | 4px 4px 0 #000000 |
 | Shadow, small | 2px 2px 0 #000000 |
 | Shadow, hover | 6px 6px 0 #000000 |
+| Focus ring | 3px solid #09090b |
 
 Two laws, held everywhere:
 
 - Press: translate by the shadow offset and drop the shadow. The element sinks.
 - Hover: lift 2px and grow the shadow one step. The element is picked up.
+
+The focus ring is ink, not the yellow accent. Yellow on cream and on white
+measures about 1.2:1, so a ring in that colour is not a ring. Ink is the one
+mark that reads on every surface in the panel.
 
 ## Motion
 
