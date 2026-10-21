@@ -19,7 +19,6 @@ build time.
 | [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | Env vars, scripts, Supabase setup |
 | [docs/CONTRACT.md](docs/CONTRACT.md) | Read-only JSON contract + per-portfolio mapping |
 | [docs/LOCAL-ACCESS.md](docs/LOCAL-ACCESS.md) | Login details (git-ignored, never committed) |
-| [docs/plans/](docs/plans/) | Per-phase implementation plans |
 
 ## Stack
 
@@ -44,21 +43,30 @@ bun dev            # dev server, falls back to a free port
 bun run build      # production build
 bun run lint       # eslint
 bun test           # vitest (contract mapper)
+node scripts/verify-admin.mjs   # boots the admin, probes it, stops it
 bun run payload -- generate:types   # regenerate payload-types.ts
 ```
 
 ## What is built
 
 - Payload admin panel at `/admin` with one login (`/admin/login`).
-- Collections: projects, experiences, capabilities, skills, terminal lines,
-  testimonials, awards, section headers, media. Global: profile.
+- Collections: users, media, projects, site projects, experiences, companies,
+  capabilities, skills, terminal lines, testimonials, awards, section headers,
+  site content, education, certifications, organizations, languages. Global:
+  profile.
 - Site scoping per row (`v3`, `my`, `minimal`, `all`).
 - Content contract (`src/contract/types.ts`) served at
-  `/api/content?site=<v3|my|minimal>`.
+  `/api/content?site=<v3|my|minimal>&locale=<en|id>`.
+- A custom admin frame in `src/components/admin/`: a collapsible sidebar, a
+  header, the brand mark and the logout. The whole visual language lives in
+  `src/app/(payload)/custom.css`, one file, in `@layer payload`. The direction
+  is in [DESIGN.md](DESIGN.md).
 
 ## Status
 
-- The admin is live: `build` ✓, `lint` ✓, `test` ✓ (4 tests).
+- The admin is live: `build` ✓, `lint` ✓, `test` ✓ (28 tests).
 - `portfolio-v3` reads the CMS (build-time fetch). The other two portfolios
   still use hardcoded content.
+- Only `my` has per-site rows today. `v3` and `minimal` need a backfill in
+  the admin.
 - See [docs/ROADMAP.md](docs/ROADMAP.md) for what is left.

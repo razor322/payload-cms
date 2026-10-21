@@ -121,10 +121,10 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 9 - Polish + delivery gate
 
-- [ ] Antislop Delivery Gate report (R-35 click-through included)
-- [ ] Accessibility pass (contrast, focus, keyboard)
-- [ ] Mobile pass (no overflow, tap targets)
-- [ ] README finalized
+- [x] Antislop Delivery Gate report (R-35 click-through included)
+- [x] Accessibility pass (contrast, focus, keyboard)
+- [x] Mobile pass (no overflow, tap targets)
+- [x] README finalized
 
 **Verification:** Delivery Gate all PASS; build clean; click-through recorded.
 **Plan:** [`plans/phase-9-polish.md`](plans/phase-9-polish.md)
