@@ -48,4 +48,11 @@ describe("the admin theme", () => {
     expect(rule(".collection-list .per-page", "order")).toBe("2");
     expect(rule(".collection-list .paginator", "order")).toBe("3");
   });
+
+  it("gives the form the reference's head, panels and rows", () => {
+    expect(rule(".doc-controls__wrapper", "gap")).toBe("12px");
+    expect(rule(".doc-controls", "border-bottom")).toBe("var(--pa-border)");
+    expect(rule(".collapsible__toggle", "border-bottom")).toBe("2px solid #ececee");
+    expect(rule(".array-field__row", "background-color")).toBe("#fafafa");
+  });
 });

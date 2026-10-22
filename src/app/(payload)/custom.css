@@ -1643,14 +1643,27 @@
     background-color: #ffeaa7;
   }
 
-  /* The row of actions on the form: the title on the left, the buttons on
-     the right, over a cloud rule. Payload draws its own hairline divider
-     under the row, so that one goes. */
+  /* The form is the reference's dialog: a card with a head, the fields at a
+     readable measure, and the actions on the head. Payload draws the form as
+     a bare page, so the page becomes the card. */
+  .collection-edit__form {
+    background-color: #fffdf7;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
+    margin: 16px var(--pa-gutter) 48px;
+  }
+
+  /* The head of the card: the meta on the left, the actions on the right,
+     over an ink rule, the way the reference's card head is built. It sticks
+     under the bar, so the save is always in reach. */
   .doc-controls {
+    background-color: #fffdf7;
     border: 0;
-    border-bottom: var(--pa-border-soft);
-    border-radius: 0;
-    padding-bottom: 16px;
+    border-bottom: var(--pa-border);
+    border-radius: var(--pa-radius-card) var(--pa-radius-card) 0 0;
+    padding: 12px 20px 16px;
+    top: 64px;
   }
 
   .doc-controls__divider {
@@ -1667,6 +1680,53 @@
 
   .doc-controls__controls {
     gap: 12px;
+  }
+
+  /* The title Payload draws above the card. The bar already names the page,
+     so this one reads as the card's own title. */
+  .doc-header {
+    margin: 16px var(--pa-gutter) 0;
+    padding: 0 20px 12px;
+  }
+
+  .doc-header__title {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  /* A new document has no title yet, so the row above the card would read
+     "[Untitled]". The title stays for the screen readers. */
+  .template-default__wrap:has(.collection-edit:not(.collection-edit--is-editing))
+    > .doc-header
+    .doc-header__title {
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .template-default__wrap:has(.collection-edit:not(.collection-edit--is-editing))
+    > .doc-header:not(:has(.doc-tabs)) {
+    display: none;
+  }
+
+  /* The fields sit inside the card at the reference's measure, with the
+     reference's spacing between them. */
+  .collection-edit__form .gutter--left.gutter--right {
+    padding-inline: 20px;
+  }
+
+  .collection-edit__form .document-fields__edit {
+    padding-block: 24px 32px;
+  }
+
+  .collection-edit__form .field-type {
+    margin-bottom: 16px;
   }
 
   /* The tabs Payload draws for a localized or tabbed document. */
@@ -1731,6 +1791,69 @@
     border: var(--pa-border);
     border-radius: var(--pa-radius-card);
     box-shadow: var(--pa-shadow-lg);
+  }
+
+  /* The confirm reads like the reference's: a red chip beside the title, and
+     the two actions in the foot, the quiet one first. */
+  .confirmation-modal__content {
+    gap: 12px;
+  }
+
+  .confirmation-modal__content h1 {
+    align-items: center;
+    color: #09090b;
+    display: flex;
+    font-size: 16px;
+    font-weight: 800;
+    gap: 12px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .confirmation-modal__content h1::before {
+    background-color: #ff6b6b;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6'/%3E%3Cpath d='M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/%3E%3Cpath d='M10 11v6'/%3E%3Cpath d='M14 11v6'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
+    content: "";
+    flex-shrink: 0;
+    height: 44px;
+    width: 44px;
+  }
+
+  .confirmation-modal__content p {
+    color: #71717a;
+    font-size: 14px;
+  }
+
+  #confirm-cancel {
+    background-color: #ffffff;
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
+    color: #09090b;
+  }
+
+  #confirm-cancel:hover {
+    background-color: #f4f4f5;
+    box-shadow: var(--pa-shadow);
+    transform: translateY(-2px);
+  }
+
+  #confirm-action {
+    background-color: #ff6b6b;
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow-sm);
+    color: #09090b;
+  }
+
+  #confirm-action:hover {
+    background-color: #ff5252;
+    box-shadow: var(--pa-shadow);
+    transform: translateY(-2px);
   }
 
   .payload-toast-item {
