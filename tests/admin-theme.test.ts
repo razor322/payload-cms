@@ -41,4 +41,11 @@ describe("the admin theme", () => {
     expect(rule(".pa-list-head__actions", "gap")).toBe("12px");
     expect(rule(".pa-search__input", "border")).toBe("var(--pa-border)");
   });
+
+  it("puts the limit, the count and the pages on one footer row", () => {
+    expect(rule(".collection-list .page-controls", "display")).toBe("flex");
+    expect(rule(".collection-list .page-controls__page-info", "order")).toBe("1");
+    expect(rule(".collection-list .per-page", "order")).toBe("2");
+    expect(rule(".collection-list .paginator", "order")).toBe("3");
+  });
 });

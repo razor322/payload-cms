@@ -1435,13 +1435,73 @@
     padding-bottom: 0;
   }
 
+  /* One footer row: the limit and the count on the left, the pages on the
+     right. Payload stacks the three blocks, which pushes the limit below the
+     fold and off the screen on a short window. */
   .collection-list .page-controls {
-    display: block;
+    align-items: center;
+    border-top: var(--pa-border-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 12px 20px;
     width: 100%;
   }
 
+  .collection-list .page-controls__page-info {
+    color: #71717a;
+    font-size: 12px;
+    font-weight: 700;
+    order: 1;
+  }
+
+  .collection-list .per-page {
+    order: 2;
+  }
+
   .collection-list .paginator {
-    border-top: var(--pa-border-soft);
+    background-color: transparent;
+    border: 0;
+    margin-left: auto;
+    min-height: 0;
+    order: 3;
+    padding: 0;
+    width: auto;
+  }
+
+  /* The limit reads as a small control, the way the reference's selects do. */
+  .collection-list .per-page {
+    align-items: center;
+    color: #71717a;
+    display: flex;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 8px;
+  }
+
+  .collection-list .per-page select {
+    background-color: #ffffff;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
+    color: #09090b;
+    font-size: 13px;
+    font-weight: 700;
+    height: 32px;
+    padding: 0 8px;
+  }
+
+  .collection-list .per-page select:focus-visible {
+    border-color: #09090b;
+    outline: 3px solid #09090b;
+    outline-offset: 2px;
+  }
+
+  .collection-list .paginator {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
   }
 
   .list-controls__rows-per-page,
