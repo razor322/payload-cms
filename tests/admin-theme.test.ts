@@ -55,4 +55,15 @@ describe("the admin theme", () => {
     expect(rule(".collapsible__toggle", "border-bottom")).toBe("2px solid #ececee");
     expect(rule(".array-field__row", "background-color")).toBe("#fafafa");
   });
+
+  it("lays the account and the global out in panels", () => {
+    expect(rule(".collection-edit--users .document-fields__edit", "display")).toBe("grid");
+    expect(rule(".global-edit--profile .render-fields", "display")).toBe("grid");
+    expect(
+      rule(
+        ".global-edit--profile .document-fields__edit > .render-fields > .field-type",
+        "box-shadow",
+      ),
+    ).toBe("var(--pa-shadow)");
+  });
 });

@@ -1729,6 +1729,100 @@
     margin-bottom: 16px;
   }
 
+  /* ---------------------------------------------------------------
+     The account page and the profile global. The reference's settings
+     page is a stack of cards, each with a caps title and the fields
+     inside it. Here the head is the first card and the field groups
+     are the cards under it.
+     --------------------------------------------------------------- */
+  .collection-edit--users .collection-edit__form,
+  .global-edit--profile .collection-edit__form {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 16px var(--pa-gutter) 48px;
+  }
+
+  /* The cards carry their own air, so the fields area adds none. */
+  .collection-edit--users .collection-edit__form .document-fields__edit,
+  .global-edit--profile .collection-edit__form .document-fields__edit {
+    padding: 0;
+  }
+
+  .collection-edit--users .document-fields__edit > * {
+    margin: 0;
+  }
+
+  .collection-edit--users .doc-controls,
+  .global-edit--profile .doc-controls {
+    background-color: #fffdf7;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
+    margin-bottom: 16px;
+    padding: 12px 20px 16px;
+  }
+
+  /* The bar already names the account, so the row above the cards goes. */
+  .template-default__wrap:has(.collection-edit--users) > .doc-header {
+    display: none;
+  }
+
+  /* The fields sit in a grid of cards: one column on a phone, two on a
+     wide screen. */
+  .collection-edit--users .document-fields__edit,
+  .global-edit--profile .render-fields {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .collection-edit--users .document-fields__edit,
+    .global-edit--profile .render-fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .collection-edit--users .document-fields__edit > *,
+  .global-edit--profile .document-fields__edit > .render-fields > .field-type {
+    background-color: #fffdf7;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-card);
+    box-shadow: var(--pa-shadow);
+    padding: 24px;
+  }
+
+  /* The wide fields take the whole row. */
+  .global-edit--profile .document-fields__edit > .render-fields > .field-type.array-field,
+  .global-edit--profile
+    .document-fields__edit
+    > .render-fields
+    > .field-type:has(textarea) {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+
+  /* The long text keeps a readable measure inside its card. */
+  .global-edit--profile
+    .document-fields__edit
+    > .render-fields
+    > .field-type:has(textarea)
+    .textarea-outer {
+    max-width: 720px;
+  }
+
+  /* The payload settings block carries its own title. */
+  .payload-settings h3 {
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
   /* The tabs Payload draws for a localized or tabbed document. */
   .doc-tabs {
     background-color: #ffffff;
