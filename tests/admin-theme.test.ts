@@ -28,4 +28,11 @@ describe("the admin theme", () => {
     expect(rule(".admin-nav__links", "overflow-y")).toBe("auto");
     expect(rule(".admin-nav__controls", "margin-top")).toBe("auto");
   });
+
+  it("pads the content column the way the reference does", () => {
+    expect(rule(":root", "--pa-gutter")).toBe("40px");
+    expect(rule(".template-default__wrap > .collection-list", "margin")).toBe(
+      "16px var(--pa-gutter) 48px",
+    );
+  });
 });

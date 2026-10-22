@@ -134,6 +134,28 @@
     margin-top: auto;
   }
 
+  /* The content column carries the reference's padding: 40px on the sides,
+     16px of air under the bar and 48px at the foot. The bar itself stays
+     full width, so it does not move with the column. */
+  .template-default__wrap {
+    min-width: 0;
+  }
+
+  .template-default__wrap > .collection-list {
+    box-sizing: border-box;
+    margin: 16px var(--pa-gutter) 48px;
+    max-width: calc(100% - (var(--pa-gutter) * 2));
+    width: auto;
+  }
+
+  .pa-dashboard {
+    padding-block: 16px 48px;
+  }
+
+  .doc-controls {
+    padding-top: 16px;
+  }
+
   /* ---------------------------------------------------------------
      Typography. The kyos admin runs on one family, DM Sans, with the
      mono held back for the ids and the slugs.
@@ -1399,6 +1421,12 @@
     border-radius: 0;
     box-shadow: none;
     margin: 0;
+  }
+
+  /* Payload gives every cell a 150px minimum, so a wide table pushes the
+     card past the screen. The reference scrolls the table inside its card. */
+  .collection-list .table-wrap {
+    overflow-x: auto;
   }
 
   /* Payload pads the wrap under the table, which leaves a gap inside the
