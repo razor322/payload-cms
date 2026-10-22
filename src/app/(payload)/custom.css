@@ -1698,6 +1698,92 @@
     color: #09090b;
   }
 
+  /* The list head, as the reference writes it: the title and the count on the
+     left, the search and the action on the right, over an ink rule. */
+  .pa-list-head {
+    border-bottom: var(--pa-border);
+    padding: 16px 20px;
+  }
+
+  .pa-list-head__row {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .pa-list-head__text {
+    min-width: 0;
+  }
+
+  .pa-list-head__title {
+    color: #09090b;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pa-list-head__subtitle {
+    color: #71717a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .pa-list-head__actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 12px;
+  }
+
+  /* The search sits in the head, so Payload's own search row goes with it. */
+  .list-controls .search-bar {
+    display: none;
+  }
+
+  .pa-search {
+    position: relative;
+    width: 320px;
+  }
+
+  .pa-search__icon {
+    color: #a1a1aa;
+    left: 12px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .pa-search__input {
+    background-color: #ffffff;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    padding: 0 12px 0 36px;
+    width: 100%;
+  }
+
+  .pa-search__input:focus-visible {
+    border-color: #09090b;
+    outline: 3px solid #09090b;
+    outline-offset: 2px;
+  }
+
+  .pa-search__input::placeholder {
+    color: #a1a1aa;
+  }
+
   /* The empty state Payload shows when a list has no rows. */
   .no-results,
   .list-no-results {

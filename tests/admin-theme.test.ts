@@ -35,4 +35,10 @@ describe("the admin theme", () => {
       "16px var(--pa-gutter) 48px",
     );
   });
+
+  it("puts the search and the action in the head row", () => {
+    expect(rule(".pa-list-head__row", "gap")).toBe("12px");
+    expect(rule(".pa-list-head__actions", "gap")).toBe("12px");
+    expect(rule(".pa-search__input", "border")).toBe("var(--pa-border)");
+  });
 });

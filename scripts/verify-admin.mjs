@@ -196,6 +196,11 @@ try {
         (bodies.pagedList ?? "").includes("paginator") &&
         (bodies.pagedList ?? "").includes("pa-list-head"),
     );
+    record(
+      "the list head carries the search and the action",
+      (bodies.pagedList ?? "").includes("pa-search__input") &&
+        (bodies.pagedList ?? "").includes("pa-list-head__actions"),
+    );
     record("no reference branding in the class names", !/kyos-/.test(dash));
     // The scroll model and the footer order are stylesheet facts, so they are
     // read from the stylesheet the admin serves, not from the page html.

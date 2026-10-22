@@ -1,12 +1,13 @@
+import { getTranslation } from "@payloadcms/translations";
 import React from "react";
 
-import { CardHeaderAction } from "@/components/admin/ui/CardHeaderAction";
+import { SearchField } from "@/components/admin/ui/SearchField";
 
 /**
- * The list head, as the kyos admin writes it: the collection name, the
- * document count under it, and the create action on the right, over a 2px
- * ink rule. Payload renders this slot above the list controls, and the
- * stylesheet joins the three parts into one card.
+ * The list head, as the reference writes it: the collection name and the count
+ * on the left, the search and the create action on the right, over a 2px ink
+ * rule. Payload renders this slot inside the list card, and its own search row
+ * is hidden so this is the only one.
  */
 type I18n = Record<string, unknown> & { language?: string };
 
@@ -24,19 +25,26 @@ export function AdminListHeader({
   collectionConfig,
   data,
   hasCreatePermission,
+  i18n,
   limit,
   newDocumentURL,
 }: {
-  collectionConfig?: { labels?: { plural?: unknown; singular?: unknown } };
+  collectionConfig?: {
+    labels?: { plural?: unknown; singular?: unknown };
+    slug?: string;
+  };
   data?: { page?: number; totalDocs?: number };
   hasCreatePermission?: boolean;
   i18n?: I18n;
   limit?: number;
   newDocumentURL?: string;
 }) {
+  const rawTitle = collectionConfig?.labels?.plural ?? collectionConfig?.labels?.singular;
   const title =
-    firstString(collectionConfig?.labels?.plural) ||
-    firstString(collectionConfig?.labels?.singular) ||
+    firstString(rawTitle) ||
+    (rawTitle
+      ? String(getTranslation(rawTitle as never, i18n as never))
+      : "") ||
     "List";
 
   const total = typeof data?.totalDocs === "number" ? data.totalDocs : undefined;
@@ -47,30 +55,39 @@ export function AdminListHeader({
 
   return (
     <div className="list-header-slot">
-      <CardHeaderAction
-        action={
-          hasCreatePermission && newDocumentURL ? (
-            <a className="pa-button pa-button--accent" href={newDocumentURL}>
-              <svg
-                aria-hidden="true"
-                fill="none"
-                height="16"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-                width="16"
-              >
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              New
-            </a>
-          ) : undefined
-        }
-        subtitle={total === undefined ? undefined : `${total} in the list, showing ${from} to ${to}`}
-        title={title}
-      />
+      <div className="pa-list-head">
+        <div className="pa-list-head__row">
+          <div className="pa-list-head__text">
+            <h2 className="pa-list-head__title">{title}</h2>
+            {total === undefined ? null : (
+              <p className="pa-list-head__subtitle">
+                {`${total} in the list, showing ${from} to ${to}`}
+              </p>
+            )}
+          </div>
+          <div className="pa-list-head__actions">
+            <SearchField placeholder={`Search ${title.toLowerCase()}`} />
+            {hasCreatePermission && newDocumentURL ? (
+              <a className="pa-button pa-button--accent" href={newDocumentURL}>
+                <svg
+                  aria-hidden="true"
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                  width="16"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                New
+              </a>
+            ) : null}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
