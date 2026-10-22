@@ -60,6 +60,11 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
   // The sidebar has its own open state. Payload closes its drawer on every
   // desktop load, so the rail would be the default and the kyos panel would
   // never be seen. The saved preference decides the first state instead.
+  // A narrow viewport has no room for the panel, so it starts as the rail
+  // whatever the preference says.
+  const narrow = () =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches;
+
   const [expanded, setExpanded] = React.useState(true);
 
   // The preference arrives with the second render, so the state follows it
@@ -67,15 +72,24 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
   const [lastPreference, setLastPreference] = React.useState(navPreferences);
   if (navPreferences && navPreferences !== lastPreference) {
     setLastPreference(navPreferences);
-    if (typeof navPreferences.open === "boolean") setExpanded(navPreferences.open);
+    if (typeof navPreferences.open === "boolean" && !narrow()) {
+      setExpanded(navPreferences.open);
+    }
   }
 
-  // On the narrow layout the sidebar is a rail that opens over the content,
-  // so it folds again on every navigation.
+  // The rail is the state on a phone, whatever the desktop preference was.
+  const [checkedNarrow, setCheckedNarrow] = React.useState(false);
+  if (!checkedNarrow && narrow()) {
+    setCheckedNarrow(true);
+    setExpanded(false);
+  }
+
+  // On the narrow layout the sidebar opens over the content, so it folds
+  // again on every navigation.
   const [lastPath, setLastPath] = React.useState(pathname);
   if (lastPath !== pathname) {
     setLastPath(pathname);
-    if (window.matchMedia("(max-width: 1023px)").matches) setExpanded(false);
+    if (narrow()) setExpanded(false);
   }
 
   const toggleSidebar = React.useCallback(() => {

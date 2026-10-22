@@ -361,18 +361,31 @@
     border-bottom: var(--pa-border);
     color: #09090b;
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-weight: 800;
+    height: 48px;
+    letter-spacing: 0.05em;
+    padding: 12px 20px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .table tbody td,
   .table tbody th,
   .row {
     border-bottom: 2px solid #ececee;
-    color: #18181b;
+    color: #09090b;
     font-size: 14px;
+    font-weight: 500;
+    padding: 16px 20px;
     vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  /* The last column of the list carries the row actions, so it reads from the
+     right, the way the reference table does. */
+  .table thead th:last-child,
+  .table tbody td:last-child {
+    text-align: right;
   }
 
   /* Payload fills the odd rows from its own grey ramp and rounds them with a
@@ -415,16 +428,116 @@
     border-bottom: 0;
   }
 
+  /* The paginator, lifted from the kyos one: a cloud rule on top, the count
+     on the left in fog, and the pages as small outline buttons with the
+     current page filled in ember. Payload draws it as bare arrows and a run
+     of numbers with no frame. */
   .paginator {
+    align-items: center;
+    background-color: #fffdf7;
     box-shadow: none;
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    min-height: 64px;
+    padding: 12px 20px;
+    width: 100%;
   }
 
-  .paginator__page--is-current {
-    background-color: #ffeaa7;
+  .paginator__page {
+    align-items: center;
+    background-color: #ffffff;
     border: var(--pa-border);
     border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
     color: #09090b;
+    display: inline-flex;
+    font-size: 14px;
     font-weight: 700;
+    height: 32px;
+    justify-content: center;
+    min-width: 32px;
+    padding: 0 8px;
+    transition:
+      transform 120ms ease,
+      box-shadow 120ms ease,
+      background-color 120ms ease;
+  }
+
+  .paginator__page:hover {
+    background-color: #f4f4f5;
+    box-shadow: var(--pa-shadow);
+    transform: translateY(-2px);
+  }
+
+  .paginator__page:active {
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+
+  .paginator__page--is-current,
+  .paginator__page--is-current:hover {
+    background-color: var(--pa-ember);
+    border: var(--pa-border);
+    box-shadow: var(--pa-shadow);
+    color: #09090b;
+    font-weight: 800;
+    transform: none;
+  }
+
+  /* The two arrows carry the same button face as the page numbers. */
+  .paginator .clickable-arrow {
+    align-items: center;
+    background-color: #ffffff;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
+    color: #09090b;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
+  }
+
+  .paginator .clickable-arrow:hover:not(:disabled) {
+    background-color: #f4f4f5;
+    box-shadow: var(--pa-shadow);
+    transform: translateY(-2px);
+  }
+
+  .paginator .clickable-arrow:disabled,
+  .paginator .clickable-arrow--is-disabled {
+    background-color: #fafafa;
+    box-shadow: none;
+    color: #a1a1aa;
+    opacity: 1;
+  }
+
+  .paginator .clickable-arrow--left .icon,
+  .paginator .clickable-arrow--left svg {
+    transform: rotate(90deg);
+  }
+
+  .paginator .clickable-arrow--right .icon,
+  .paginator .clickable-arrow--right svg {
+    transform: rotate(-90deg);
+  }
+
+  /* The count and the range read from the left, in fog. */
+  .paginator__page-count,
+  .paginator__page-range,
+  .paginator__total {
+    color: #71717a;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: auto;
+  }
+
+  .paginator__controls,
+  .paginator__page-buttons {
+    align-items: center;
+    display: flex;
+    gap: 8px;
   }
 
   .collection-list__search-input,
@@ -828,6 +941,30 @@
     text-transform: uppercase;
   }
 
+  /* The group head is a sub heading for the items under it, so its label
+     lines up with their names rather than with their icons. The indent is
+     the item padding plus the mark and its gap. */
+  .nav-group__toggle {
+    align-items: center;
+    border-radius: var(--pa-radius);
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 6px 16px 6px 52px;
+    width: 100%;
+  }
+
+  .nav-group__toggle:hover {
+    color: #09090b;
+  }
+
+  /* The items under a group sit inside its head, so the nested list reads as
+     one block instead of a run of full width rows. */
+  .nav-group__content {
+    padding-bottom: 8px;
+    padding-top: 2px;
+  }
+
   .nav-group__indicator {
     color: #09090b;
   }
@@ -906,6 +1043,17 @@
   .admin-nav--collapsed .admin-logout {
     justify-content: center;
     padding-inline: 0;
+  }
+
+  /* The rail has no room for an indent, so the group head folds to a rule. */
+  .admin-nav--collapsed .nav-group__toggle {
+    font-size: 0;
+    justify-content: center;
+    padding: 6px 0;
+  }
+
+  .admin-nav--collapsed .nav-group__toggle .nav-group__indicator {
+    display: none;
   }
 
   /* The sidebar is the first column and the content takes the rest, the
@@ -1213,8 +1361,19 @@
     margin: 0;
   }
 
+  /* Payload pads the wrap under the table, which leaves a gap inside the
+     card. The card is the only frame, so the wrap goes flush. */
+  .collection-list__wrap {
+    padding-bottom: 0;
+  }
+
+  .collection-list .page-controls {
+    display: block;
+    width: 100%;
+  }
+
   .collection-list .paginator {
-    border-top: var(--pa-border);
+    border-top: var(--pa-border-soft);
   }
 
   .list-controls__rows-per-page,

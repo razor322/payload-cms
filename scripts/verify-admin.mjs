@@ -140,6 +140,8 @@ try {
     const pages = [
       ["/admin", "dashboard", 200],
       ["/admin/collections/projects", "list", 200],
+      // The skills table is long enough to carry a paginator.
+      ["/admin/collections/skills", "pagedList", 200],
       ["/admin/collections/projects/create", "create", 200],
       ["/admin/globals/profile", "global", 200],
       ["/admin/collections/media/create", "media", 200],
@@ -178,6 +180,14 @@ try {
     record(
       "list head renders the pa card head",
       (bodies.list ?? "").includes("pa-list-head") && (bodies.list ?? "").includes("collection-list"),
+    );
+    // The three surfaces the table work covers: the head, the rows and the
+    // paginator are all rendered by the paged list view.
+    record(
+      "the list renders a table head, rows and a paginator",
+      (bodies.pagedList ?? "").includes("table") &&
+        (bodies.pagedList ?? "").includes("paginator") &&
+        (bodies.pagedList ?? "").includes("pa-list-head"),
     );
     record("no reference branding in the class names", !/kyos-/.test(dash));
     // The title is written into the top band by the view at runtime, so the
