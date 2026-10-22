@@ -426,3 +426,42 @@ rather than the state held back from the server. Nothing else logs.
 
 The dials are ENERGY 2 / RHYTHM 2 / MOTION 1, and the one recorded deviation
 is the ink focus ring.
+
+### Delivery Gate: the public repo
+
+The repository goes public, so the audit asks one question: what would a
+stranger get from the clone that they should not have? Source first, then the
+history, then the live credential.
+
+| # | Priority | Finding | Evidence | Fix |
+|---|---|---|---|---|
+| 1 | high | The live admin password sat in a tracked file | `scripts/verify-admin.mjs:24-25` held the email and `REDACTED`, the working password of the account in `supabase/seed.sql:8` | The defaults are gone. The credential comes from `.env.local`, and the script exits when it is missing |
+| 2 | medium | The same string was in the history | `git log --all -S"REDACTED"` returned `4f48ec7` | The history was rewritten before the first push, so the old blob is gone from the object store |
+| 3 | medium | Unlimited login attempts | `src/collections/Users.ts` had `auth: true` with no `maxLoginAttempts`, and Payload only adds the lock fields when it is set (`node_modules/payload/dist/auth/getAuthFields.js:45`) | `maxLoginAttempts: 5`, `lockTime: 600000` |
+| 4 | low | Local uploads would have been committed | `src/collections/Media.ts` writes to `public/media`, and that folder was not ignored | `/public/media` is ignored |
+| 5 | low | The machine layout leaked | The absolute Windows path in `DESIGN.md`, `docs/PRD.md`, `docs/PROJECT_STRUCTURE.md`, `docs/plans/phase-1-scaffold.md` and `scripts/seed-data.ts` | The paths are relative, and the three portfolio checkouts are named, not pathed |
+| 6 | low | The lockfile pointed at a mirror | All 1081 resolved tarballs in `bun.lock` pointed at `registry.npmmirror.com`, 9s from here against 1.3s for npmjs | The host is `registry.npmjs.org`, the versions and the integrity hashes are untouched, and `bun install --frozen-lockfile` reports no changes |
+| 7 | info | The owner's contact details were in the tracked files | The email in `scripts/seed-data.ts`, `supabase/seed.sql`, `docs/CONTRACT.md`, `docs/ROADMAP.md` and `docs/plans/phase-4-database.md` | The repository carries `owner@example.com`. The real address lives in `.env.local`, and the public seed reads it from there |
+| 8 | info | No license | The repository had no `LICENSE` | MIT |
+
+**Checked and not a finding.** Anonymous writes are blocked: Payload's
+collection default access is `Boolean(user)`
+(`node_modules/payload/dist/auth/defaultAccess.js:1`), so create, update and
+delete need a session even where only `read` is declared. CORS is the default
+empty list, so no cross-origin caller. `.env.local` and `docs/LOCAL-ACCESS.md`
+were never committed, and `.env.example` carries placeholders only. No JWT, no
+service role key, no S3 key and no 64 char secret sits in the tree or in the
+history; the only 64 hex strings are the integrity hashes in `bun.lock`.
+
+**Two seed profiles.** A dev seed writes the placeholder contact, so nothing
+personal lands in the repository. A public seed writes the owner's real
+address from `OWNER_EMAIL` and `OWNER_WHATSAPP`, and refuses to run without
+them, so a live site never shows a placeholder. The rule is in
+`docs/CONFIGURATION.md` §7.1.
+
+**The credential was rotated.** The password that was in the source is dead:
+the account was updated through the Payload local API, and the new value lives
+only in `.env.local` and `docs/LOCAL-ACCESS.md`, both git-ignored.
+
+**The gate.** `bun test` 42 pass, `bun run lint` clean, `bunx tsc --noEmit`
+clean, `bun run build` clean, `node scripts/verify-admin.mjs` 34 of 34.
