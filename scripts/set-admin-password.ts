@@ -20,6 +20,12 @@ if (!email || !password) {
   process.exit(1);
 }
 
+// The script must never hang on a database connect or a slow query.
+const watchdog = setTimeout(() => {
+  console.error("Timed out after 60s. The database did not answer.");
+  process.exit(1);
+}, 60_000);
+
 const payload = await getPayload({ config });
 
 const users = await payload.find({
@@ -42,4 +48,5 @@ await payload.update({
 
 console.log(`password updated for ${email}`);
 
+clearTimeout(watchdog);
 process.exit(0);

@@ -34,6 +34,12 @@ import {
   MINIMAL_SKILLS,
 } from "./seed-data";
 
+// The seed must never hang on a database connect or a slow query.
+const watchdog = setTimeout(() => {
+  console.error("Timed out after 300s. The seed stopped; run it again to finish.");
+  process.exit(1);
+}, 300_000);
+
 const payload = await getPayload({ config });
 
 const count = { created: 0, deleted: 0, updated: 0 };
@@ -252,4 +258,5 @@ console.log(
   `seeded: ${count.created} created, ${count.deleted} deleted, ${count.updated} updated`,
 );
 
+clearTimeout(watchdog);
 process.exit(0);
