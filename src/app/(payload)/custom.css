@@ -1844,6 +1844,124 @@
     color: #a1a1aa;
   }
 
+  /* The pieces the reference pages are built from. Each one is a class here
+     and a component in src/components/admin/ui. */
+  .pa-info-row {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+
+  .pa-info-row__label {
+    color: #3f3f46;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .pa-info-row__value {
+    color: #09090b;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .pa-badge {
+    align-items: center;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius-badge);
+    box-shadow: var(--pa-shadow-sm);
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 700;
+    gap: 4px;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pa-badge--default {
+    background-color: #09090b;
+    color: #ffffff;
+  }
+
+  .pa-badge--secondary {
+    background-color: #ffeaa7;
+    color: #09090b;
+  }
+
+  .pa-badge--destructive {
+    background-color: #ff6b6b;
+    color: #09090b;
+  }
+
+  .pa-badge--info {
+    background-color: #74b9ff;
+    color: #09090b;
+  }
+
+  .pa-badge--outline {
+    background-color: #ffffff;
+    color: #09090b;
+  }
+
+  .pa-badge--purple {
+    background-color: #4a2e83;
+    color: #ffffff;
+  }
+
+  .pa-progress {
+    background-color: #f4f4f5;
+    border: var(--pa-border);
+    border-radius: 999px;
+    height: 16px;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .pa-progress__fill {
+    background-color: #ffeaa7;
+    height: 100%;
+  }
+
+  .pa-empty {
+    align-items: center;
+    background-color: #f4f4f5;
+    border: 2px dashed #d4d4d8;
+    border-radius: var(--pa-radius-card);
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .pa-empty__chip {
+    background-color: #e4e4e7;
+    border: var(--pa-border);
+    border-radius: var(--pa-radius);
+    box-shadow: var(--pa-shadow-sm);
+    color: #09090b;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .pa-empty__title {
+    color: #a1a1aa;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pa-empty__text {
+    color: #71717a;
+    font-size: 12px;
+    margin-top: 4px;
+    max-width: 24rem;
+  }
+
   /* The empty state Payload shows when a list has no rows. */
   .no-results,
   .list-no-results {
