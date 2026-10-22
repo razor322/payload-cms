@@ -131,7 +131,11 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
     .join(" ");
 
   return (
-    <aside className={className}>
+    // ponytail: the first render of the rail follows the viewport, so the
+    // server and the client can disagree on the first paint. The state settles
+    // on the next render, so the warning is silenced rather than the state
+    // held back from the server.
+    <aside className={className} suppressHydrationWarning>
       <div className={`${baseClass}__scroll`} ref={navRef as React.Ref<HTMLDivElement>}>
         <div className="admin-nav__top">
           <Link
@@ -147,6 +151,7 @@ export function AdminNavClient({ groups, navPreferences }: Props) {
             aria-label={expanded ? "Collapse the sidebar" : "Expand the sidebar"}
             className="admin-nav__toggler"
             onClick={toggleSidebar}
+            suppressHydrationWarning
             title={expanded ? "Collapse the sidebar" : "Expand the sidebar"}
             type="button"
           >

@@ -370,7 +370,7 @@
   .field-type input::placeholder,
   .field-type textarea::placeholder,
   .input::placeholder {
-    color: #a1a1aa;
+    color: #71717a;
   }
 
   .field-type input:hover,
@@ -1288,7 +1288,7 @@
   .dropzone,
   .file-field__dropzone {
     background-color: #fafafa;
-    border: 2px dashed #a1a1aa;
+    border: 2px dashed #71717a;
     border-radius: var(--pa-radius-card);
   }
 
@@ -1606,7 +1606,7 @@
   }
 
   .rs__control .rs__placeholder {
-    color: #a1a1aa;
+    color: #71717a;
   }
 
   .rs__menu {
@@ -1652,6 +1652,8 @@
     border-radius: var(--pa-radius-card);
     box-shadow: var(--pa-shadow);
     margin: 16px var(--pa-gutter) 48px;
+    min-width: 0;
+    width: auto;
   }
 
   /* The head of the card: the meta on the left, the actions on the right,
@@ -1682,11 +1684,17 @@
     gap: 12px;
   }
 
+  /* The meta wraps rather than running off the card. */
+  .doc-controls__meta {
+    flex-wrap: wrap;
+  }
+
   /* The title Payload draws above the card. The bar already names the page,
      so this one reads as the card's own title. */
   .doc-header {
     margin: 16px var(--pa-gutter) 0;
     padding: 0 20px 12px;
+    width: auto;
   }
 
   .doc-header__title {
@@ -1821,6 +1829,13 @@
     letter-spacing: 0.05em;
     margin-bottom: 12px;
     text-transform: uppercase;
+  }
+
+  /* Payload draws the rule across the gutter, which runs off the card. */
+  .payload-settings::before,
+  .payload-settings::after {
+    left: 0;
+    width: 100%;
   }
 
   /* The tabs Payload draws for a localized or tabbed document. */
@@ -2026,12 +2041,13 @@
   }
 
   .pa-search {
+    max-width: 100%;
     position: relative;
     width: 320px;
   }
 
   .pa-search__icon {
-    color: #a1a1aa;
+    color: #71717a;
     left: 12px;
     pointer-events: none;
     position: absolute;
@@ -2058,7 +2074,7 @@
   }
 
   .pa-search__input::placeholder {
-    color: #a1a1aa;
+    color: #71717a;
   }
 
   /* The pieces the reference pages are built from. Each one is a class here
@@ -2165,7 +2181,7 @@
   }
 
   .pa-empty__title {
-    color: #a1a1aa;
+    color: #71717a;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -2294,6 +2310,31 @@
        shadow. The open sidebar covers the content, so it does. */
     .admin-nav:not(.admin-nav--collapsed) {
       box-shadow: var(--pa-shadow);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     On a phone the gutter narrows and the head row wraps, so the
+     card keeps its room and the search takes the row.
+     --------------------------------------------------------------- */
+  @media (max-width: 767px) {
+    :root {
+      --gutter-h: 16px;
+      --pa-gutter: 16px;
+    }
+
+    .pa-list-head__row {
+      flex-wrap: wrap;
+    }
+
+    .pa-list-head__actions {
+      flex-shrink: 1;
+      width: 100%;
+    }
+
+    .pa-search {
+      flex: 1 1 auto;
+      width: auto;
     }
   }
   /* ---------------------------------------------------------------
@@ -2825,7 +2866,7 @@
   }
 
   .pa-empty__title {
-    color: #a1a1aa;
+    color: #71717a;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.1em;
