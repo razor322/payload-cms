@@ -21,8 +21,35 @@ import { setTimeout as sleep } from "node:timers/promises";
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const PORT = Number(process.env.PORT || 3111);
 const BASE = `http://localhost:${PORT}`;
-const EMAIL = process.env.ADMIN_EMAIL || "owner@example.com";
-const PASSWORD = process.env.ADMIN_PASSWORD || "REDACTED";
+
+/**
+ * The credential comes from .env.local, which is git-ignored, or from the
+ * environment. A default would put a working password in the repository.
+ */
+const readEnvLocal = () => {
+  const file = `${ROOT}.env.local`;
+  if (!existsSync(file)) return {};
+  const env = {};
+  for (const line of readFileSync(file, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const at = trimmed.indexOf("=");
+    if (at < 1) continue;
+    env[trimmed.slice(0, at).trim()] = trimmed
+      .slice(at + 1)
+      .trim()
+      .replace(/^["']|["']$/g, "");
+  }
+  return env;
+};
+
+const env = { ...readEnvLocal(), ...process.env };
+const EMAIL = env.ADMIN_EMAIL;
+const PASSWORD = env.ADMIN_PASSWORD;
+if (!EMAIL || !PASSWORD) {
+  console.error("Set ADMIN_EMAIL and ADMIN_PASSWORD in .env.local, then run this again.");
+  process.exit(1);
+}
 
 /** The stylesheet the admin serves, read from the file the admin imports. */
 const themeStylesheet = async () =>

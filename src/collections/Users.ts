@@ -2,7 +2,12 @@ import type { CollectionConfig } from "payload";
 
 export const Users: CollectionConfig = {
   slug: "users",
-  auth: true,
+  auth: {
+    // Payload only adds the lock fields when maxLoginAttempts is set, so
+    // without it the login endpoint accepts unlimited guesses.
+    maxLoginAttempts: 5,
+    lockTime: 600000,
+  },
   admin: {
     useAsTitle: "email",
     components: {

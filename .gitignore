@@ -58,3 +58,7 @@ docs/superpowers/
 dev-out.log
 dev-err.log
 verify.log
+
+# media uploaded to the local upload folder
+/public/media
+
