@@ -1,0 +1,31 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
+
+const css = readFileSync(
+  fileURLToPath(new URL("../src/app/(payload)/custom.css", import.meta.url)),
+  "utf8",
+).replace(/\/\*[\s\S]*?\*\//g, "");
+
+/** The value of one property in the first rule whose selector list holds `selector`. */
+export function rule(selector: string, property: string): string | undefined {
+  const blocks = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
+  for (const [, selectors, body] of blocks) {
+    if (!selectors.split(",").some((part) => part.trim() === selector)) continue;
+    const match = body.match(new RegExp(`(?:^|;)\\s*${property}\\s*:\\s*([^;]+)`));
+    if (match) return match[1].trim();
+  }
+  return undefined;
+}
+
+describe("the admin theme", () => {
+  it("lets the window scroll instead of the body", () => {
+    expect(rule("body", "overflow-y")).toBe("visible");
+    expect(rule("html", "overflow-y")).toBe("visible");
+  });
+
+  it("keeps the sidebar on one scroller of its own", () => {
+    expect(rule(".admin-nav__links", "overflow-y")).toBe("auto");
+    expect(rule(".admin-nav__controls", "margin-top")).toBe("auto");
+  });
+});

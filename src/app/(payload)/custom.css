@@ -84,6 +84,7 @@
     /* The content gutter. The kyos admin pads its main column by 40px, which
        is what makes the cards reach the edge of the screen. */
     --gutter-h: 40px;
+    --pa-gutter: 40px;
 
     /* Payload sizes the layout grid and its own nav from this one, so the
        sidebar and the content column stay in step. */
@@ -92,6 +93,45 @@
     --style-radius-s: 6px;
     --style-radius-m: 12px;
     --style-radius-l: 16px;
+  }
+
+  /* ---------------------------------------------------------------
+     The scroll model. The window scrolls, the way the reference page
+     scrolls. Payload makes the body the scroller, which puts a second
+     scroller beside the sidebar one and leaves the wheel fighting
+     between them.
+     --------------------------------------------------------------- */
+  html {
+    height: auto;
+    overflow-y: visible;
+  }
+
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: visible;
+  }
+
+  .admin-nav__scroll {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .admin-nav__links {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-nav__links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-nav__controls {
+    margin-top: auto;
   }
 
   /* ---------------------------------------------------------------

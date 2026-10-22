@@ -14,7 +14,7 @@
  * Usage: node scripts/verify-admin.mjs
  */
 import { spawn, execFileSync } from "node:child_process";
-import { existsSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { setTimeout as sleep } from "node:timers/promises";
 
@@ -23,6 +23,13 @@ const PORT = Number(process.env.PORT || 3111);
 const BASE = `http://localhost:${PORT}`;
 const EMAIL = process.env.ADMIN_EMAIL || "owner@example.com";
 const PASSWORD = process.env.ADMIN_PASSWORD || "REDACTED";
+
+/** The stylesheet the admin serves, read from the file the admin imports. */
+const themeStylesheet = async () =>
+  readFileSync(`${ROOT}src/app/(payload)/custom.css`, "utf8").replace(
+    /\/\*[\s\S]*?\*\//g,
+    "",
+  );
 
 const OVERALL_DEADLINE_MS = Number(process.env.DEADLINE_MS || 240000);
 const SERVER_READY_TIMEOUT_MS = Number(process.env.READY_TIMEOUT_MS || 120000);
@@ -190,6 +197,25 @@ try {
         (bodies.pagedList ?? "").includes("pa-list-head"),
     );
     record("no reference branding in the class names", !/kyos-/.test(dash));
+    // The scroll model and the footer order are stylesheet facts, so they are
+    // read from the stylesheet the admin serves, not from the page html.
+    const themeCss = await themeStylesheet();
+    record(
+      "the window scrolls and the sidebar scrolls alone",
+      /\.admin-nav__links\s*\{[^}]*overflow-y:\s*auto/.test(themeCss) &&
+        /html\s*\{[^}]*overflow-y:\s*visible/.test(themeCss),
+    );
+    record(
+      "the content column is padded off the sidebar",
+      /\.template-default__wrap > \.collection-list\s*\{[^}]*margin:\s*16px var\(--pa-gutter\)/.test(
+        themeCss,
+      ),
+    );
+    record(
+      "the list footer carries the limit, the count and the pages",
+      /\.collection-list \.page-controls\s*\{[^}]*display:\s*flex/.test(themeCss) &&
+        /\.collection-list \.paginator\s*\{[^}]*order:\s*3/.test(themeCss),
+    );
     // The title is written into the top band by the view at runtime, so the
     // server html only proves the view that sets it is the one rendering.
     record("the dashboard view sets the page title", dash.includes("pa-dashboard") && dash.includes("step-nav"));
