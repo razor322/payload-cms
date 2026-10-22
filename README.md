@@ -45,8 +45,14 @@ bun run lint       # eslint
 bun test           # vitest (contract mapper)
 node scripts/verify-admin.mjs   # boots the admin, probes it, stops it
 bun scripts/seed-content.ts    # writes the per-site content from the portfolio repos
+bun scripts/set-admin-password.ts  # sets the admin password from the environment
 bun run payload -- generate:types   # regenerate payload-types.ts
 ```
+
+The seed writes placeholder contact details by default. `SEED_PROFILE=public`
+writes the owner's real ones from `OWNER_EMAIL` and `OWNER_WHATSAPP`, and
+refuses to run without them. See
+[docs/CONFIGURATION.md](docs/CONFIGURATION.md) §7.1.
 
 ## What is built
 
@@ -65,7 +71,7 @@ bun run payload -- generate:types   # regenerate payload-types.ts
 
 ## Status
 
-- The admin is live: `build` ✓, `lint` ✓, `test` ✓ (28 tests).
+- The admin is live: `build` ✓, `lint` ✓, `test` ✓ (42 tests).
 - `portfolio-v3` reads the CMS (build-time fetch). The other two portfolios
   still use hardcoded content.
 - Only `my` has per-site rows today. `v3` and `minimal` need a backfill in

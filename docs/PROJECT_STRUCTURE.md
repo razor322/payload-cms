@@ -2,8 +2,8 @@
 
 ## 1. Repository layout
 
-The admin is a standalone Next.js app. It is a sibling of the three portfolios,
-all under `the portfolio workspace`.
+The admin is a standalone Next.js app. It is a sibling of the three
+portfolios, in the same portfolio workspace.
 
 ```text
 Portofolio/

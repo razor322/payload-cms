@@ -4,13 +4,34 @@
  * Every value here is transcribed from the portfolio repos, which stay the
  * source of truth until each site is rewired to read the CMS:
  *
- *   v3      the portfolio workspaceportfolio-v3
- *   my      the portfolio workspaceMYportfolio
- *   minimal the portfolio workspaceminimal-dev-portfolio
+ *   v3      the portfolio-v3 checkout
+ *   my      the MYportfolio checkout
+ *   minimal the minimal-dev-portfolio checkout
  *
  * The project rows, the experience rows and the profile global are shared
  * facts. Everything else is site scoped.
+ *
+ * Two seed profiles:
+ *
+ *   dev     (SEED_PROFILE=dev, the default) writes the placeholder contact
+ *           details. Safe to run on any database, and nothing personal lands
+ *           in the repository.
+ *   public  (SEED_PROFILE=public) writes the owner's real contact details
+ *           from OWNER_EMAIL and OWNER_WHATSAPP. It refuses to run without
+ *           them, so a live site never shows a placeholder contact.
  */
+
+const seedProfile = process.env.SEED_PROFILE === "public" ? "public" : "dev";
+
+const ownerEmail = process.env.OWNER_EMAIL?.trim();
+const ownerWhatsapp = process.env.OWNER_WHATSAPP?.trim();
+
+if (seedProfile === "public" && !(ownerEmail && ownerWhatsapp)) {
+  console.error("A public seed needs OWNER_EMAIL and OWNER_WHATSAPP.");
+  process.exit(1);
+}
+
+export const SEED_PROFILE = seedProfile;
 
 export const PORTRAIT_URL =
   "https://aiuyrged8x.ufs.sh/f/OpMSwBmLbt3MUVH3WLY1Pi4nzysHhIgtbdFrV5Mwf3LcAekj";
@@ -19,8 +40,10 @@ export const CONTACT = {
   kicker: "Let's talk",
   heading: "Contact",
   body: "Let's build something thoughtful, useful, and ready to ship. If you have a project, role, or collaboration in mind, send me a message and I will get back to you.",
-  email: "owner@example.com",
-  whatsapp: "https://wa.me/000000000000",
+  email: ownerEmail || "owner@example.com",
+  whatsapp: ownerWhatsapp
+    ? `https://wa.me/${ownerWhatsapp.replace(/\D/g, "")}`
+    : "https://wa.me/000000000000",
 };
 
 export const SITE_CONTENT = [
@@ -736,7 +759,7 @@ export const PROFILE = {
   name: "Gybran Nauval Yuhandika",
   role: "Design-Driven Software Engineer (Full-Stack, Mobile, AI)",
   location: "Padang, West Sumatra, Indonesia",
-  email: "owner@example.com",
+  email: ownerEmail || "owner@example.com",
   website: "https://gybrannauval.site/",
   avatar_url: PORTRAIT_URL,
   intro:
@@ -745,7 +768,7 @@ export const PROFILE = {
     { key: "github", url: "https://github.com/razor322" },
     { key: "linkedin", url: "https://www.linkedin.com/in/gybrannauval1309/" },
     { key: "instagram", url: "https://www.instagram.com/gybranz_32/" },
-    { key: "whatsapp", url: "https://wa.me/000000000000" },
+    { key: "whatsapp", url: CONTACT.whatsapp },
     { key: "portfolio", url: "https://bit.ly/portofolio_gybran" },
   ],
   languages: [

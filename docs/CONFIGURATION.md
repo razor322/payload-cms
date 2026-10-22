@@ -227,10 +227,36 @@ bun scripts/seed-content.ts       # writes the per-site content from the three
                                   # portfolio repos, replacing the site scoped
                                   # rows and updating the shared ones
 node scripts/verify-admin.mjs     # boots the admin, probes it, stops it
+bun scripts/set-admin-password.ts # sets the admin password from the environment
 ```
 
 Both are safe to re-run. The seed replaces the site scoped rows, so a content
 change in a portfolio repo can be pushed with one command.
+
+### 7.1 Two seed profiles
+
+`SEED_PROFILE` picks what the seed writes for the contact details.
+
+| Profile | `SEED_PROFILE` | Contact written | Use for |
+|---|---|---|---|
+| dev | `dev` (the default) | `owner@example.com` and a placeholder number | local work, a shared dev database, anything that must not carry personal data |
+| public | `public` | the owner's real address from `OWNER_EMAIL` and `OWNER_WHATSAPP` | the live site |
+
+```bash
+# dev
+bun scripts/seed-content.ts
+
+# public
+SEED_PROFILE=public OWNER_EMAIL=... OWNER_WHATSAPP=... bun scripts/seed-content.ts
+```
+
+The public profile refuses to run without both values, so a live site never
+ends up with a placeholder contact. Both values live in `.env.local`, which is
+git-ignored; the repository only carries the placeholder.
+
+`scripts/set-admin-password.ts` and `scripts/verify-admin.mjs` read
+`ADMIN_EMAIL` and `ADMIN_PASSWORD` from `.env.local` too, so no credential ever
+has to sit in a tracked file.
 
 ## 8. Deployment
 

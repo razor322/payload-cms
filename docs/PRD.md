@@ -9,7 +9,8 @@
 
 ## 1. Problem
 
-Three portfolio sites live as separate Next.js apps under `the portfolio workspace`:
+Three portfolio sites live as separate Next.js apps next to this one, in a
+portfolio workspace:
 
 | App | Path | Content lives in |
 |---|---|---|

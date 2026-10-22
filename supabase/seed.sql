@@ -1,4 +1,8 @@
 -- Seed content mirrored from the three portfolio sites (Phase 4).
+--
+-- This is the dev flavour: the contact address is a placeholder. The public
+-- flavour is the same rows with the owner's real address, and the app seed
+-- writes it from the environment (SEED_PROFILE=public, OWNER_EMAIL).
 
 insert into profile (name, role, location, email, website, intro)
 values (

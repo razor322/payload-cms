@@ -29,7 +29,7 @@
 
 - [ ] **Step 1: Run create-next-app in place**
 
-Run (in `the portfolio workspaceweb-admin`; `docs/` already exists so confirm
+Run (in the repo root; `docs/` already exists so confirm
 in-place init and keep `docs/`):
 
 ```bash

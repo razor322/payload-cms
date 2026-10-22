@@ -1,9 +1,9 @@
 # Design direction: the kyos admin
 
-The reference is the admin of the kyos photobooth app
-(`the kyos photobooth checkout`): the `AdminLayout` frame, the
-`StatCard` and `SectionCard` surfaces, the `Button`, `Input` and `Badge`
-vocabulary, and the tailwind tokens behind them.
+The reference is the admin of the kyos photobooth app (a separate checkout of
+the photobooth project): the `AdminLayout` frame, the `StatCard` and
+`SectionCard` surfaces, the `Button`, `Input` and `Badge` vocabulary, and the
+tailwind tokens behind them.
 
 The frame is quiet. The content is loud. That split is the whole idea.
 
