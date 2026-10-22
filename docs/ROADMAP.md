@@ -379,3 +379,50 @@ undici), so `importMap.js` is written by hand with the same hashes the
 generator produces; Payload rewrites it on the next dev or build run and the
 output matched. `scripts/verify-admin.mjs` starts the admin, probes it and
 stops it, with a hard deadline so it can never hang.
+
+### Delivery Gate: the kyos admin parity
+
+Measured on the running admin with a real browser at 1536px and 390px, and
+with `scripts/verify-admin.mjs`. The reference is the admin of the kyos
+photobooth app. This pass covered what was still off: the form page, the
+account page, the profile global, the phone layout and the console.
+
+| Rule | Result | Evidence |
+|---|---|---|
+| R-02 | PASS | No em dash in `custom.css`, `DESIGN.md`, the admin components or the docs. Scanned. |
+| R-03 | PASS | At 390px, `scrollWidth` equals `clientWidth` (375) on the login, the dashboard, the list, the create form, the edit form, the profile global, the account page and the media create. No page scrolls sideways. |
+| R-25 | PASS | Ink on card 19.56:1, ink on canvas 18.10:1, fog on white 4.83:1, ink on yellow 16.65:1, ink on pink 9.86:1, white on ink 19.90:1. The placeholders, the select placeholder, the search icon, the empty state title and the dropzone rule moved off the light ash onto the fog, so every one of them clears 4.5:1. |
+| R-26 | PASS | No dead control. The sidebar toggle moves the panel and the column with it, the head search filters the list and resets the page, the per-page popup changes the limit, the select opens, the save saves, the delete confirm cancels, the logout ends the session and the login comes back. |
+| R-27 | PASS | The empty state carries the chip, the title and the line, the list shows the dashed no-results block, the banner is the yellow card, and the disabled arrow is the flat grey. |
+| R-31 | PASS | Every decision is written down: `DESIGN.md` for the direction, the plan for the order of the work, and the `ponytail:` comment on the one shortcut (the viewport dependent first render of the rail). |
+| R-32 | PASS | The focus ring is a 3px ink outline, the kyos ring in ink. The kyos yellow ring measures about 1.2:1 on cream, so it is not a ring. This is the one recorded deviation. |
+| R-35 | PASS | `scripts/verify-admin.mjs` runs 34 checks and passes them. Click through at 1536 and 390: the dashboard, a list with two pages, a list with one page, a create form, an edit form, the profile global, the account page, the delete confirmation, a select dropdown, the account chip, the logout and the login. 0 console errors on eight pages at both sizes. |
+
+**The form is the reference's dialog.** Payload draws the form as a bare page:
+a bar with the title and the actions, then the groups, then the array rows.
+The page is now the card: cream, a 2px ink border, a 16px radius and a 4px
+hard shadow, inset by the reference 40px gutter. The bar is the head, with the
+meta on the left, the actions on the right and an ink rule under it, and it
+sticks under the top bar so the save stays in reach. The groups are the
+reference's panels, a cloud ground with a cloud rule, and the array rows are
+recessed.
+
+**The account page and the profile global are grids of panels.** The
+reference's settings page is a stack of cards, each with a caps title and the
+fields inside. Here the head is the first card and the field groups are the
+cards under it: two columns on a wide screen, one on a phone, and the wide
+fields (the intro and the three arrays) take the whole row.
+
+**The phone fits.** The gutter narrows to 16px below 768px, the head row wraps
+so the search takes the row, the meta wraps instead of running off the card,
+and the two Payload rules that ran past the card (the form width and the
+settings rule) are pulled back in. Every page measures `scrollWidth` equal to
+`clientWidth` at 390px.
+
+**The console is clean.** The rail reads the viewport on its first render, so
+the server and the client can disagree on the first paint. The state settles
+on the next render, so the warning is silenced with `suppressHydrationWarning`
+rather than the state held back from the server. Nothing else logs.
+
+The dials are ENERGY 2 / RHYTHM 2 / MOTION 1, and the one recorded deviation
+is the ink focus ring.

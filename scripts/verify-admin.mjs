@@ -221,6 +221,33 @@ try {
       /\.collection-list \.page-controls\s*\{[^}]*display:\s*flex/.test(themeCss) &&
         /\.collection-list \.paginator\s*\{[^}]*order:\s*3/.test(themeCss),
     );
+    record(
+      "the table cells carry the reference padding",
+      /\.table tbody td,\s*\.table tbody th,\s*\.row\s*\{[^}]*padding:\s*16px 20px/.test(themeCss),
+    );
+    // The form is a card with the reference's head, the groups are the
+    // reference's panels and the array rows are recessed.
+    record(
+      "the form reads as a card with the reference's head",
+      (bodies.create ?? "").includes("collection-edit__form") &&
+        /\.collection-edit__form\s*\{[^}]*box-shadow:\s*var\(--pa-shadow\)/.test(themeCss) &&
+        /\.doc-controls\s*\{[^}]*border-bottom:\s*var\(--pa-border\)/.test(themeCss),
+    );
+    record(
+      "the groups are panels and the array rows are recessed",
+      /\.collapsible__toggle,\s*\.collapsible__toggle-wrap\s*\{[^}]*background-color:\s*#fafafa/.test(
+        themeCss,
+      ) && /\.array-field__row[^{}]*\{[^}]*background-color:\s*#fafafa/.test(themeCss),
+    );
+    // The account page and the profile global are grids of panels.
+    record(
+      "the account and the global read as panels",
+      (bodies.account ?? "").includes("collection-edit--users") &&
+        (bodies.global ?? "").includes("global-edit--profile") &&
+        /\.collection-edit--users \.document-fields__edit\s*,\s*\.global-edit--profile \.render-fields\s*\{[^}]*display:\s*grid/.test(
+          themeCss,
+        ),
+    );
     // The title is written into the top band by the view at runtime, so the
     // server html only proves the view that sets it is the one rendering.
     record("the dashboard view sets the page title", dash.includes("pa-dashboard") && dash.includes("step-nav"));
@@ -232,6 +259,7 @@ try {
   }
 } catch (error) {
   record("probe ran without throwing", false, String(error));
+  if (serverLog.trim()) console.log(`\nserver log tail:\n${serverLog.slice(-1500)}`);
   process.exitCode = 1;
 } finally {
   stop();
